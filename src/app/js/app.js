@@ -7,12 +7,10 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.s
  app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
 	// angular front end routes
-	$routeProvider.when('/view1', {templateUrl: 'partials/partial1.html'});
-    $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
 	$routeProvider.when('/sign-in', {templateUrl: 'partials/sign-in.html'});
     $routeProvider.when('/contact-us', {templateUrl:'partials/contact-us.html'});
     $routeProvider.when('/home', {templateUrl: 'partials/home.html'});
-    $routeProvider.otherwise({redirectTo: '/view1'});
+    $routeProvider.otherwise({redirectTo: '/home'});
 	
 	// fix to remove '#' from url strings in browser
 	/*
