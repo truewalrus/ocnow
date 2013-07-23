@@ -31,7 +31,7 @@ app.run(['$rootScope', function($rootScope) {
     };
 }]);
 
-//These need to be defined here in order for the module names to be succesfully reused
+//These need to be defined here in order for the module names to be successfully reused
 //All non-3rd party modules should be defined as angular.module('myApp.[type]').[type]
 angular.module('myApp.services', []);
 angular.module('myApp.filters', []);
