@@ -1,6 +1,5 @@
 'use strict';
-angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', function($scope){
-
+angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', 'user', function($scope, user){
     $scope.cont = true;
 
     $scope.onClick = function(){

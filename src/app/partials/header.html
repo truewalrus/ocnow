@@ -1,4 +1,4 @@
-<div class = "header">
+<div class = "header" ng-controller = "HeaderCtrl">
     <div class = "row">
         <div class="navbar navbar-fixed-top navbar-inverse centerer">
             <div class = "navbar-inner">
@@ -14,7 +14,8 @@
                                 <input type="text" class="search-query" placeholder="Search">
                             </form>
                         </li>
-                        <li class = "header-right"><a href="sign-in">Sign Up/Sign In</a></li>
+                        <li ng-hide = "loggedIn" class = "header-right"><a href="sign-in">Sign Up/Sign In</a></li>
+                        <li ng-hide = "!loggedIn" class = "header-right"><a href = "#" ng-click = "viewProfile()">{{ username }}</a></li>
                     </ul>
                 </div>
             </div>
