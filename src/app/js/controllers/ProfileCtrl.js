@@ -5,7 +5,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         user.checkSession(
             function(data) {
                 $scope.loggedIn = true;
-                $scope.username = user.getUser().username;
+                $scope.username = data.username;
             },
             function(data) {
                 $scope.loggedIn = false;
