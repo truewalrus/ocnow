@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', function($scope, iUser){
-	
 	$scope.signingIn = true;
 	$scope.userName = '';
 	$scope.user = {};
