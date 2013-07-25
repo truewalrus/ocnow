@@ -146,7 +146,7 @@ function users_createUser(request, response){
 }
 
 function users_checkSession(request,response){
-    response.send(200);
+    response.send({"username":request.user.username});
 }
 
 function clearDatabase(request, response) {
