@@ -1,9 +1,12 @@
-<div>
+<div ng-controller = "NewPostCtrl">
     <form>
         <legend>Create a New Post</legend>
-        <input type = "text" class = "input-large" placeholder = "Title" required>
+        <input type = "text" class = "input-large" placeholder = "Title" required ng-model = "title">
         <span class = "help-block"></span>
-        <textarea placeholder = "Content" required></textarea>
-        <button type = "submit" class = "btn">Submit</button>
+        <textarea placeholder = "Content" required ng-model = "article"></textarea>
+        <button type = "submit" class = "btn" ng-click = "newPost()">Submit</button>
     </form>
+
+
+    <button ng-click = "findPosts()">FIND</button>
 </div>

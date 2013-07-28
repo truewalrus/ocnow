@@ -13,7 +13,47 @@
                     <ul class = "nav nav-tabs nav-stacked">
                         <li><a href = "#">My Posts</a></li>
                         <li><a href = "#">Settings</a></li>
+                        <li><a href = "#">Log Out</a></li>
                     </ul>
+                </div>
+            </div>
+
+            <div class = "span9">
+                <div class = "well well-small">
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs">
+                            <li ng-click = "setPersonal()" ng-class = "{active : settings == 0}"><a href="#">Personal</a></li>
+                            <li ng-click = "setAccount()" ng-class = "{active : settings == 1}"><a href="#">Account</a></li>
+                        </ul>
+
+                        <div>
+                            <!--Personal Settings-->
+                            <div ng-hide = "settings" class = "row-fluid">
+                                <form class = "form-horizontal">
+                                    <div class = "control-group">
+                                        <label class = "control-label" for = "inputFName">First Name</label>
+                                        <div class = "controls">
+                                            <input type = "text" id = "inputFName" ng-model = "user.fName">
+                                        </div>
+                                    </div>
+                                    <div class = "control-group">
+                                        <label class = "control-label" for = "inputLName">Last Name</label>
+                                        <div class = "controls">
+                                            <input type = "text" id = "inputLName" ng-model = "user.lName">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div>
+                            <!--Account Settings-->
+                            <p ng-hide = "!settings"> test</p>
+                        </div>
+
+                    </div>
+
+
                 </div>
             </div>
         </div>

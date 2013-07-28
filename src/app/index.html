@@ -15,8 +15,21 @@
         <!-- Javascript file that is a concatenated version of all AngularJS .js files from /js/ -->
         <script src="/js/build.js"></script>
 
+
+
 	</head>
 	<body>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'trurek'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
         <div class = "centerer">
 
             <div id='fb-root'></div>
@@ -28,6 +41,6 @@
 
         </div>
 
-
+        <div id="disqus_thread" ng-hide="true"></div>
 	</body>
 </html>
