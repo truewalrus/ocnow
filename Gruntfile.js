@@ -86,7 +86,7 @@ module.exports = function(grunt) {
 		concat: {
 			develop: {
 				options: {
-					separator: '\n\n'
+					separator: '\n;\n'
 				},
 				files: {
 					'dev/server.js': [

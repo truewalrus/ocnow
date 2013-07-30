@@ -24,7 +24,7 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
 	};
 
     $scope.newPost = function(){
-        $http.post('api/articles/create', {'_uid': $scope.username, 'article':$scope.article, 'title':$scope.title}).
+        $http.post('api/articles/create', {'_uid': $scope.username, 'article': $scope.article, 'title': $scope.title}).
             success(function(data) {
                 console.log(data);
             }).
