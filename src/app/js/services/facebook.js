@@ -67,6 +67,8 @@ angular.module('myApp.services')
 	};
 }]);
 
+//          <div id='fb-root'></div>
+
 //Facebook necessary api methods
 window.fbAsyncInit = function() {
 	FB.init({

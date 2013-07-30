@@ -68,7 +68,8 @@ module.exports = function(grunt) {
 					"window":		false,
 					"document":		false,
 					"navigator":	false,
-					"tinymce":		false
+					"tinymce":		false,
+					"gapi":			false
 				}
 			}
 		},

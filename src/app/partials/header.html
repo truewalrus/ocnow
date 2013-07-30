@@ -11,8 +11,8 @@
                 </ul>
                 <ul class = "nav pull-right">
                     <li>
-                        <form class="navbar-search pull-left">
-                            <input type="text" class="search-query" placeholder="Search">
+                        <form class="navbar-search pull-left" ng-submit = "search(query)">
+                            <input type="text" class="search-query" ng-model = "query" placeholder="Search">
                         </form>
                     </li>
                     <li ng-hide = "loggedIn" class = "header-right"><a href="sign-in">Sign Up/Sign In</a></li>
