@@ -1,4 +1,5 @@
 'use strict';
+
 angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user', '$http', function($scope, user, $http){
 
     var checkSession = function(){
@@ -17,7 +18,10 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
 
     $http.post('api/articles/clear', {});
 
-
+	$scope.editorOptions = {
+		menubar: false,
+		statusbar: false
+	};
 
     $scope.newPost = function(){
         $http.post('api/articles/create', {'_uid': $scope.username, 'article':$scope.article, 'title':$scope.title}).

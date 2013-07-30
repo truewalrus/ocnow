@@ -3,10 +3,10 @@
         <legend>Create a New Post</legend>
         <input type = "text" class = "input-large" placeholder = "Title" required ng-model = "title">
         <span class = "help-block"></span>
-        <textarea placeholder = "Content" required ng-model = "article"></textarea>
+        <textarea ui-tinymce="editorOptions" placeholder = "Content" required ng-model = "article"></textarea>
+		<br />
         <button type = "submit" class = "btn" ng-click = "newPost()">Submit</button>
     </form>
-
-
-    <button ng-click = "findPosts()">FIND</button>
+	
+	<button class="btn btn-info" ng-click = "findPosts()">FIND</button>
 </div>
