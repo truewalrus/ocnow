@@ -25,6 +25,7 @@ function articles_clearDatabase(request, response) {
 
 //new post
 function articles_create(request, response) {
+    var d = new Date();
     db_connector.collection('articles', function(err, collection) {
         if(err) {
             console.log("OOOOOO");
@@ -75,11 +76,45 @@ function articles_getAll(request, response) {
     });
 }
 
+function articles_getInOrder(request, response) {
+    var count = parseInt(request.params.count);
+    var page = parseInt(request.params.page);
+
+    if (!count || count < 1) {
+        count = 1;
+    }
+    else if (count > 15) {
+        count = 15;
+    }
+
+    if (!page || page < 1) {
+        page = 1;
+    }
+
+    db_connector.collection('articles', function(err, collection) {
+        collection.find({}).limit(count).sort({'date': -1}).skip((page - 1) * count).toArray(function(err, data){
+            if (err) {
+                response.send("No articles found", 401);
+            }
+            else {
+                console.log(data);
+                response.send(data);
+            }
+        });
+    });
+}
+
+function hasPostPermission(request, response, next) {
+    if (!request.user.canCreatePosts) { return response.send("User does not have permission to create new articles.", 401); }
+
+    return next();
+}
 
 /* ALL DIS STUFF BE COOL */
 routing.push(function(app) {
-    app.post('/api/articles/create', articles_create);
+    app.post('/api/articles/create', ensureAuthentication, hasPostPermission, articles_create);
     app.get('/api/articles/get', articles_get);
+    app.get('/api/articles/:page/:count', articles_getInOrder);
     app.post('/api/articles/getAll', articles_getAll);
     app.post('/api/articles/clear', articles_clearDatabase);
 });

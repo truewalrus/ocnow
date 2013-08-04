@@ -33,7 +33,9 @@ angular.module('myApp.services')
             return deferred.promise;
         };
 
+        this.uploadVid = function() {
 
+        };
 
 
         this.handleAuthResult = function(authResult) {
@@ -70,6 +72,7 @@ angular.module('myApp.services')
                                     else{
                                         if ('items' in response){
                                             data = response;
+                                            console.log(data);
                                         }
                                         else
                                         {

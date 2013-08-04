@@ -69,7 +69,9 @@ module.exports = function(grunt) {
 					"document":		false,
 					"navigator":	false,
 					"tinymce":		false,
-					"gapi":			false
+					"gapi":			false,
+					"FormData":		false,
+					"XMLHttpRequest": false
 				}
 			}
 		},

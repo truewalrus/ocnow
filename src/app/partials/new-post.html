@@ -1,12 +1,24 @@
 <div ng-controller = "NewPostCtrl">
-    <form>
+    <form ng-submit="newPost()">
         <legend>Create a New Post</legend>
         <input type = "text" class = "input-large" placeholder = "Title" required ng-model = "title">
         <span class = "help-block"></span>
         <textarea ui-tinymce="editorOptions" placeholder = "Content" required ng-model = "article"></textarea>
 		<br />
-        <button type = "submit" class = "btn" ng-click = "newPost()">Submit</button>
+
+
+       <input type = "file" multiple ng-model = "files" file-change>
+
+           <br />
+
+        {{ article }}
+
+        <br />
+
+        <button type = "submit" class = "btn" ng-disabled="submitDisabled">Submit</button>
     </form>
 	
 	<button class="btn btn-info" ng-click = "findPosts()">FIND</button>
+    <button class="btn btn-warning" ng-click = "topPosts()">TOP</button>
+    <button class="btn btn-error" ng-click = "nextPosts()">NEXT</button>
 </div>

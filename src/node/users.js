@@ -133,7 +133,7 @@ function users_createUser(request, response){
     var salt = bcrypt.genSaltSync();
     var password =  bcrypt.hashSync(request.body.password, salt);
     db_connector.collection('users', function(err, collection){
-        collection.insert({'username': request.body.username, 'password': password, 'id': request.body.username.toUpperCase()}, {safe: true}, function(err, data){
+        collection.insert({'username': request.body.username, 'password': password, 'id': request.body.username.toUpperCase(), 'canCreatePosts': 1}, {safe: true}, function(err, data){
             if (err) {
                 response.send("Username already exists!!!", 401);
             }

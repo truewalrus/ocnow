@@ -12,7 +12,5 @@ var app = express();
 app.use(express.static(__dirname + '/app'));
 app.use(express.cookieParser());
 app.use(express.session({ secret: "keyboard cat" }));
-app.use(express.bodyParser());
-
-var d = new Date();
-
+app.use(express.json());
+app.use(express.urlencoded());

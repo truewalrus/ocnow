@@ -3,7 +3,7 @@
 /**
  * Binds a TinyMCE widget to <textarea> elements.
  */
-angular.module('myApp.directives', [])
+angular.module('myApp.directives')
   .value('uiTinymceConfig', {})
   .directive('uiTinymce', ['uiTinymceConfig', function (uiTinymceConfig) {
     uiTinymceConfig = uiTinymceConfig || {};
