@@ -22,6 +22,11 @@
             <div class = "span9">
                 <div class = "well well-small">
 
+                    <div ng-show = "showPosts">
+                        <legend>Posts</legend>
+                        <div>{{ userPosts }}</div>
+                    </div>
+
                     <!--Admin settings-->
                     <div ng-show = "showAdmin">
                         <legend>Edit Users</legend>
@@ -76,37 +81,78 @@
                     <!--End Admin Settings-->
 
                     <!--User Settings-->
-                    <div ng-show = "showSettings" class="tabbable">
-                        <ul class="nav nav-tabs">
-                            <li ng-click = "setPersonal()" ng-class = "{active : settings == 0}"><a href="#">Personal</a></li>
-                            <li ng-click = "setAccount()" ng-class = "{active : settings == 1}"><a href="#">Account</a></li>
-                        </ul>
+                    <div ng-show = "showSettings">
+                        <legend>Settings</legend>
+                        <div class = "tabbable">
+                            <ul class="nav nav-tabs">
+                                <li ng-click = "setPersonal()" ng-class = "{active : settings == 0}"><a href="#">Personal</a></li>
+                                <li ng-click = "setAccount()" ng-class = "{active : settings == 1}"><a href="#">Account</a></li>
+                            </ul>
 
-                        <div>
-                            <!--Personal Settings-->
-                            <div ng-hide = "settings" class = "row-fluid">
-                                <form class = "form-horizontal">
-                                    <div class = "control-group">
-                                        <label class = "control-label" for = "inputFName">First Name</label>
-                                        <div class = "controls">
-                                            <input type = "text" id = "inputFName" ng-model = "user.fName">
+                            <div>
+                                <!--Personal Settings-->
+                                <div ng-hide = "settings" class = "row-fluid">
+                                    <form class = "form-horizontal">
+                                        <div class = "control-group">
+                                            <label class = "control-label" for = "inputFName">First Name</label>
+                                            <div class = "controls">
+                                                <input type = "text" id = "inputFName" ng-model = "user.fName">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class = "control-group">
-                                        <label class = "control-label" for = "inputLName">Last Name</label>
-                                        <div class = "controls">
-                                            <input type = "text" id = "inputLName" ng-model = "user.lName">
+                                        <div class = "control-group">
+                                            <label class = "control-label" for = "inputLName">Last Name</label>
+                                            <div class = "controls">
+                                                <input type = "text" id = "inputLName" ng-model = "user.lName">
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <!--Account Settings-->
-                            <p ng-hide = "!settings"> test</p>
-                        </div>
+                            <div>
+                                <!--Account Settings-->
+                                <div ng-hide = "!settings" class = "row-fluid">
+                                    <!--Change Password -->
+                                    <button ng-show = "!showChangePassword" ng-click = "showChangePass()">Change Password</button>
+                                    <div ng-show = "showChangePassword">
+                                        <h5 class = "profile-h5">Change Password <button ng-click = "showChangePass()">Cancel</button></h5>
+                                        <form class = "form-horizontal"  ng-submit = "changePassword()">
+                                            <div class = "control-group">
+                                                <label class = "control-label" for = "origPW">Current Password: </label>
+                                                <div class = "controls">
+                                                    <input type = "text" id = "origPW">
+                                                    <span class = "help-block"><a href = "#">Forgot your password?</a></span>
+                                                </div>
+                                            </div>
+                                            <div class = "control-group">
+                                                <label class = "control-label" for = "newPW">New Password: </label>
+                                                <div class = "controls">
+                                                    <input type = "text" id = "NewPW">
+                                                </div>
+                                            </div>
+                                            <div class = "control-group">
+                                                <label class = "control-label" for = "confirmPW">Confirm New Password: </label>
+                                                <div class = "controls">
+                                                    <input type = "text" id = "confirmPW">
+                                                </div>
+                                            </div>
+                                            <div class = "control-group">
+                                                <div class = "controls">
+                                                    <button type="submit" class="btn btn-default">Change Password</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--End Change Password -->
+                                    <div>
+                                        <button ng-show = "!showChangeProfilePic" ng-click = "showChangePP()">Change Profile Picture</button>
+                                        <input ng-show = "showChangeProfilePic" type = "file" multiple ng-model = "files" file-change>  <button  ng-show = "showChangeProfilePic" ng-click = "showChangePP()">Cancel</button>
+                                    </div>
+                                </div>
+                                <!-- End User Settings -->
 
+                            </div>
+                         </div>
                     </div>
                     <!--End User Settings-->
 

@@ -1,11 +1,17 @@
 'use strict';
 
-angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user', '$location', function ($scope, user, $location){
+angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user', '$location', '$http', function ($scope, user, $location, $http){
 
     //Default Settings
-    $scope.settings = 0;
-    $scope.admin = 1;
+    $scope.settings = 0; //tabbing between settings in Settings
+    $scope.admin = 1; //show Admin settings -- default 0, testing 1
+    $scope.showChangePW = 0; //Hide password change abilities
+    $scope.showChangeProfilePic = 0; //Hide Profiel change abilities
+    //post switching
+    $scope.showAdmin = 0;
     $scope.showSettings = 0;
+    $scope.showPosts = 1;
+    $scope.userPosts = '';
 
     //Create a User Settings
     $scope.newUser = {
@@ -42,23 +48,41 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     };
 
 
+    //Posts
+    $scope.findPosts = function(){
+
+    };
+
+
     //page switching
     $scope.viewSettings = function(){
         $scope.showSettings = 1;
         $scope.showAdmin = 0;
+        $scope.showPosts = 0;
     };
     $scope.viewAdmin = function(){
         $scope.showSettings =0;
         $scope.showAdmin = 1;
+        $scope.showPosts = 0;
+    };
+    $scope.viewPosts = function(){
+        $scope.showSettings =0;
+        $scope.showAdmin = 0;
+        $scope.showPosts = 1;
     };
 
     //User Settings
     $scope.setPersonal = function(){
         $scope.settings = 0;
     };
-
     $scope.setAccount = function(){
         $scope.settings = 1;
+    };
+    $scope.showChangePass = function(){
+        $scope.showChangePassword = !$scope.showChangePassword;
+    };
+    $scope.showChangePP = function(){
+        $scope.showChangeProfilePic = !$scope.showChangeProfilePic;
     };
 
 
@@ -91,6 +115,16 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             function(data) {
                 $scope.loggedIn = true;
                 $scope.username = data.username;
+
+                $http.post('api/articles/getAll', {'_uid': $scope.username}).
+                    success(function(data) {
+                        $scope.userPosts = data;
+                        console.log($scope.userPosts);
+
+                    }).
+                    error(function(data) {
+                        console.warn("Failur: e" + data);
+                    });
             },
             function(data) {
                 $scope.loggedIn = false;
