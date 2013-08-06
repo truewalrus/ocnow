@@ -30,7 +30,7 @@ function articles_create(request, response) {
         if(err) {
             console.log("OOOOOO");
         }
-        collection.insert({"_uid": request.body._uid, "article": request.body.article, "title":request.body.title, "date": d.getTime() }, function(err, data){
+        collection.insert({"_uid": request.body._uid, "article": request.body.article, "title":request.body.title, "img": request.body.img, "date": d.getTime() }, function(err, data){
             if (err) {
                 response.send("Article already exists!!!", 401);
             }

@@ -4,7 +4,7 @@ var util = require('util');
 function upload_parseUpload (req, res){
     var form = new formidable.IncomingForm();
 
-    form.uploadDir = __dirname + '/app/img/';
+    form.uploadDir = './app/img/';
     form.keepExtensions = true;
 
     form.on('error', function(err) {

@@ -1,24 +1,29 @@
 <div ng-controller = "NewPostCtrl">
     <form ng-submit="newPost()">
         <legend>Create a New Post</legend>
-        <input type = "text" class = "input-large" placeholder = "Title" required ng-model = "title">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input id="title" type = "text" class = "input-large form-control" placeholder = "Title" required ng-model = "title">
+        </div>
         <span class = "help-block"></span>
-        <textarea ui-tinymce="editorOptions" placeholder = "Content" required ng-model = "article"></textarea>
-		<br />
+        <div class="form-group">
+            <label for="article">Article</label>
+            <textarea id="article" ui-tinymce="editorOptions" placeholder = "Content" required ng-model = "article"></textarea>
+        </div>
+        <br />
 
 
-       <input type = "file" multiple ng-model = "files" file-change>
-
-           <br />
-
-        {{ article }}
+        <input type = "file" multiple ng-model = "files" file-change>
 
         <br />
 
         <button type = "submit" class = "btn" ng-disabled="submitDisabled">Submit</button>
     </form>
 	
-	<button class="btn btn-info" ng-click = "findPosts()">FIND</button>
-    <button class="btn btn-warning" ng-click = "topPosts()">TOP</button>
-    <button class="btn btn-error" ng-click = "nextPosts()">NEXT</button>
+	<button class="btn btn-default" ng-click = "findPosts()">FIND</button>
+    <div class="btn-group">
+        <button class="btn btn-primary" ng-click = "topPosts()">TOP 3</button>
+        <button class="btn btn-info" ng-click = "nextPosts()">NEXT 3</button>
+    </div>
+    <button class="btn btn-danger" ng-click = "clearDatabase()">Clear Database</button>
 </div>
