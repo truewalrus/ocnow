@@ -149,6 +149,21 @@ function users_checkSession(request,response){
     response.send({"username":request.user.username});
 }
 
+function users_updateUser(request,response){
+    db_connector.collection('users', function (err, collection){
+        console.log(request.body.fName);
+        collection.update({'id': request.body.username.toUpperCase()}, {$set:{'fName': request.body.fName, 'lName':request.body.lName}}, function(err, data){
+            if (err){
+                response.send("Failure to update data", 401);
+            }
+            else{
+                console.log("Success: ");
+                response.send(200);
+            }
+        });
+    });
+}
+
 function clearDatabase(request, response) {
 	db_connector.collection('users', function(err, users) {
 		console.log("removing");
@@ -218,4 +233,6 @@ routing.push(function(app) {
 	app.get('/api/user/checkSession', ensureAuthentication, users_checkSession);
 
 	app.post('/api/user/create', users_createUser);
+
+    app.post('/api/user/updateUser', ensureAuthentication, users_updateUser);
 });

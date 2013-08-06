@@ -6,7 +6,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.settings = 0; //tabbing between settings in Settings
     $scope.admin = 1; //show Admin settings -- default 0, testing 1
     $scope.showChangePW = 0; //Hide password change abilities
-    $scope.showChangeProfilePic = 0; //Hide Profiel change abilities
+    $scope.showChangeProfilePic = 0; //Hide Profile change abilities
     //post switching
     $scope.showAdmin = 0;
     $scope.showSettings = 0;
@@ -22,11 +22,14 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         admin: false
     };
 
-    $scope.createUser = function(){
-        console.log('username: ' + $scope.newUser.username);
-        console.log('password: ' + $scope.newUser.password);
+    //update a User Settings
+    $scope.user = {
+        fName: "",
+        lName:""
+    };
 
-        user.signUp($scope.newUser.username, $scope.newUser.password, function(data) {
+    $scope.createUser = function(){
+       user.signUp($scope.newUser.username, $scope.newUser.password, function(data) {
                 console.log('added %s', data.username);
                 clearUser();
             },
@@ -49,8 +52,8 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 
 
     //Posts
-    $scope.findPosts = function(){
-
+    $scope.createNewPost = function(){
+        $location.url('/new-post');
     };
 
 
@@ -83,6 +86,16 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     };
     $scope.showChangePP = function(){
         $scope.showChangeProfilePic = !$scope.showChangeProfilePic;
+    };
+    $scope.saveUserInfo = function(){
+        user.updateUser($scope.username, $scope.user.fName, $scope.user.lName,
+            function(data){
+                console.log("success" + data);
+            },
+            function(data){
+                console.log("failure" + data);
+            }
+        );
     };
 
 
@@ -128,6 +141,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             },
             function(data) {
                 $scope.loggedIn = false;
+                $location.url('/home');
             }
         );
     };

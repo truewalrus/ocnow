@@ -25,6 +25,16 @@ angular.module("myApp.services")
                 });
         };
 
+        this.updateUser = function(username, fName, lName, success, error){
+            $http.post('api/user/updateUser',{'username':username, 'fName':fName, 'lName':lName}).
+                success(function(data){
+                    success(data);
+                }).
+                error(function(data){
+                    error(data);
+                });
+        };
+
         //login -- email/display name, password,
         this.login = function(username, password, success, error){
             $http.post('api/user/login', {'username': username, 'password': password}).
