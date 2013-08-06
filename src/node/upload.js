@@ -11,7 +11,9 @@ function upload_parseUpload (req, res){
         console.log(err);
     });
 
-    form.parse(req, function(err, fields, files) {
+    req.delayedStream.resume();
+
+    form.parse(req.delayedStream.source, function(err, fields, files) {
         if (err) {
             console.log("Error: " + err);
             return res.send(500);
@@ -22,7 +24,15 @@ function upload_parseUpload (req, res){
     return;
 }
 
-routing.push(function(app) {
-    app.post('/api/upload/uploadFile', upload_parseUpload);
+function delayedEnsureAuthentication(request, response, next) {
+    if (!request.user) {
+        request.delayedStream.resume();
+        return response.send(401);
+    }
 
+    return next();
+}
+
+routing.push(function(app) {
+    app.post('/api/upload/uploadFile', delayedEnsureAuthentication, upload_parseUpload);
 });
