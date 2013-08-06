@@ -55,6 +55,7 @@ angular.module("myApp.services")
 				success(function(data) {
                     user = false;
                     loggedIn = false;
+                    $rootScope.$broadcast('userLoggedOut');
 					success(data);
 				}).
 				error(function(data) {

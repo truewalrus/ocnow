@@ -4,7 +4,11 @@ angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', 
     $scope.$on('userLoggedIn', function() {
         $scope.loggedIn = true;
         $scope.username = user.getUser().username;
-        console.log(user.getUser());
+    });
+
+    $scope.$on('userLoggedOut', function(){
+        $scope.loggedIn = false;
+        $scope.username = '';
     });
 
     var checkSession = function(){
