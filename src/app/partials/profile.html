@@ -23,7 +23,7 @@
                 <div class = "well well-small">
 
                     <div ng-show = "showPosts">
-                        <legend>Posts</legend>
+                        <legend>Posts<button ng-click = "createNewPost()">Create New Post</button></legend>
                         <div>{{ userPosts }}</div>
                     </div>
 
@@ -103,6 +103,11 @@
                                             <label class = "control-label" for = "inputLName">Last Name</label>
                                             <div class = "controls">
                                                 <input type = "text" id = "inputLName" ng-model = "user.lName">
+                                            </div>
+                                        </div>
+                                        <div class = "control-group">
+                                            <div class = "controls">
+                                                <button ng-click = "saveUserInfo()">Save</button>
                                             </div>
                                         </div>
                                     </form>
