@@ -8,7 +8,7 @@
 
                 <div class = "span10">
                     <h2>{{post.title}}</h2>
-                    <p>Posted by <a href = '#'>{{ post.submitter}}</a> at {{ extractDate(post.date) }} (<a href = "#">{{ post.numberOfComments }} comments</a>)</p>
+                    <p>Posted by <a href = '#'>{{ post.name}}</a> at {{ extractDate(post.date) }} (<a href = "#">{{ post.numberOfComments }} comments</a>)</p>
                     <p ng-bind-html-unsafe="post.article"></p>
                 </div>
             </div>

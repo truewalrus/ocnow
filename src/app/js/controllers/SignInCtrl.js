@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', function($scope, iUser){
+angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '$location', function($scope, iUser, $location){
 	$scope.signingIn = true;
 	$scope.userName = '';
-	$scope.user = {};
-	$scope.loggedIn = false;
+//	$scope.user = {};
+//	$scope.loggedIn = false;
 
     $scope.$on('userLoggedIn', function() {
-        $scope.loggedIn = true;
-        $scope.userName = iUser.getUser().username;
-        console.log(iUser.getUser());
+      //  $scope.loggedIn = true;
+      //  $scope.userName = iUser.getUser().username;
+        //console.log(iUser.getUser());
     });
 	
 	var clearUser = function(clearPassOnly) {
@@ -28,11 +28,11 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', f
 	var checkSession = function() {
 		iUser.checkSession(
 			function(data) {
-				$scope.loggedIn = true;
-				$scope.userName = data.username;
+			//	$scope.loggedIn = true;
+			//	$scope.userName = data.username;
 			},
 			function(data) {
-				$scope.loggedIn = false;
+			//	$scope.loggedIn = false;
 			}
 		);
 	};
@@ -42,7 +42,7 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', f
 		clearErrMsg();
 		$scope.signingIn = true;
 		
-		console.log('sign in true');
+		//console.log('sign in true');
 		
 		clearUser();
 	};
@@ -51,21 +51,20 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', f
 		clearErrMsg();
 		$scope.signingIn = false;
 		
-		console.log('sign in false');
+		//console.log('sign in false');
 		
 		clearUser();
 	};
 	
 	$scope.signIn = function() {
 		clearErrMsg();
-		console.log('%cSigning In', "color: red;font-weight:bold;");
-		console.log('- Username: ' + $scope.user.username);
-		console.log('- Password: ' + $scope.user.pw);
+	//	console.log('%cSigning In', "color: red;font-weight:bold;");
+	//	console.log('- Username: ' + $scope.user.username);
+	//	console.log('- Password: ' + $scope.user.pw);
 		
 		iUser.login($scope.user.username, $scope.user.pw, function(data) {
 			console.log('logged in!');
-			$scope.loggedIn = true;
-			$scope.userName = data.username;
+            $location.url('/profile');
 			clearUser();
 		},
 		function(data) {
@@ -98,7 +97,7 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', f
 			function() {
 				console.warn('logout successful!');
 				$scope.userName = '';
-				$scope.loggedIn = false;
+			//	$scope.loggedIn = false;
 			},
 			function() {
 				console.warn('logout failed!');

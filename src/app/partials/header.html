@@ -16,7 +16,7 @@
                         </form>
                     </li>
                     <li ng-hide = "loggedIn" class = "header-right"><a href="sign-in">Sign Up/Sign In</a></li>
-                    <li ng-hide = "!loggedIn" class = "header-right"><a href = "#" ng-click = "viewProfile()">{{ username }}</a></li>
+                    <li ng-hide = "!loggedIn" class = "header-right"><a href = "#" ng-click = "viewProfile()">{{ user.username }}</a></li>
                 </ul>
             </div>
         </div>

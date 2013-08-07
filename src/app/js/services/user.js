@@ -3,16 +3,16 @@
 angular.module("myApp.services")
     .service('user', ['$rootScope', '$http', function($rootScope, $http){
 
-        var user = false;
-        var loggedIn = false;
+        $rootScope.user = false;
+        $rootScope.loggedIn = false;
 
 /*        var setUser = function(data) {
             console.log(this, data);
             this.user = data;
         };*/
 
-        this.getUser = function() { return user; };
-        this.isLoggedIn = function() { return loggedIn; };
+       // this.getUser = function() { return user; };
+      //  this.isLoggedIn = function() { return loggedIn; };
 
         //signup
         this.signUp = function(username, password, success, error){
@@ -25,8 +25,8 @@ angular.module("myApp.services")
                 });
         };
 
-        this.updateUser = function(username, fName, lName, success, error){
-            $http.post('api/user/updateUser',{'username':username, 'fName':fName, 'lName':lName}).
+        this.updateUser = function(_id, fName, lName, success, error){
+            $http.post('api/user/updateUser',{'_id':_id, 'fName':fName, 'lName':lName}).
                 success(function(data){
                     success(data);
                 }).
@@ -39,19 +39,7 @@ angular.module("myApp.services")
         this.login = function(username, password, success, error){
             $http.post('api/user/login', {'username': username, 'password': password}).
                 success(function(data) {
-                    user = data;
-                    loggedIn = true;
                     $rootScope.$broadcast('userLoggedIn');
-                }).
-                error(function(data) {
-                    error(data);
-                });
-
-        };
-
-        this.checkSession = function(success, error){
-            $http.get('api/user/checkSession').
-                success(function(data) {
                     success(data);
                 }).
                 error(function(data) {
@@ -59,13 +47,26 @@ angular.module("myApp.services")
                 });
 
         };
+
+        //Needs to be called in the header to get data every time
+        this.checkSession = function(){
+            $http.get('api/user/checkSession').
+                success(function(data) {
+                    $rootScope.user = data;
+                    $rootScope.loggedIn = true;
+                    console.log(data);
+                }).
+                error(function(data) {
+                    $rootScope.loggedIn = false;
+                });
+
+        };
 		
 		this.logout = function(success, error) {
 			$http.get('api/user/logout').
 				success(function(data) {
-                    user = false;
-                    loggedIn = false;
-                    $rootScope.$broadcast('userLoggedOut');
+                    $rootScope.user = false;
+                    $rootScope.loggedIn = false;
 					success(data);
 				}).
 				error(function(data) {

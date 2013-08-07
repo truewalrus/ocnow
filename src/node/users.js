@@ -2,6 +2,13 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt-nodejs');
 
+var RANK_SITEADMIN = 1;
+var RANK_ADMIN = 2;
+var RANK_POSTER = 3;
+var RANK_COMMENTER = 4;
+
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -146,13 +153,29 @@ function users_createUser(request, response){
 }
 
 function users_checkSession(request,response){
-    response.send({"username":request.user.username});
+    response.send({"username":request.user.username, '_id': request.user._id, 'fName': request.user.fName, 'lName': request.user.lName, 'img': request.user.img, 'displayName': request.user.displayName});
 }
 
 function users_updateUser(request,response){
     db_connector.collection('users', function (err, collection){
-        console.log(request.body.fName);
-        collection.update({'id': request.body.username.toUpperCase()}, {$set:{'fName': request.body.fName, 'lName':request.body.lName}}, function(err, data){
+        var updateFields = {};
+        if (request.body.fName != '')
+        {
+            updateFields["fName"] = request.body.fName;
+        }
+        if (request.body.lName != '')
+        {
+            updateFields["lName"] = request.body.lName;
+        }
+        if (request.body.displayName != '')
+        {
+            updateFields["displayName"] = request.body.displayName;
+        }
+        if (request.body.img != '')
+        {
+            updateFields["img"] = request.body.img;
+        }
+        collection.update({'_id': ObjectID(request.body._id)}, {$set:updateFields}, function(err, data){
             if (err){
                 response.send("Failure to update data", 401);
             }
@@ -195,8 +218,21 @@ passport.use(new LocalStrategy(
     }
 ));
 
+//Middleware Functions
+
+//ensureAuthentication: confirm a user is logged in
 function ensureAuthentication(request, response, next) {
     if (!request.user) { return response.send(401); }
+
+    return next();
+}
+
+/*users_canUpdateUser: ensure a user is allowed to update a user
+    - user that is logged in can update himself
+    - admins can update user info
+ */
+function users_canUpdateUser(request, response, next){
+    if(request.user._id != request.body._id || request.user.rank <= RANK_ADMIN){return response.send(401);}
 
     return next();
 }
@@ -225,7 +261,7 @@ routing.push(function(app) {
 				request.login(user, function(err) {
 					if (err) { return next(err); }
 					console.log("User logged in");
-					return response.send(200, { 'username': user.username });
+					return response.send(200, { 'username': user.username, '_id': user._id });
 				});
 			})(request, response, next);
 	});
@@ -234,5 +270,5 @@ routing.push(function(app) {
 
 	app.post('/api/user/create', users_createUser);
 
-    app.post('/api/user/updateUser', ensureAuthentication, users_updateUser);
+    app.post('/api/user/updateUser', ensureAuthentication, users_canUpdateUser, users_updateUser);
 });

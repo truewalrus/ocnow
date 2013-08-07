@@ -2,28 +2,18 @@
 
 angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', '$location', function ($scope, user, $location){
     $scope.$on('userLoggedIn', function() {
-        $scope.loggedIn = true;
-        $scope.username = user.getUser().username;
+        user.checkSession();
     });
 
-    $scope.$on('userLoggedOut', function(){
+
+
+    /*$scope.$on('userLoggedOut', function(){
         $scope.loggedIn = false;
         $scope.username = '';
-    });
+    });*/
 
-    var checkSession = function(){
-        user.checkSession(
-            function(data) {
-                console.log(data);
-                $scope.loggedIn = true;
-                $scope.username = data.username;
-            },
-            function(data) {
-                $scope.loggedIn = false;
-            }
-        );
-    };
-    checkSession();
+   // console.log(user.isLoggedIn());
+    user.checkSession();
 
     $scope.viewProfile = function(){
         console.log($location.url());

@@ -11,7 +11,7 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
     $scope.retrievePosts = function() {
         $http.get('api/articles/1/10').
             success(function(data) {
-                console.log(data);
+              //  console.log(data);
 
                 $scope.posts = data;
             }).

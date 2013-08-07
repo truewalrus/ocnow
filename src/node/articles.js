@@ -30,7 +30,7 @@ function articles_create(request, response) {
         if(err) {
             console.log("OOOOOO");
         }
-        collection.insert({"_uid": request.body._uid, "article": request.body.article, "title":request.body.title, "img": request.body.img, "date": d.getTime() }, function(err, data){
+        collection.insert({"uid": request.body.uid, "name": request.body.name, "article": request.body.article, "title":request.body.title, "img": request.body.img, "date": d.getTime() }, function(err, data){
             if (err) {
                 response.send("Article already exists!!!", 401);
             }
@@ -64,12 +64,12 @@ function articles_get(request, response) {
 //getAll
 function articles_getAll(request, response) {
     db_connector.collection('articles', function(err, collection) {
-        collection.find({"_uid": request.body._uid }).toArray(function(err, data){
+        collection.find({"uid": request.body.uid }).toArray(function(err, data){
             if (err) {
                 response.send("No articles found", 401);
             }
             else {
-                console.log(data);
+              //  console.log(data);
                 response.send(data);
             }
         });
@@ -97,7 +97,7 @@ function articles_getInOrder(request, response) {
                 response.send("No articles found", 401);
             }
             else {
-                console.log(data);
+               // console.log(data);
                 response.send(data);
             }
         });

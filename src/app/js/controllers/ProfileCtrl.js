@@ -23,10 +23,8 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     };
 
     //update a User Settings
-    $scope.user = {
-        fName: "",
-        lName:""
-    };
+    $scope.fName = "";
+    $scope.lName = "";
 
     $scope.createUser = function(){
        user.signUp($scope.newUser.username, $scope.newUser.password, function(data) {
@@ -88,7 +86,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.showChangeProfilePic = !$scope.showChangeProfilePic;
     };
     $scope.saveUserInfo = function(){
-        user.updateUser($scope.username, $scope.user.fName, $scope.user.lName,
+        user.updateUser($scope.user._id, $scope.fName, $scope.lName,
             function(data){
                 console.log("success" + data);
             },
@@ -123,7 +121,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 
 
 
-    var checkSession = function(){
+  /*  var checkSession = function(){
         user.checkSession(
             function(data) {
                 $scope.loggedIn = true;
@@ -145,6 +143,6 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             }
         );
     };
-    checkSession();
+    checkSession();*/
 
 }]);
