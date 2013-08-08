@@ -23,8 +23,8 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     };
 
     //update a User Settings
-    $scope.fName = "";
-    $scope.lName = "";
+    $scope.fName = $scope.user.fName;
+    $scope.lName = $scope.user.lName;
 
     $scope.createUser = function(){
        user.signUp($scope.newUser.username, $scope.newUser.password, function(data) {
