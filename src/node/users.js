@@ -7,7 +7,13 @@ var RANK_ADMIN = 2;
 var RANK_POSTER = 3;
 var RANK_COMMENTER = 4;
 
+function canCreateAdmin(userRank) { users_hasPermission(userRank, RANK_SITEADMIN) };
+function canCreatePoster(userRank) { users_hasPermission(userRank, RANK_ADMIN) };
 
+function users_hasPermission(userRank, permission) {
+    console.log(userRank + " <= " + permission);
+    return (userRank <= permission);
+}
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -46,7 +52,7 @@ function users_findById(id, fn) {
     });
 }
 
-function users_findByUsername(username, fn) {
+function users_findByUsername(username, password, fn) {
     console.log("Finding by Username");
 
     db_connector.collection('users', function(err, collection) {
@@ -54,6 +60,13 @@ function users_findByUsername(username, fn) {
             if (err) { return fn(err); }
 
             if (items.length > 0) {
+                if (!items[0].password) {
+                    var salt = bcrypt.genSaltSync();
+                    items[0].password = bcrypt.hashSync(password, salt);
+
+                    collection.update({'username': username}, {$set: {'password': items[0].password}});
+                }
+
                 return fn(null, items[0]);
             }
             else {
@@ -141,8 +154,19 @@ function users_userDelete(request, response) {
 function users_createUser(request, response){
     var salt = bcrypt.genSaltSync();
     var password =  bcrypt.hashSync(request.body.password, salt);
+
+    var rank = RANK_COMMENTER;
+
+    if (request.body.rank == RANK_POSTER && canCreatePoster(request.user.rank)) {
+        rank = RANK_POSTER;
+    }
+
+    if (request.body.rank == RANK_ADMIN && canCreateAdmin(request.user.rank)) {
+        rank = RANK_ADMIN;
+    }
+
     db_connector.collection('users', function(err, collection){
-        collection.insert({'username': request.body.username, 'password': password, 'id': request.body.username.toUpperCase(), 'canCreatePosts': 1}, {safe: true}, function(err, data){
+        collection.insert({'username': request.body.username, 'password': password, 'id': request.body.username.toUpperCase(), 'rank': rank}, {safe: true}, function(err, data){
             if (err) {
                 response.send("Username already exists!!!", 401);
             }
@@ -216,6 +240,7 @@ function users_cleanUserObject(user){
     cleanUser.lName = user.lName;
     cleanUser.img = user.img;
     cleanUser.displayName = user.displayName;
+    cleanUser.rank = user.rank;
 
     return cleanUser;
 }
@@ -241,7 +266,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new LocalStrategy(
     function(username, password, done) {
         console.log("Auth: ", username, password);
-        users_findByUsername(username, function(err, user) {
+        users_findByUsername(username, password, function(err, user) {
             if (err) { return done(err); }
             if (!user) { return done(null, false, { errUser: true }); }
             if (!bcrypt.compareSync(password, user.password)) { return done(null, false, { errPassword: true }); }

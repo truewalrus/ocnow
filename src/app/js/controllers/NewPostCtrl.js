@@ -2,6 +2,18 @@
 
 angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user', '$http', '$rootScope', 'uploadService', function($scope, user, $http, $rootScope, uploadService){
 
+    var createArticle = function(imgPath) {
+        if (!imgPath) { imgPath = ''; }
+
+        $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title ,'img': '', 'published': $scope.publishArticle}).
+            success(function(data) {
+                console.log(data);
+            }).
+            error(function(data) {
+                console.warn("Failure: " + data);
+            });
+    };
+
   /*  var checkSession = function(){
         user.checkSession(
             function(data) {
@@ -29,13 +41,7 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
 
         if($scope.files.length === 0)
         {
-            $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title ,'img': ''}).
-                success(function(data) {
-                    console.log(data);
-                }).
-                error(function(data) {
-                    console.warn("Failure: " + data);
-                });
+            createArticle();
         }
         else
         {
@@ -78,6 +84,11 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
             });
     };
 
+    $scope.publishArticle = false;
+    $scope.isAdmin = ($scope.user.rank <= 2);
+
+    console.log($scope.user.rank);
+
     $scope.submitDisabled = false;
 
     /*testing upload*/
@@ -104,13 +115,15 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
 
             response = '/' + response.substr(response.indexOf('\\') + 1);
 
-            $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title, 'img': response}).
-                success(function(data) {
-                    console.log(data);
-                }).
-                error(function(data) {
-                    console.warn("Failure: " + data);
-                });
+            createArticle(response);
+
+//            $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title, 'img': response}).
+//                success(function(data) {
+//                    console.log(data);
+//                }).
+//                error(function(data) {
+//                    console.warn("Failure: " + data);
+//                });
         }
     });
 /*
