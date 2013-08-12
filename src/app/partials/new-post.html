@@ -17,6 +17,13 @@
 
         <br />
 
+        <div class="well well-small" ng-show="isAdmin">
+            <div>Options</div>
+            <label class="checkbox">
+                <input type="checkbox" ng-model="publishArticle">Publish article on submit
+            </label>
+        </div>
+
         <button type = "submit" class = "btn" ng-disabled="submitDisabled" name = "temp">Submit</button>
     </form>
 	
