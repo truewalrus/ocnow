@@ -45,8 +45,17 @@
 
                     <!--Admin settings-->
                     <div ng-show = "showAdmin">
-                        <legend>Edit Users</legend>
-                        <div class = "tabbable">
+                        <legend>
+                            <div class = "tabbable">
+                                <ul class = "nav nav-tabs">
+                                    <li ng-click = "adminUsers()" ng-class = "{active: adminView == 0}"><a href = '#'>Users</a></li>
+                                    <li ng-click = "adminPosts()" ng-class = "{active: adminView == 1}"><a href = '#'>Posts</a></li>
+                                </ul>
+                            </div>
+                            <span ng-show = "adminView == 0">Edit Users</span>
+                            <span ng-show = "adminView == 1">Edit Posts</span>
+                        </legend>
+                        <div ng-show = "adminView == 0" class = "tabbable">
                             <ul class = "nav nav-tabs">
                                 <li ng-click = "setCreate()" ng-class = "{active : AAC == 0}"><a href="#">Create</a></li>
                                 <li ng-click = "setList()" ng-class = "{active : AAC == 1}"><a href="#">Users</a></li>
@@ -93,6 +102,62 @@
 
                                 </form>
                             </div>
+
+                            <div ng-show = "AAC == 1">
+                                Search: <input ng-model = "query">
+                                <ul class = "unstyled well-small profile-well-white">
+                                    <li ng-repeat = "user in allViewableUsers | filter: query">
+                                        <div ng-mouseover = "showButtons = 1" ng-mouseleave = "showButtons = 0">
+                                            {{user.username}}
+                                            <button ng-click = "adminUserEdit(user)" ng-show = "showButtons">Edit</button>
+                                            <button ng-click = "adminUserDelete(user)" ng-show = "showButtons">Delete</button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div ng-show = "AAC == 2">
+                                <form class = "form-horizontal" ng-submit = "saveUserInfo()">
+                                    <div class = "control-group">
+                                        <label class = "control-label" for = "AACUN">Username: </label>
+                                        <div class = "controls">
+                                            <input disabled type = "text" id = "AACUN" ng-model = "AACUsername">
+                                        </div>
+                                    </div>
+                                    <div class = "control-group">
+                                        <label class = "control-label" for = "AACFN">First Name:</label>
+                                        <div class = "controls">
+                                            <input type = "text" id = "AACFN" ng-model = "AACFName">
+                                        </div>
+                                    </div>
+                                    <div class = "control-group">
+                                        <label class = "control-label" for = "AACLN">Last Name:</label>
+                                        <div class = "controls">
+                                            <input type = "text" id = "AACLN" ng-model = "AACLName">
+                                        </div>
+                                    </div>
+                                    <div class = "control-group">
+                                        <label class = "control-label" for = "AACPP">Profile Picture:</label>
+                                        <div class = "controls">
+                                            <input id = "AACPP" type = "file" ng-model = "AACFiles" file-change>
+                                        </div>
+                                    </div>
+
+                                    <!-- currently no functionality-->
+                                    <div class = "control-group">
+                                        <label class = "control-label" for = "AACPW">Change Password: </label>
+                                        <div class = "controls">
+                                            <input type = "text" id = "AACPW" ng-model = "AACPassword" file-change>
+                                        </div>
+                                    </div>
+
+                                    <div class = "control-group">
+                                        <div class = "controls">
+                                            <button type="submit">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <!--End Admin Settings-->
@@ -111,13 +176,13 @@
                                 <div ng-hide = "settings" class = "row-fluid">
                                     <form class = "form-horizontal" ng-submit = "saveUserInfo()">
                                         <div class = "control-group">
-                                            <label class = "control-label" for = "inputFName">First Name</label>
+                                            <label class = "control-label" for = "inputFName">First Name:</label>
                                             <div class = "controls">
                                                 <input type = "text" id = "inputFName" ng-model = "fName">
                                             </div>
                                         </div>
                                         <div class = "control-group">
-                                            <label class = "control-label" for = "inputLName">Last Name</label>
+                                            <label class = "control-label" for = "inputLName">Last Name:</label>
                                             <div class = "controls">
                                                 <input type = "text" id = "inputLName" ng-model = "lName">
                                             </div>

@@ -68,9 +68,11 @@ function users_findByUsername(username, fn) {
 // 2.1 Main Index / Default Handler
 
 // 2.3 'api/user' Handler
+
+//MAKE SURE TO CHANGE TO USE ADMIN RANK AT SOME POINT
 function users_allUsers(request, response) {
     db_connector.collection('users', function(err, collection) {
-        collection.find().toArray(function(err, items) {
+        collection.find({'canCreatePosts':1}).toArray(function(err, items) {
             response.send(items);
         });
     });
@@ -280,7 +282,10 @@ routing.push(function(app) {
 
 	app.get('/api/user/delete', users_userDelete);
 
-	app.get('/api/user/clear', clearDatabase);
+    app.get('/api/user/allUsers', users_allUsers);
+
+    app.get('/api/user/clear', clearDatabase);
+
 
 	app.post('/api/user/login', function(request, response, next) {
 			passport.authenticate('local', function(err, user, info) {

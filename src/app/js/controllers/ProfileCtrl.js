@@ -8,12 +8,14 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.showChangePW = 0; //Hide password change abilities
     $scope.showChangeProfilePic = 0; //Hide Profile change abilities
     $scope.files = []; //initiate file for profile img
+    $scope.imgUploadID = '';
     //post switching
     $scope.showAdmin = 0;
     $scope.showSettings = 0;
     $scope.showPosts = 1;
     $scope.userPosts = '';
     $scope.posts = '';
+    $scope.adminView = 0;
     $scope.AAC = 0;
     //Grab default user settings
     var userSettings = function(){
@@ -34,6 +36,20 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     /*    if(!$scope.username){
             $location.url('/home');
         }*/
+
+
+
+        //GET USERS FOR ADMIN, NEEDS TO BE CHANGED AT SOME POINT TO INCORPORATE ACTUAL RANK
+        $scope.allViewableUsers = '';
+        if($scope.admin >=1){
+            $http.get('/api/user/allUsers').
+                success(function(data){
+                    $scope.allViewableUsers = data;
+                }).
+                error(function(data){
+                    console.log(data);
+                });
+        }
     };
 
     //52017afd716b34a010000001
@@ -50,8 +66,8 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     //update User Settings if changes were made or if timing was missed/page refresh
     $scope.$on('userUpdated', function() {
         userSettings();
-
     });
+
 
 
     $scope.createUser = function(){
@@ -96,6 +112,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.showSettings =0;
         $scope.showAdmin = 1;
         $scope.showPosts = 0;
+
     };
     $scope.viewPosts = function(){
         $scope.showSettings =0;
@@ -118,14 +135,15 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     };
     $scope.saveUserInfo = function(){
         if($scope.files.length === 0){
-            $scope.saveUserInfoNoImg();
+            $scope.saveUserInfoNoImg($scope.user._id);
         }
         else{
+            $scope.imgUploadID = $scope.user._id;
             uploadService.send($scope.files[0]);
         }
     };
-    $scope.saveUserInfoNoImg = function(){
-        user.updateUser($scope.user._id, $scope.fName, $scope.lName, $scope.img,
+    $scope.saveUserInfoNoImg = function(_id){
+        user.updateUser(_id, $scope.fName, $scope.lName, $scope.img,
             function(data){
               //  console.log("success" + data);
             },
@@ -136,6 +154,12 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     };
 
     //ADMIN ACCOUNT CONTROL (AAC)
+    $scope.adminUsers = function(){
+        $scope.adminView = 0;
+    };
+    $scope.adminPosts = function(){
+        $scope.adminView = 1;
+    };
     $scope.setCreate = function(){
         $scope.AAC = 0;
     };
@@ -145,6 +169,20 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.setViewAccount = function(){
         $scope.AAC = 2;
     };
+    $scope.AACpassword = '';
+    $scope.AACFName = '';
+    $scope.AACLName = '';
+    $scope.AACFiles = [];
+    $scope.adminUserEdit = function(user){
+        $scope.AACpassword = '';
+        $scope.AACFName = user.fName;
+        $scope.AACLName = user.lName;
+        $scope.AACUsername = user.username;
+        $scope.AACFiles = [];
+
+        $scope.AAC = 2;
+    };
+
 
 
     //update user info when a new profile img is uploaded
@@ -157,7 +195,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 
             response = '/' + response.substr(response.indexOf('\\') + 1);
 
-            user.updateUser($scope.user._id, $scope.fName, $scope.lName, response,
+            user.updateUser($scope.imgUploadID, $scope.fName, $scope.lName, response,
                 function(data){
                     //console.log("success" + data);
                 },
