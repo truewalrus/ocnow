@@ -64,7 +64,7 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
 		
 		iUser.login($scope.user.username, $scope.user.pw, function(data) {
 			console.log('logged in!');
-          //  $location.url('/profile'); //temporarily commented out because the route happens before checkSession breaking profile, need to find a way to workaround
+            $location.url('/profile');
 			clearUser();
 		},
 		function(data) {

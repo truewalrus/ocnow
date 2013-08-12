@@ -1,0 +1,29 @@
+<div ng-controller = "ViewPostCtrl" class = "container-fluid">
+    <div class = "row-fluid">
+        <div class = "span2">
+            <img ng-src = "{{post.img}}" alt = "not important"/>
+        </div>
+
+        <div class = "span10">
+            <h2><a href = '#' ng-click = "">{{post.title}}</a></h2>
+            <p>Posted by <a href = '#'>{{ post.name}}</a> at {{extractDate(post.date)}} (<a href = "#">{{ post.commentCount }} comments</a>)</p>
+            <p ng-bind-html-unsafe="post.article"></p>
+        </div>
+    </div>
+    <div class = "well well-small">
+        <div ng-hide = "loggedIn">Please log in to view comments</div>
+        <div ng-hide = "!loggedIn">
+            <form ng-submit = "postComment()">
+                <textarea ng-model = "content" required></textarea>
+                <button type = "submit">Post SHOUT</button>
+            </form>
+        </div>
+        <ul class = "unstyled">
+            <li class = "row-fluid" ng-repeat = "comment in comments">
+               <div class = "span2"> <img ng-src = " {{ comment.img}}"> </div>
+                <div class = "span10"><a href = #>{{ comment.username }}</a> said, "{{ comment.content }}" on {{ extractDate(comment.date)}} </div>
+            </li>
+        </ul>
+    </div>
+
+</div>

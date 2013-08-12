@@ -28,7 +28,7 @@ angular.module('myApp.services')
                 console.log(file);
                 data.append('file', file, file.name);
                 console.log(file.name);
-                xhr.open('POST', 'api/upload/uploadFile');
+                xhr.open('POST', '/api/upload/uploadFile');
                 xhr.send(data);
             }
         };

@@ -14,9 +14,14 @@ angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', 
 
    // console.log(user.isLoggedIn());
     user.checkSession();
+    $scope.query='';
 
     $scope.viewProfile = function(){
         console.log($location.url());
         $location.url('/profile');
+    };
+
+    $scope.search = function(){
+        $location.path('/search').search({'query': $scope.query});
     };
 }]);

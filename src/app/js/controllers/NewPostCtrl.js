@@ -27,10 +27,25 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
     $scope.newPost = function(){
         $scope.submitDisabled = true;
 
-        for (var i = 0, length = $scope.files.length; i < length; i++) {
-            // Hand file off to uploadService.
-            uploadService.send($scope.files[i]);
+        if($scope.files.length === 0)
+        {
+            $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title ,'img': ''}).
+                success(function(data) {
+                    console.log(data);
+                }).
+                error(function(data) {
+                    console.warn("Failure: " + data);
+                });
         }
+        else
+        {
+            for (var i = 0, length = $scope.files.length; i < length; i++) {
+                // Hand file off to uploadService.
+                uploadService.send($scope.files[i]);
+            }
+        }
+
+
     };
 
     $scope.findPosts = function(){
@@ -87,7 +102,7 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
         else {
             console.log("File uploaded as: %s", response);
 
-            response = response.substr(response.indexOf('\\') + 1);
+            response = '/' + response.substr(response.indexOf('\\') + 1);
 
             $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title, 'img': response}).
                 success(function(data) {

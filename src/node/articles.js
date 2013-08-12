@@ -27,10 +27,7 @@ function articles_clearDatabase(request, response) {
 function articles_create(request, response) {
     var d = new Date();
     db_connector.collection('articles', function(err, collection) {
-        if(err) {
-            console.log("OOOOOO");
-        }
-        collection.insert({"uid": request.body.uid, "name": request.body.name, "article": request.body.article, "title":request.body.title, "img": request.body.img, "date": d.getTime() }, function(err, data){
+        collection.insert({"uid": request.body.uid, "name": request.body.name, "article": request.body.article, "title":request.body.title, "img": request.body.img, "date": d.getTime(), "commentCount":0 }, function(err, data){
             if (err) {
                 response.send("Article already exists!!!", 401);
             }
@@ -42,6 +39,17 @@ function articles_create(request, response) {
     });
 }
 
+function articles_addComment(articleId){
+    db_connector.collection('articles', function(err, collection) {
+        collection.update({'_id': ObjectID(articleId)}, {$inc:{"commentCount":1}});
+    });
+}
+function articles_removeComment(articleId){
+    db_connector.collection('articles', function(err, collection) {
+        collection.update({'_id': ObjectID(articleId)}, {$inc:{"commentCount":-1}});
+    });
+}
+
 //delete post
 
 //update post
@@ -49,12 +57,13 @@ function articles_create(request, response) {
 //get
 function articles_get(request, response) {
     db_connector.collection('articles', function(err, collection) {
-        collection.find({"_id": request.body._id}, {safe: true}, function(err, data){
+        collection.find({"_id": ObjectID(request.params._id)}).toArray(function(err, data){
             if (err) {
                 response.send("Article already exists!!!", 401);
             }
             else {
-                console.log("Data added as " + data);
+                console.log("Data sent ");
+                //console.log(data);
                 response.send(data[0]);
             }
         });
@@ -104,6 +113,20 @@ function articles_getInOrder(request, response) {
     });
 }
 
+function articles_search(request, response) {
+    db_connector.collection('articles', function(err, collection) {
+        collection.find({$or: [{"title": {$regex: request.params.query, $options: "i"}}, {"tags": {$regex: request.params.query, $options: "i"}}]}).toArray(function(err, data){
+            if (err) {
+                response.send("No articles found", 401);
+            }
+            else {
+                //  console.log(data);
+                response.send(data);
+            }
+        });
+    });
+}
+
 function hasPostPermission(request, response, next) {
     if (!request.user.canCreatePosts) { return response.send("User does not have permission to create new articles.", 401); }
 
@@ -113,8 +136,10 @@ function hasPostPermission(request, response, next) {
 /* ALL DIS STUFF BE COOL */
 routing.push(function(app) {
     app.post('/api/articles/create', ensureAuthentication, hasPostPermission, articles_create);
-    app.get('/api/articles/get', articles_get);
-    app.get('/api/articles/:page/:count', articles_getInOrder);
     app.post('/api/articles/getAll', articles_getAll);
     app.post('/api/articles/clear', articles_clearDatabase);
+    app.get('/api/articles/get/:_id', articles_get);
+    app.get('/api/articles/search/:query', articles_search);
+    app.get('/api/articles/front/:page/:count', articles_getInOrder);
+
 });

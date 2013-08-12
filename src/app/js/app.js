@@ -6,12 +6,14 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.s
  app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
 	// angular front end routes
-	$routeProvider.when('/sign-in', {templateUrl: 'partials/sign-in.html'});
-    $routeProvider.when('/contact-us', {templateUrl:'partials/contact-us.html'});
-    $routeProvider.when('/home', {templateUrl: 'partials/home.html'});
-    $routeProvider.when('/new-post', {templateUrl: 'partials/new-post.html'});
-    $routeProvider.when('/profile', {templateUrl: 'partials/profile.html'});
-    $routeProvider.when('/new-vid', {templateUrl: 'partials/new-vid.html'});
+	$routeProvider.when('/sign-in', {templateUrl: '/partials/sign-in.html'});
+    $routeProvider.when('/contact-us', {templateUrl:'/partials/contact-us.html'});
+    $routeProvider.when('/home', {templateUrl: '/partials/home.html'});
+    $routeProvider.when('/new-post', {templateUrl: '/partials/new-post.html'});
+    $routeProvider.when('/profile', {templateUrl: '/partials/profile.html'});
+    $routeProvider.when('/new-vid', {templateUrl: '/partials/new-vid.html'});
+    $routeProvider.when('/article/:id', {templateUrl:"/partials/view-post.html"});
+    $routeProvider.when('/search', {templateUrl: "/partials/search.html"});
     $routeProvider.otherwise({redirectTo: '/home'});
 	
 	// fix to remove '#' from url strings in browser

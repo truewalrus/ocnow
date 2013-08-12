@@ -6,6 +6,11 @@ angular.module("myApp.services")
         $rootScope.user = false;
         $rootScope.loggedIn = false;
 
+        var updateUserInfo = function(userInfo){
+            $rootScope.user = userInfo;
+            $rootScope.loggedIn = (userInfo !== null);
+            $rootScope.$broadcast('userUpdated');
+        };
 /*        var setUser = function(data) {
             console.log(this, data);
             this.user = data;
@@ -16,7 +21,7 @@ angular.module("myApp.services")
 
         //signup
         this.signUp = function(username, password, success, error){
-            $http.post('api/user/create', {'username': username, 'password': password}).
+            $http.post('/api/user/create', {'username': username, 'password': password}).
                 success(function(data) {
                     success(data);
                 }).
@@ -25,9 +30,10 @@ angular.module("myApp.services")
                 });
         };
 
-        this.updateUser = function(_id, fName, lName, success, error){
-            $http.post('api/user/updateUser',{'_id':_id, 'fName':fName, 'lName':lName}).
+        this.updateUser = function(_id, fName, lName, img, success, error){
+            $http.post('/api/user/updateUser',{'_id':_id, 'fName':fName, 'lName':lName, 'img': img}).
                 success(function(data){
+                    updateUserInfo(data);
                     success(data);
                 }).
                 error(function(data){
@@ -37,7 +43,7 @@ angular.module("myApp.services")
 
         //login -- email/display name, password,
         this.login = function(username, password, success, error){
-            $http.post('api/user/login', {'username': username, 'password': password}).
+            $http.post('/api/user/login', {'username': username, 'password': password}).
                 success(function(data) {
                     $rootScope.$broadcast('userLoggedIn');
                     success(data);
@@ -50,11 +56,9 @@ angular.module("myApp.services")
 
         //Needs to be called in the header to get data every time
         this.checkSession = function(){
-            $http.get('api/user/checkSession').
+            $http.get('/api/user/checkSession').
                 success(function(data) {
-                    $rootScope.user = data;
-                    $rootScope.loggedIn = true;
-                    console.log(data);
+                    updateUserInfo(data);
                 }).
                 error(function(data) {
                     $rootScope.loggedIn = false;
@@ -63,7 +67,7 @@ angular.module("myApp.services")
         };
 		
 		this.logout = function(success, error) {
-			$http.get('api/user/logout').
+			$http.get('/api/user/logout').
 				success(function(data) {
                     $rootScope.user = false;
                     $rootScope.loggedIn = false;
@@ -76,7 +80,7 @@ angular.module("myApp.services")
 		
 		
 		this.deleteLoggedIn = function(success, error) {
-			$http.get('api/user/delete').
+			$http.get('/api/user/delete').
 				success(function(data) {
 					success(data);
 				}).

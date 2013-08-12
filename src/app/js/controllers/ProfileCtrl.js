@@ -1,18 +1,30 @@
 'use strict';
 
-angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user', '$location', '$http', function ($scope, user, $location, $http){
+angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user', '$location', '$http', 'uploadService', '$rootScope', function ($scope, user, $location, $http, uploadService, $rootScope){
 
     //Default Settings
     $scope.settings = 0; //tabbing between settings in Settings
     $scope.admin = 1; //show Admin settings -- default 0, testing 1
     $scope.showChangePW = 0; //Hide password change abilities
     $scope.showChangeProfilePic = 0; //Hide Profile change abilities
+    $scope.files = []; //initiate file for profile img
     //post switching
     $scope.showAdmin = 0;
     $scope.showSettings = 0;
     $scope.showPosts = 1;
     $scope.userPosts = '';
+    //Grab default user settings
+    var userSettings = function(){
+        $scope.fName = $scope.user.fName;
+        $scope.lName = $scope.user.lName;
+        $scope.img = $scope.user.img;
+        $scope.username = $scope.user.username;
 
+    /*    if(!$scope.username){
+            $location.url('/home');
+        }*/
+    };
+    userSettings();
     //Create a User Settings
     $scope.newUser = {
         username: "",
@@ -22,9 +34,11 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         admin: false
     };
 
-    //update a User Settings
-    $scope.fName = $scope.user.fName;
-    $scope.lName = $scope.user.lName;
+    //update User Settings if changes were made or if timing was missed/page refresh
+    $scope.$on('userUpdated', function() {
+        userSettings();
+    });
+
 
     $scope.createUser = function(){
        user.signUp($scope.newUser.username, $scope.newUser.password, function(data) {
@@ -86,15 +100,45 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.showChangeProfilePic = !$scope.showChangeProfilePic;
     };
     $scope.saveUserInfo = function(){
-        user.updateUser($scope.user._id, $scope.fName, $scope.lName,
+        if($scope.files.length === 0){
+            $scope.saveUserInfoNoImg();
+        }
+        else{
+            uploadService.send($scope.files[0]);
+        }
+    };
+    $scope.saveUserInfoNoImg = function(){
+        user.updateUser($scope.user._id, $scope.fName, $scope.lName, $scope.img,
             function(data){
-                console.log("success" + data);
+              //  console.log("success" + data);
             },
             function(data){
-                console.log("failure" + data);
+            //    console.log("failure" + data);
             }
         );
     };
+
+
+    //update user info when a new profile img is uploaded
+    $rootScope.$on('upload:complete', function (event, code, response) {
+        if (code != 200) {
+            console.error("Error uploading file: %d - %s", code, response);
+        }
+        else {
+            console.log("File uploaded as: %s", response);
+
+            response = '/' + response.substr(response.indexOf('\\') + 1);
+
+            user.updateUser($scope.user._id, $scope.fName, $scope.lName, response,
+                function(data){
+                    //console.log("success" + data);
+                },
+                function(data){
+                   // console.log("failure" + data);
+                }
+            );
+        }
+    });
 
 
     $scope.logOut = function(){

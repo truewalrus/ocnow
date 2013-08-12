@@ -153,7 +153,7 @@ function users_createUser(request, response){
 }
 
 function users_checkSession(request,response){
-    response.send({"username":request.user.username, '_id': request.user._id, 'fName': request.user.fName, 'lName': request.user.lName, 'img': request.user.img, 'displayName': request.user.displayName});
+    response.send(users_cleanUserObject(request.user));
 }
 
 function users_updateUser(request,response){
@@ -180,11 +180,42 @@ function users_updateUser(request,response){
                 response.send("Failure to update data", 401);
             }
             else{
-                console.log("Success: ");
-                response.send(200);
+             //   console.log("Success: ");
+                var userInfo = users_cleanUserObject(request.user);
+                for (var attr in request.body){
+                    userInfo[attr] = request.body[attr];
+                }
+                response.send(userInfo);
             }
         });
     });
+}
+
+function users_findByIds(id, fn) {
+    db_connector.collection('users', function(err, collection) {
+        if (err) { return console.log(err); }
+        collection.find({'_id': {$in: id}}).toArray(function(err, items) {
+            if (err) { return console.error(err); }
+            return fn(items);
+        });
+    });
+
+   // console.log("outside " + users);
+
+   // return users;
+}
+
+function users_cleanUserObject(user){
+    var cleanUser = {};
+
+    cleanUser._id = user._id;
+    cleanUser.username = user.username;
+    cleanUser.fName = user.fName;
+    cleanUser.lName = user.lName;
+    cleanUser.img = user.img;
+    cleanUser.displayName = user.displayName;
+
+    return cleanUser;
 }
 
 function clearDatabase(request, response) {

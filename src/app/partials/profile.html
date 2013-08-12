@@ -8,7 +8,7 @@
             <div class = "span3">
                 <div class = "well well-small">
                     <div class = "row-fluid">
-                        <img src= "../img/testimg.jpg" alt = "Profile" />
+                        <img ng-src = "{{img}}" alt = "Profile" />
                     </div>
                     <ul class = "nav nav-tabs nav-stacked">
                         <li ng-click = "viewPosts()"><a href = "#">My Posts</a></li>
@@ -92,7 +92,7 @@
                             <div>
                                 <!--Personal Settings-->
                                 <div ng-hide = "settings" class = "row-fluid">
-                                    <form class = "form-horizontal">
+                                    <form class = "form-horizontal" ng-submit = "saveUserInfo()">
                                         <div class = "control-group">
                                             <label class = "control-label" for = "inputFName">First Name</label>
                                             <div class = "controls">
@@ -107,7 +107,13 @@
                                         </div>
                                         <div class = "control-group">
                                             <div class = "controls">
-                                                <button ng-click = "saveUserInfo()">Save</button>
+                                                <button ng-show = "!showChangeProfilePic" ng-click = "showChangePP()">Change Profile Picture</button>
+                                                <input ng-show = "showChangeProfilePic" type = "file" ng-model = "files" file-change>  <button  ng-show = "showChangeProfilePic" ng-click = "showChangePP()">Cancel</button>
+                                            </div>
+                                        </div>
+                                        <div class = "control-group">
+                                            <div class = "controls">
+                                                <button type="submit">Save</button>
                                             </div>
                                         </div>
                                     </form>
@@ -149,10 +155,6 @@
                                         </form>
                                     </div>
                                     <!--End Change Password -->
-                                    <div>
-                                        <button ng-show = "!showChangeProfilePic" ng-click = "showChangePP()">Change Profile Picture</button>
-                                        <input ng-show = "showChangeProfilePic" type = "file" multiple ng-model = "files" file-change>  <button  ng-show = "showChangeProfilePic" ng-click = "showChangePP()">Cancel</button>
-                                    </div>
                                 </div>
                                 <!-- End User Settings -->
 
