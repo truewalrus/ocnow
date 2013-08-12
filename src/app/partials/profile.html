@@ -24,7 +24,23 @@
 
                     <div ng-show = "showPosts">
                         <legend>Posts<button ng-click = "createNewPost()">Create New Post</button></legend>
-                        <div>{{ userPosts }}</div>
+                        <div>
+                            <ul class = "unstyled">
+                                <li ng-repeat = "post in posts">
+                                    <div class = "row-fluid">
+                                        <div class = "span2">
+                                            <img ng-src = "{{post.img}}" alt = "not important"/>
+                                        </div>
+
+                                        <div class = "span10">
+                                            <h2><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h2>
+                                            <p>Posted by <a href = '#'>{{ post.name}}</a> at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</p>
+                                            <p ng-bind-html-unsafe="post.article"></p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
                     <!--Admin settings-->
@@ -32,11 +48,12 @@
                         <legend>Edit Users</legend>
                         <div class = "tabbable">
                             <ul class = "nav nav-tabs">
-                                <li><a href="#">Create</a></li>
-                                <li><a href="#">Delete</a></li>
+                                <li ng-click = "setCreate()" ng-class = "{active : AAC == 0}"><a href="#">Create</a></li>
+                                <li ng-click = "setList()" ng-class = "{active : AAC == 1}"><a href="#">Users</a></li>
+                                <li ng-click = "setViewAccount()" ng-class = "{active: AAC==2}"><a href = "#">Edit</a></li>
                             </ul>
 
-                            <div class = "row-fluid">
+                            <div ng-show = "AAC == 0" class = "row-fluid">
                                 <form class = "form-horizontal" ng-submit = "createUser()">
                                     <div class = "control-group">
                                         <label class = "control-label" for = "inputUName">Username: </label>

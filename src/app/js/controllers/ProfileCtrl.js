@@ -13,6 +13,8 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.showSettings = 0;
     $scope.showPosts = 1;
     $scope.userPosts = '';
+    $scope.posts = '';
+    $scope.AAC = 0;
     //Grab default user settings
     var userSettings = function(){
         $scope.fName = $scope.user.fName;
@@ -20,10 +22,21 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.img = $scope.user.img;
         $scope.username = $scope.user.username;
 
+        //get Posts related ot this user
+        $http.get('/api/articles/getAll/'+$scope.user._id).
+            success(function(data){
+                $scope.posts = data;
+            }).
+            error(function(data){
+                console.log(data);
+            });
+
     /*    if(!$scope.username){
             $location.url('/home');
         }*/
     };
+
+    //52017afd716b34a010000001
     userSettings();
     //Create a User Settings
     $scope.newUser = {
@@ -37,6 +50,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     //update User Settings if changes were made or if timing was missed/page refresh
     $scope.$on('userUpdated', function() {
         userSettings();
+
     });
 
 
@@ -66,6 +80,9 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     //Posts
     $scope.createNewPost = function(){
         $location.url('/new-post');
+    };
+    $scope.viewPost = function(postId){
+        $location.url('/article/' + postId);
     };
 
 
@@ -118,6 +135,17 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         );
     };
 
+    //ADMIN ACCOUNT CONTROL (AAC)
+    $scope.setCreate = function(){
+        $scope.AAC = 0;
+    };
+    $scope.setList = function(){
+        $scope.AAC = 1;
+    };
+    $scope.setViewAccount = function(){
+        $scope.AAC = 2;
+    };
+
 
     //update user info when a new profile img is uploaded
     $rootScope.$on('upload:complete', function (event, code, response) {
@@ -153,6 +181,8 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             }
         );
     };
+
+
 
 
 
