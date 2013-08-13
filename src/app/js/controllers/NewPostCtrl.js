@@ -5,7 +5,7 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
     var createArticle = function(imgPath) {
         if (!imgPath) { imgPath = ''; }
 
-        $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title ,'img': '', 'published': $scope.publishArticle}).
+        $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title ,'img': imgPath, 'published': $scope.publishArticle}).
             success(function(data) {
                 console.log(data);
             }).

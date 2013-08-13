@@ -80,7 +80,7 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
 		console.log('username: ' + $scope.user.username);
 		console.log('password: ' + $scope.user.pw);
 		
-		iUser.signUp($scope.user.username, $scope.user.pw, function(data) {
+		iUser.signUp($scope.user.username, $scope.user.pw, 4, function(data) {
 			console.log('added %s', data.username);
 			clearUser();
 		},

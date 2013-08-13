@@ -1,10 +1,14 @@
 'use strict';
 
 angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user', '$location', '$http', 'uploadService', '$rootScope', function ($scope, user, $location, $http, uploadService, $rootScope){
+    var RANK_SITEADMIN = 1;
+    var RANK_ADMIN = 2;
+    var RANK_POSTER = 3;
+    var RANK_COMMENTER = 4;
 
     //Default Settings
     $scope.settings = 0; //tabbing between settings in Settings
-    $scope.admin = 1; //show Admin settings -- default 0, testing 1
+    $scope.admin = 0; //show Admin settings -- default 0, testing 1
     $scope.showChangePW = 0; //Hide password change abilities
     $scope.showChangeProfilePic = 0; //Hide Profile change abilities
     $scope.files = []; //initiate file for profile img
@@ -23,6 +27,8 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.lName = $scope.user.lName;
         $scope.img = $scope.user.img;
         $scope.username = $scope.user.username;
+        $scope.admin = ($scope.user.rank < RANK_POSTER); //CHECK TO SEE IF USER IS AN ADMIN
+        console.log($scope.user.rank);
 
         //get Posts related ot this user
         $http.get('/api/articles/getAll/'+$scope.user._id).
@@ -52,7 +58,6 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         }
     };
 
-    //52017afd716b34a010000001
     userSettings();
     //Create a User Settings
     $scope.newUser = {
@@ -60,7 +65,8 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         password:"",
         fName: "",
         lName: "",
-        admin: false
+        admin: false,
+        rank: RANK_POSTER
     };
 
     //update User Settings if changes were made or if timing was missed/page refresh
@@ -71,7 +77,10 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 
 
     $scope.createUser = function(){
-       user.signUp($scope.newUser.username, $scope.newUser.password, function(data) {
+       if($scope.newUser.admin){
+           $scope.newUser.rank = RANK_ADMIN;
+       }
+       user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank,  function(data) {
                 console.log('added %s', data.username);
                 clearUser();
             },
@@ -135,15 +144,15 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     };
     $scope.saveUserInfo = function(){
         if($scope.files.length === 0){
-            $scope.saveUserInfoNoImg($scope.user._id);
+            $scope.saveUserInfoNoImg($scope.user._id, $scope.fName, $scope.lName, $scope.img);
         }
         else{
             $scope.imgUploadID = $scope.user._id;
             uploadService.send($scope.files[0]);
         }
     };
-    $scope.saveUserInfoNoImg = function(_id){
-        user.updateUser(_id, $scope.fName, $scope.lName, $scope.img,
+    $scope.saveUserInfoNoImg = function(_id, fname, lname, img){
+        user.updateUser(_id, fname, lname, img,
             function(data){
               //  console.log("success" + data);
             },
@@ -178,15 +187,28 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.AACFName = user.fName;
         $scope.AACLName = user.lName;
         $scope.AACUsername = user.username;
+        $scope.AACid = user._id;
         $scope.AACFiles = [];
 
         $scope.AAC = 2;
+    };
+    $scope.adminSaveUserInfo = function(){
+        if($scope.files.length === 0){
+            $scope.saveUserInfoNoImg($scope.AACid, $scope.AACFName, $scope.AACLName, '');
+        }
+        else{
+            $scope.imgUploadID = $scope.AACid;
+            uploadService.send($scope.files[0]);
+        }
+    };
+    $scope.adminUserDelete = function(user){
+
     };
 
 
 
     //update user info when a new profile img is uploaded
-    $rootScope.$on('upload:complete', function (event, code, response) {
+  /*  $rootScope.$on('upload:complete', function (event, code, response) {
         if (code != 200) {
             console.error("Error uploading file: %d - %s", code, response);
         }
@@ -205,7 +227,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             );
         }
     });
-
+*/
 
     $scope.logOut = function(){
         user.logout(
@@ -219,42 +241,5 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             }
         );
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*  var checkSession = function(){
-        user.checkSession(
-            function(data) {
-                $scope.loggedIn = true;
-                $scope.username = data.username;
-
-                $http.post('api/articles/getAll', {'_uid': $scope.username}).
-                    success(function(data) {
-                        $scope.userPosts = data;
-                        console.log($scope.userPosts);
-
-                    }).
-                    error(function(data) {
-                        console.warn("Failur: e" + data);
-                    });
-            },
-            function(data) {
-                $scope.loggedIn = false;
-                $location.url('/home');
-            }
-        );
-    };
-    checkSession();*/
 
 }]);

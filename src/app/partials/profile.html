@@ -88,7 +88,7 @@
                                             <input ng-model = "newUser.lName" type = "text" id = "inputULName">
                                         </div>
                                     </div>
-                                    <div class = "control-group">
+                                    <div ng-hide = "user.rank" class = "control-group">
                                         <label class = "control-label" for = "inputAdmin">Administrator: </label>
                                         <div class = "controls">
                                             <input ng-model = "newUser.admin" type = "checkbox" id = "inputAdmin">
@@ -117,7 +117,7 @@
                             </div>
 
                             <div ng-show = "AAC == 2">
-                                <form class = "form-horizontal" ng-submit = "saveUserInfo()">
+                                <form class = "form-horizontal" ng-submit = "adminSaveUserInfo()">
                                     <div class = "control-group">
                                         <label class = "control-label" for = "AACUN">Username: </label>
                                         <div class = "controls">
