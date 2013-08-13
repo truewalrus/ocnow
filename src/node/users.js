@@ -85,7 +85,7 @@ function users_findByUsername(username, password, fn) {
 //MAKE SURE TO CHANGE TO USE ADMIN RANK AT SOME POINT
 function users_allUsers(request, response) {
     db_connector.collection('users', function(err, collection) {
-        collection.find({'canCreatePosts':1}).toArray(function(err, items) {
+        collection.find({'rank': {$gt: request.user.rank}}).toArray(function(err, items) {
             response.send(items);
         });
     });
@@ -155,14 +155,10 @@ function users_createUser(request, response){
     var salt = bcrypt.genSaltSync();
     var password =  bcrypt.hashSync(request.body.password, salt);
 
-    var rank = RANK_COMMENTER;
+    var rank = request.body.rank ? parseInt(request.body.rank) : RANK_COMMENTER;
 
-    if (request.body.rank == RANK_POSTER && canCreatePoster(request.user.rank)) {
-        rank = RANK_POSTER;
-    }
-
-    if (request.body.rank == RANK_ADMIN && canCreateAdmin(request.user.rank)) {
-        rank = RANK_ADMIN;
+    if ((rank == RANK_POSTER && !canCreatePoster(request.user.rank)) || (rank == RANK_ADMIN && !canCreateAdmin(request.user.rank))) {
+        rank = RANK_COMMENTER;
     }
 
     db_connector.collection('users', function(err, collection){
@@ -307,7 +303,7 @@ routing.push(function(app) {
 
 	app.get('/api/user/delete', users_userDelete);
 
-    app.get('/api/user/allUsers', users_allUsers);
+    app.get('/api/user/allUsers', ensureAuthentication, users_allUsers);
 
     app.get('/api/user/clear', clearDatabase);
 
