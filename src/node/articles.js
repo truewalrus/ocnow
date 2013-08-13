@@ -1,5 +1,5 @@
-function canCreateArticle(userRank) { users_hasPermission(userRank, RANK_POSTER) };
-function canPublishArticle(userRank) { users_hasPermission(userRank, RANK_ADMIN) };
+function canCreateArticle(userRank) { return users_hasPermission(userRank, RANK_POSTER) };
+function canPublishArticle(userRank) { return users_hasPermission(userRank, RANK_ADMIN) };
 
 collections.push(function(err, db) {
     if (!err) {

@@ -7,8 +7,9 @@ var RANK_ADMIN = 2;
 var RANK_POSTER = 3;
 var RANK_COMMENTER = 4;
 
-function canCreateAdmin(userRank) { users_hasPermission(userRank, RANK_SITEADMIN) };
-function canCreatePoster(userRank) { users_hasPermission(userRank, RANK_ADMIN) };
+function canCreateAdmin(userRank) { return users_hasPermission(userRank, RANK_SITEADMIN) };
+function canCreatePoster(userRank) { return users_hasPermission(userRank, RANK_ADMIN) };
+function canUpdateUser(userRank) { return users_hasPermission(userRank, RANK_ADMIN) };
 
 function users_hasPermission(userRank, permission) {
     console.log(userRank + " <= " + permission);
@@ -179,6 +180,8 @@ function users_checkSession(request,response){
 }
 
 function users_updateUser(request,response){
+    if (request.body._id != request.user._id && !canUpdateUser(request.user.rank)) { return response.send("User does not have permission to update this user.", 401); }
+
     db_connector.collection('users', function (err, collection){
         var updateFields = {};
         if (request.body.fName != '')
@@ -281,16 +284,6 @@ function ensureAuthentication(request, response, next) {
     return next();
 }
 
-/*users_canUpdateUser: ensure a user is allowed to update a user
-    - user that is logged in can update himself
-    - admins can update user info
- */
-function users_canUpdateUser(request, response, next){
-    if(request.user._id != request.body._id || request.user.rank <= RANK_ADMIN){return response.send(401);}
-
-    return next();
-}
-
 /* ALL DIS STUFF BE COOL */
 routing.push(function(app) {
 	app.get('/api/user', ensureAuthentication, users_userInfo);
@@ -327,5 +320,5 @@ routing.push(function(app) {
 
 	app.post('/api/user/create', users_createUser);
 
-    app.post('/api/user/updateUser', ensureAuthentication, users_canUpdateUser, users_updateUser);
+    app.post('/api/user/updateUser', ensureAuthentication, users_updateUser);
 });
