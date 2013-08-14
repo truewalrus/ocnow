@@ -110,7 +110,7 @@
                                         <div ng-mouseover = "showButtons = 1" ng-mouseleave = "showButtons = 0">
                                             {{user.username}}
                                             <button ng-click = "adminUserEdit(user)" ng-show = "showButtons">Edit</button>
-                                            <button ng-click = "adminUserDelete(user)" ng-show = "showButtons">Delete</button>
+                                            <button ng-click = "adminUserDelete(user._id)" ng-show = "showButtons">Delete</button>
                                         </div>
                                     </li>
                                 </ul>

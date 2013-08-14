@@ -106,7 +106,7 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
 	};
 	
 	$scope.deleteUser = function() {
-		iUser.deleteLoggedIn(
+		iUser.deleteUser(iUser._id,
 			function(data) {
 				console.log(data.message);
 				checkSession();

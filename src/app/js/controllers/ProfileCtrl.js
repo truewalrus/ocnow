@@ -83,7 +83,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     var clearUser = function(){
         $scope.newUser = {
             username: "",
-            password:'"',
+            password:"",
             fName: "",
             lName: "",
             admin: false
@@ -214,7 +214,17 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             uploadService.send($scope.files[0]);
         }
     };
-    $scope.adminUserDelete = function(user){
+    $scope.adminUserDelete = function(id){
+        if($scope.admin >=1){
+            user.deleteUser(id,
+                function(data) {
+                    console.log("user deleted");
+                },
+                function(data) {
+                    console.log(data);
+                });
+        }
+      //  $scope.viewAdmin();
 
     };
     $scope.publish = function(id){
