@@ -104,16 +104,32 @@
                             </div>
 
                             <div ng-show = "AAC == 1">
+                                <div class="row-fluid">
+                                    <span class="user-key" ng-show="user.rank<2" ng-class="{'span4':(user.rank<2)}"><i class="icon-star"></i> Site Admin</span>
+                                    <span class="user-key" ng-class="{'span4':(user.rank<2), 'span6':(user.rank>=2), 'no-left-margin':(user.rank>=2)}"><i class="icon-pencil"></i> Poster</span>
+                                    <span class="user-key" ng-class="{'span4':(user.rank<2), 'span6':(user.rank>=2)}"><i class="icon-user"></i> Commenter</span>
+                                </div>
                                 Search: <input ng-model = "query">
+                                <br />
+                                <table class="table">
+                                    <tr ng-repeat="siteUser in allViewableUsers | filter: query" ng-mouseover = "showButtons = 1" ng-mouseleave = "showButtons = 0">
+                                        <td><i ng-show="siteUser.rank==2" class="icon-star"></i><i ng-show="siteUser.rank==3" class="icon-pencil"></i><i ng-show="siteUser.rank>3" class="icon-user"></i></td>
+                                        <td> {{siteUser.username}} <span ng-show="siteUser.fName || siteUser.lName">({{ ((siteUser.fName || ' ') + ' ' + (siteUser.lName || ' ')).trim() }})</span></td>
+                                        <td><button class="btn btn-mini" ng-click = "adminUserEdit(siteUser)"><i class="icon-edit"></i> Edit</button>
+                                            <button class="btn btn-mini btn-danger" ng-click = "adminUserDelete(siteUser)"><i class="icon-trash icon-white"></i> Delete</button></td>
+                                    </tr>
+                                </table>
+                                <!--
                                 <ul class = "unstyled well-small profile-well-white">
                                     <li ng-repeat = "user in allViewableUsers | filter: query">
                                         <div ng-mouseover = "showButtons = 1" ng-mouseleave = "showButtons = 0">
-                                            {{user.username}}
-                                            <button ng-click = "adminUserEdit(user)" ng-show = "showButtons">Edit</button>
-                                            <button ng-click = "adminUserDelete(user)" ng-show = "showButtons">Delete</button>
+                                            <i ng-show="user.rank==2" class="icon-star"></i><i ng-show="user.rank==3" class="icon-star-empty"></i><i ng-show="user.rank>3" class="icon-user"></i> {{user.username}} <span ng-show="user.fName || user.lName">({{ ((user.fName || ' ') + ' ' + (user.lName || ' ')).trim() }})</span>
+                                            <button class="btn btn-mini" ng-click = "adminUserEdit(user)" ng-show = "showButtons"><i class="icon-edit"></i> Edit</button>
+                                            <button class="btn btn-mini btn-danger" ng-click = "adminUserDelete(user)" ng-show = "showButtons"><i class="icon-trash icon-white"></i> Delete</button>
                                         </div>
                                     </li>
                                 </ul>
+                                -->
                             </div>
 
                             <div ng-show = "AAC == 2">

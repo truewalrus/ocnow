@@ -47,8 +47,4 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
 
         return d.toLocaleTimeString() + " on " + d.toLocaleDateString();
     };
-
-
-
-
 }]);

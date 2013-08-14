@@ -47,6 +47,12 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 
     };
 
+    $scope.extractDate = function(time) {
+        var d = new Date(time);
+
+        return d.toLocaleTimeString() + " on " + d.toLocaleDateString();
+    };
+
     userSettings();
     //Create a User Settings
     $scope.newUser = {

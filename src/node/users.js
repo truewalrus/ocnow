@@ -85,8 +85,10 @@ function users_findByUsername(username, password, fn) {
 
 //MAKE SURE TO CHANGE TO USE ADMIN RANK AT SOME POINT
 function users_allUsers(request, response) {
+    if (!canUpdateUser(request.user.rank)) { return response.send(401); }
+
     db_connector.collection('users', function(err, collection) {
-        collection.find({'rank': {$gt: request.user.rank}}).toArray(function(err, items) {
+        collection.find({'rank': {$gt: request.user.rank}}).sort({'id':1}).toArray(function(err, items) {
             response.send(items);
         });
     });
