@@ -217,6 +217,20 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.adminUserDelete = function(user){
 
     };
+    $scope.publish = function(id){
+
+        if($scope.admin >=1){
+            $http.post('/api/articles/publish', {"_id": id}).
+                success(function(data){
+                    console.log("published");
+                }).
+                error(function(data){
+                    console.log(data);
+                });
+        }
+
+        $scope.viewAdmin();
+    };
 
 
 

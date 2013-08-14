@@ -143,6 +143,25 @@ function articles_getUnpublished(request, response) {
     }
 }
 
+function articles_publish(request, response){
+    if (canPublishArticle(request.user.rank)){
+        var d = new Date();
+        db_connector.collection('articles', function(err, collection) {
+            collection.update({"_id":ObjectID(request.body._id)}, {$set:{"date": d.getTime(), "published": true} }, function(err, data){
+                if (err) {
+                    response.send("Article already exists!!!", 401);
+                }
+                else {
+                    response.send(200);
+                }
+            });
+        });
+    }
+    else{
+        response.send(401);
+    }
+}
+
 function articles_search(request, response) {
     db_connector.collection('articles', function(err, collection) {
         collection.find({$or: [{"title": {$regex: request.params.query, $options: "i"}}, {"tags": {$regex: request.params.query, $options: "i"}}]}).sort({'date': -1}).toArray(function(err, data){
@@ -161,6 +180,7 @@ function articles_search(request, response) {
 routing.push(function(app) {
     app.post('/api/articles/create', ensureAuthentication, articles_create);
     app.post('/api/articles/clear', ensureAuthentication, articles_clearDatabase);
+    app.post('/api/articles/publish', ensureAuthentication, articles_publish);
     app.get('/api/articles/getAll/:uid', articles_getAll);
     app.get('/api/articles/get/:_id', articles_get);
     app.get('/api/articles/search/:query', articles_search);

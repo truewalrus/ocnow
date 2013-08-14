@@ -169,11 +169,16 @@
                                             <img ng-src = "{{post.img}}" alt = "not important"/>
                                         </div>
 
-                                        <div class = "span10">
+                                        <div class = "span9">
                                             <h2><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h2>
                                             <p>Posted by <a href = '#'>{{ post.name}}</a> at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</p>
                                             <p ng-bind-html-unsafe="post.article"></p>
                                         </div>
+
+                                        <div class = "span1">
+                                            <button ng-click = "publish(post._id)">Publish</button>
+                                        </div>
+
                                     </div>
                                 </li>
                             </ul>
