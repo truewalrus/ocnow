@@ -124,6 +124,25 @@ function articles_getInOrder(request, response) {
     });
 }
 
+function articles_getUnpublished(request, response) {
+    if(canPublishArticle(request.user.rank) ){
+        db_connector.collection('articles', function(err, collection) {
+            collection.find({"published": false }).sort({'date': -1}).toArray(function(err, data){
+                if (err) {
+                    response.send("No articles found", 401);
+                }
+                else {
+                    //  console.log(data);
+                    response.send(data);
+                }
+            });
+        });
+    }
+    else{
+        response.send(401);
+    }
+}
+
 function articles_search(request, response) {
     db_connector.collection('articles', function(err, collection) {
         collection.find({$or: [{"title": {$regex: request.params.query, $options: "i"}}, {"tags": {$regex: request.params.query, $options: "i"}}]}).sort({'date': -1}).toArray(function(err, data){
@@ -146,4 +165,5 @@ routing.push(function(app) {
     app.get('/api/articles/get/:_id', articles_get);
     app.get('/api/articles/search/:query', articles_search);
     app.get('/api/articles/front/:page/:count', articles_getInOrder);
+    app.get('/api/articles/getUnpublished', articles_getUnpublished);
 });

@@ -45,17 +45,6 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 
 
 
-        //GET USERS FOR ADMIN, NEEDS TO BE CHANGED AT SOME POINT TO INCORPORATE ACTUAL RANK
-        $scope.allViewableUsers = '';
-        if($scope.admin >=1){
-            $http.get('/api/user/allUsers').
-                success(function(data){
-                    $scope.allViewableUsers = data;
-                }).
-                error(function(data){
-                    console.log(data);
-                });
-        }
     };
 
     userSettings();
@@ -121,6 +110,30 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.showSettings =0;
         $scope.showAdmin = 1;
         $scope.showPosts = 0;
+
+
+        //show users admin can see
+        $scope.allViewableUsers = '';
+        if($scope.admin >=1){
+            $http.get('/api/user/allUsers').
+                success(function(data){
+                    $scope.allViewableUsers = data;
+                }).
+                error(function(data){
+                    console.log(data);
+                });
+        }
+
+        $scope.unpublishedPosts = '';
+        if($scope.admin >=1){
+            $http.get('/api/articles/getUnpublished').
+                success(function(data){
+                    $scope.unpublishedPosts = data;
+                }).
+                error(function(data){
+                    console.log(data);
+                });
+        }
 
     };
     $scope.viewPosts = function(){
