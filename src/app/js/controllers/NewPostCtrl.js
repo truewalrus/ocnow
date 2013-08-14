@@ -47,7 +47,7 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
         {
             for (var i = 0, length = $scope.files.length; i < length; i++) {
                 // Hand file off to uploadService.
-                uploadService.send($scope.files[i]);
+                uploadService.send($scope.files[i], 'article');
             }
         }
 
@@ -106,12 +106,12 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
 //        }
 //    }, true);
 
-    $rootScope.$on('upload:complete', function (event, code, response) {
+    $scope.$on('upload:complete', function (event, code, response) {
         if (code != 200) {
             console.error("Error uploading file: %d - %s", code, response);
         }
         else {
-            console.log("File uploaded as: %s", response);
+            console.log("NewPostCtrl: File uploaded as: %s", response);
 
             response = '/' + response.substr(response.indexOf('\\') + 1);
 

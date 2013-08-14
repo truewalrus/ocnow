@@ -148,7 +148,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         }
         else{
             $scope.imgUploadID = $scope.user._id;
-            uploadService.send($scope.files[0]);
+            uploadService.send($scope.files[0], 'profile');
         }
     };
     $scope.saveUserInfoNoImg = function(_id, fname, lname, img){
@@ -208,12 +208,12 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 
 
     //update user info when a new profile img is uploaded
-  /*  $rootScope.$on('upload:complete', function (event, code, response) {
+    $scope.$on('upload:complete', function (event, code, response) {
         if (code != 200) {
             console.error("Error uploading file: %d - %s", code, response);
         }
         else {
-            console.log("File uploaded as: %s", response);
+            console.log("ProfileCtrl: File uploaded as: %s", response);
 
             response = '/' + response.substr(response.indexOf('\\') + 1);
 
@@ -227,7 +227,6 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             );
         }
     });
-*/
 
     $scope.logOut = function(){
         user.logout(

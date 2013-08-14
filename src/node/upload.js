@@ -1,5 +1,4 @@
 var formidable = require('formidable');
-var util = require('util');
 
 function upload_parseUpload (req, res){
     var form = new formidable.IncomingForm();
@@ -18,7 +17,7 @@ function upload_parseUpload (req, res){
             console.log("Error: " + err);
             return res.send(500);
         }
-        res.send(files.file.path, 200);
+        return res.send(files.file.path, 200);
     });
 
     return;
@@ -27,12 +26,35 @@ function upload_parseUpload (req, res){
 function delayedEnsureAuthentication(request, response, next) {
     if (!request.user) {
         request.delayedStream.resume();
-        return response.send(401);
+        return response.send("Must be logged in.", 401);
     }
 
     return next();
 }
 
+function canUploadArticlePicture (request, response, next) {
+    if (!canCreateArticle(request.user.rank)) {
+        request.delayedStream.resume();
+        return response.send("User does not have permission to create articles.", 401);
+    }
+
+    console.log("Uploading article picture.");
+
+    return next();
+}
+
+function canUploadProfilePicture (request, response, next) {
+    if (request.body._id != request.user._id && !canUpdateUser(request.user.rank)) {
+        request.delayedStream.resume();
+        return response.send("User does not have permission to edit this user.", 401);
+    }
+
+    console.log("Uploading profile picture.");
+
+    return next();
+}
+
 routing.push(function(app) {
-    app.post('/api/upload/uploadFile', delayedEnsureAuthentication, upload_parseUpload);
+    app.post('/api/upload/article/uploadFile', delayedEnsureAuthentication, canUploadArticlePicture, upload_parseUpload);
+    app.post('/api/upload/profile/uploadFile', delayedEnsureAuthentication, canUploadProfilePicture, upload_parseUpload);
 });
