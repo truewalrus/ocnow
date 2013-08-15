@@ -174,7 +174,7 @@ function users_createUser(request, response){
     }
 
     db_connector.collection('users', function(err, collection){
-        collection.insert({'username': request.body.username, 'password': password, 'id': request.body.username.toUpperCase(), 'rank': rank}, {safe: true}, function(err, data){
+        collection.insert({'username': request.body.username, 'password': password, 'id': request.body.username.toUpperCase(), 'rank': rank, 'fName': request.body.fName, 'lName':request.body.lName}, {safe: true}, function(err, data){
             if (err) {
                 response.send("Username already exists!!!", 401);
             }

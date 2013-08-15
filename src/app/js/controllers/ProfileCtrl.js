@@ -82,9 +82,10 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
        if($scope.newUser.admin){
            $scope.newUser.rank = RANK_ADMIN;
        }
-       user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank,  function(data) {
+       user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName,  function(data) {
                 console.log('added %s', data.username);
                 clearUser();
+                adminUpdateUserList();
             },
             function(data) {
                 console.log('failed to add user');
@@ -133,13 +134,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 
         $scope.unpublishedPosts = '';
         if($scope.admin >=1){
-            $http.get('/api/articles/getUnpublished').
-                success(function(data){
-                    $scope.unpublishedPosts = data;
-                }).
-                error(function(data){
-                    console.log(data);
-                });
+            adminUpdatePosts();
         }
 
     };
@@ -233,18 +228,26 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             });
     };
 
+    var adminUpdatePosts = function(){
+        $http.get('/api/articles/getUnpublished').
+            success(function(data){
+                $scope.unpublishedPosts = data;
+            }).
+            error(function(data){
+                console.log(data);
+            });
+    };
+
     $scope.adminUserDelete = function(id){
         if($scope.admin >=1){
             user.deleteUser(id,
                 function(data) {
-                    console.log("user deleted");
                     adminUpdateUserList();
                 },
                 function(data) {
                     console.log(data);
                 });
         }
-      //  $scope.viewAdmin();
 
     };
     $scope.publish = function(id){
@@ -259,7 +262,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
                 });
         }
 
-        $scope.viewAdmin();
+        adminUpdatePosts();
     };
 
 

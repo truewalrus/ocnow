@@ -20,8 +20,8 @@ angular.module("myApp.services")
       //  this.isLoggedIn = function() { return loggedIn; };
 
         //signup
-        this.signUp = function(username, password, rank, success, error){
-            $http.post('/api/user/create', {'username': username, 'password': password, 'rank': rank}).
+        this.signUp = function(username, password, rank, fName, lName, success, error){
+            $http.post('/api/user/create', {'username': username, 'password': password, 'fName': fName, 'lName': lName, 'rank': rank}).
                 success(function(data) {
                     success(data);
                 }).
