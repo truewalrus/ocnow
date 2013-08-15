@@ -56,12 +56,17 @@ angular.module("myApp.services")
 
         //Needs to be called in the header to get data every time
         this.checkSession = function(){
+            $rootScope.checkingSession = true;
+
             $http.get('/api/user/checkSession').
                 success(function(data) {
                     updateUserInfo(data);
+                    $rootScope.checkingSession = false;
                 }).
                 error(function(data) {
                     $rootScope.loggedIn = false;
+                    $rootScope.checkingSession = false;
+                    $rootScope.$broadcast("user:loggedOut");
                 });
 
         };
@@ -92,7 +97,16 @@ angular.module("myApp.services")
                     error(data);
                 });
         };
-		
+
+        this.parseName = function(user) {
+            var name = ((user.fName || ' ') + ' ' + (user.lName || ' ')).trim();
+
+            if (!name || name === '') {
+                return user.username;
+            }
+
+            return name;
+        };
 		
 		/*this.deleteLoggedIn = function(success, error) {
 			$http.get('/api/user/delete').

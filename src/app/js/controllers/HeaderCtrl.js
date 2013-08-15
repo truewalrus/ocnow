@@ -5,8 +5,6 @@ angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', 
         user.checkSession();
     });
 
-
-
     /*$scope.$on('userLoggedOut', function(){
         $scope.loggedIn = false;
         $scope.username = '';

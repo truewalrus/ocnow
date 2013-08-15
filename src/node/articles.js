@@ -37,7 +37,7 @@ function articles_create(request, response) {
     var published = (canPublishArticle(request.user.rank) && request.body.published == true);
 
     db_connector.collection('articles', function(err, collection) {
-        collection.insert({"uid": request.body.uid, "name": request.body.name, "article": request.body.article, "title":request.body.title, "img": request.body.img, "date": d.getTime(), "published": published, "commentCount":0 }, function(err, data){
+        collection.insert({"uid": request.body.uid, "name": users_parseName(request.user), "article": request.body.article, "title":request.body.title, "img": request.body.img, "date": d.getTime(), "published": published, "commentCount":0 }, function(err, data){
             if (err) {
                 response.send("Article already exists!!!", 401);
             }

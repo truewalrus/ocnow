@@ -77,6 +77,16 @@ function users_findByUsername(username, password, fn) {
     });
 }
 
+function users_parseName(user) {
+    var name = ((user.fName || ' ') + ' ' + (user.lName || ' ')).trim();
+
+    if (!name || name === '') {
+        return user.username;
+    }
+
+    return name;
+}
+
 // 2. Get Requests
 
 // 2.1 Main Index / Default Handler
@@ -118,7 +128,6 @@ function users_findUserByAge(request, response) {
     });
 }
 
-
 function users_userLogout(request, response) {
     /*	request.session.destroy(function(err){
      if (err) {
@@ -147,7 +156,8 @@ function users_userDelete(request, response) {
                 response.send({'message':'Failed to delete user'}, 401);
             }
             else {
-                request.logout();
+                if (request.body._id == request.user._id) { request.logout(); }
+
                 response.send(200);
             }
         });
@@ -186,14 +196,8 @@ function users_updateUser(request,response){
 
     db_connector.collection('users', function (err, collection){
         var updateFields = {};
-        if (request.body.fName != '')
-        {
-            updateFields["fName"] = request.body.fName;
-        }
-        if (request.body.lName != '')
-        {
-            updateFields["lName"] = request.body.lName;
-        }
+        updateFields["fName"] = request.body.fName;
+        updateFields["lName"] = request.body.lName;
         if (request.body.displayName != '')
         {
             updateFields["displayName"] = request.body.displayName;
@@ -202,11 +206,22 @@ function users_updateUser(request,response){
         {
             updateFields["img"] = request.body.img;
         }
+
         collection.update({'_id': ObjectID(request.body._id)}, {$set:updateFields}, function(err, data){
             if (err){
                 response.send("Failure to update data", 401);
             }
             else{
+                collection.find({'_id': ObjectID(request.body._id)}).toArray(function(err, user) {
+                    if (err) { return console.error("(users.js) Error searching for user by _id"); }
+
+                    db_connector.collection('articles', function(err, articles) {
+                        if (err) { return console.error("(users.js) Error updating name fields of articles."); }
+
+                        articles.update({'uid': request.body._id}, {$set: {'name': users_parseName(user[0])}}, { multi: true });
+                    });
+                });
+
              //   console.log("Success: ");
                 var userInfo = users_cleanUserObject(request.user);
                 for (var attr in request.body){

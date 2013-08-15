@@ -1,5 +1,7 @@
 'use strict';
-angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', 'user', '$location', function($scope, $http, user, $location){
+angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', 'user', '$location', 'page', function($scope, $http, user, $location, page){
+    page.setPage();
+
     $scope.cont = true;
 
     $scope.posts = [];

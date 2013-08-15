@@ -23,7 +23,25 @@
                 <div class = "well well-small">
 
                     <div ng-show = "showPosts">
-                        <legend>Posts<button ng-click = "createNewPost()">Create New Post</button></legend>
+                        <legend>Posts</legend>
+                        <button class="btn" ng-click = "createNewPost()">Create New Post</button>
+                        <br />
+                        <br />
+                        <table class="table">
+                            <tr ng-repeat="post in posts">
+                                <td class="media">
+                                    <a class="pull-left" href="#">
+                                        <img class="media-object article-thumbnail" ng-src = "{{post.img}}" alt = "not important"/>
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h4>
+                                        <span class="article-byline">Posted at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</span>
+                                        <p class="article-summary" ng-bind-html-unsafe="post.article"></p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <!--
                         <div>
                             <ul class = "unstyled">
                                 <li ng-repeat = "post in posts">
@@ -41,6 +59,7 @@
                                 </li>
                             </ul>
                         </div>
+                        -->
                     </div>
 
                     <!--Admin settings-->
@@ -109,14 +128,20 @@
                                     <span class="user-key" ng-class="{'span4':(user.rank<2), 'span6':(user.rank>=2), 'no-left-margin':(user.rank>=2)}"><i class="icon-pencil"></i> Poster</span>
                                     <span class="user-key" ng-class="{'span4':(user.rank<2), 'span6':(user.rank>=2)}"><i class="icon-user"></i> Commenter</span>
                                 </div>
-                                Search: <input ng-model = "query">
-                                <br />
+                                <form class="form-horizontal">
+                                    <div class="control-group">
+                                        <label class="control-label" for="searchQuery">Search:</label>
+                                        <div class="controls">
+                                            <input type="text" id="searchQuery" ng-model="query">
+                                        </div>
+                                    </div>
+                                </form>
                                 <table class="table">
                                     <tr ng-repeat="siteUser in allViewableUsers | filter: query" ng-mouseover = "showButtons = 1" ng-mouseleave = "showButtons = 0">
-                                        <td><i ng-show="siteUser.rank==2" class="icon-star"></i><i ng-show="siteUser.rank==3" class="icon-pencil"></i><i ng-show="siteUser.rank>3" class="icon-user"></i></td>
-                                        <td> {{siteUser.username}} <span ng-show="siteUser.fName || siteUser.lName">({{ ((siteUser.fName || ' ') + ' ' + (siteUser.lName || ' ')).trim() }})</span></td>
-                                        <td><button class="btn btn-mini" ng-click = "adminUserEdit(siteUser)"><i class="icon-edit"></i> Edit</button>
-                                            <button class="btn btn-mini btn-danger" ng-click = "adminUserDelete(siteUser)"><i class="icon-trash icon-white"></i> Delete</button></td>
+                                        <td class="userList-rank"><i ng-show="siteUser.rank==2" class="icon-star"></i><i ng-show="siteUser.rank==3" class="icon-pencil"></i><i ng-show="siteUser.rank>3" class="icon-user"></i></td>
+                                        <td class="userList-name"> {{siteUser.username}} <span ng-show="siteUser.fName || siteUser.lName">({{ ((siteUser.fName || ' ') + ' ' + (siteUser.lName || ' ')).trim() }})</span></td>
+                                        <td class="userList-actions"><div class="pull-right"><button class="btn btn-mini" ng-click = "adminUserEdit(siteUser)"><i class="icon-edit"></i> Edit</button>
+                                            <button class="btn btn-mini btn-danger" ng-click = "adminUserDelete(siteUser._id)"><i class="icon-trash icon-white"></i> Delete</button></div></td>
                                     </tr>
                                 </table>
                                 <!--

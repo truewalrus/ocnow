@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user', '$location', '$http', 'uploadService', '$rootScope', function ($scope, user, $location, $http, uploadService, $rootScope){
+angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user', '$location', '$http', 'uploadService', '$rootScope', 'page', function ($scope, user, $location, $http, uploadService, $rootScope, page){
+    page.setPage('Profile');
+
     var RANK_SITEADMIN = 1;
     var RANK_ADMIN = 2;
     var RANK_POSTER = 3;
@@ -121,13 +123,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         //show users admin can see
         $scope.allViewableUsers = '';
         if($scope.admin >=1){
-            $http.get('/api/user/allUsers').
-                success(function(data){
-                    $scope.allViewableUsers = data;
-                }).
-                error(function(data){
-                    console.log(data);
-                });
+            adminUpdateUserList();
         }
 
         $scope.unpublishedPosts = '';
@@ -173,6 +169,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.saveUserInfoNoImg = function(_id, fname, lname, img){
         user.updateUser(_id, fname, lname, img,
             function(data){
+                if (_id != user._id) { adminUpdateUserList(); }
               //  console.log("success" + data);
             },
             function(data){
@@ -220,11 +217,23 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             uploadService.send($scope.files[0]);
         }
     };
+
+    var adminUpdateUserList = function() {
+        $http.get('/api/user/allUsers').
+            success(function(data){
+                $scope.allViewableUsers = data;
+            }).
+            error(function(data){
+                console.log(data);
+            });
+    };
+
     $scope.adminUserDelete = function(id){
         if($scope.admin >=1){
             user.deleteUser(id,
                 function(data) {
                     console.log("user deleted");
+                    adminUpdateUserList();
                 },
                 function(data) {
                     console.log(data);
@@ -262,6 +271,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 
             user.updateUser($scope.imgUploadID, $scope.fName, $scope.lName, response,
                 function(data){
+                    if ($scope.imgUploadID != user._id) { adminUpdateUserList(); }
                     //console.log("success" + data);
                 },
                 function(data){
@@ -271,10 +281,15 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         }
     });
 
+    if (!$scope.checkingSession && !$scope.loggedIn) { $location.path('/sign-in'); }
+    $scope.$on('user:loggedOut', function(event) {
+        $location.path('/sign-in');
+    });
+
     $scope.logOut = function(){
         user.logout(
             function(data){
-                $location.url('/home');
+                $location.path('/sign-in');
                 $scope.username = '';
                 $scope.loggedIn = false;
             },

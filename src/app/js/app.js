@@ -3,7 +3,7 @@
 // Declare app level module which depends on filters, and services
 
 var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.services', 'myApp.controllers', 'ngCookies']);
- app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+ app.config(['$routeProvider', '$locationProvider', 'pageProvider', function($routeProvider, $locationProvider, pageProvider) {
 
 	// angular front end routes
 	$routeProvider.when('/sign-in', {templateUrl: '/partials/sign-in.html'});
@@ -11,17 +11,29 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.s
     $routeProvider.when('/home', {templateUrl: '/partials/home.html'});
     $routeProvider.when('/new-post', {templateUrl: '/partials/new-post.html'});
     $routeProvider.when('/profile', {templateUrl: '/partials/profile.html'});
+    $routeProvider.when('/profile/:id', {templateUrl: '/partials/view-profile.html'});
     $routeProvider.when('/new-vid', {templateUrl: '/partials/new-vid.html'});
     $routeProvider.when('/article/:id', {templateUrl:"/partials/view-post.html"});
     $routeProvider.when('/search', {templateUrl: "/partials/search.html"});
     $routeProvider.otherwise({redirectTo: '/home'});
+
+     console.log("Provider:");
+     console.log(pageProvider);
 	
 	// fix to remove '#' from url strings in browser
 	/*
 		IE 10 is oldest IE that html5mode will work on
 	*/
 	$locationProvider.html5Mode(true);
+
+     pageProvider.setSiteName('My OC Now');
   }]);
+
+//angular.module('myApp.services', []).config(['pageProvider', function(pageProvider) {
+//    console.log("Inside configuration");
+//    console.log(pageProvider);
+//    pageProvider.setSiteName('My OC Now');
+//}]);
 
 app.run(['$rootScope', function($rootScope) {
     $rootScope.$safeApply = function(fn) {
