@@ -1,6 +1,5 @@
 <div ng-controller="SignInCtrl">
-
-	<div ng-show="!loggedIn">
+	<div class="signin-wrapper">
 		<h1 ng-show="signingIn">Sign In</h1>
 		<h1 ng-show="!signingIn">Sign Up</h1>
 
@@ -23,12 +22,4 @@
 	</div>
 	
 	<div class="alert alert-error" ng-show="errMsg" ng-bind="errMsg"></div>
-	
-	<div ng-show="loggedIn">
-		Logged in as <span ng-bind="userName"></span>
-		<button ng-click="deleteUser()">Delete User</button>
-	</div>
-
-	<button ng-click="logOut()" ng-show="loggedIn">Log out</button>
-	
 </div>

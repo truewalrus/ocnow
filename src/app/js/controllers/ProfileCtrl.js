@@ -3,6 +3,11 @@
 angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user', '$location', '$http', 'uploadService', '$rootScope', 'page', function ($scope, user, $location, $http, uploadService, $rootScope, page){
     page.setPage('Profile');
 
+    if (!$scope.checkingSession && !$scope.loggedIn) { return $location.path('/sign-in').replace(); }
+    $scope.$on('user:loggedOut', function(event) {
+        return $location.path('/sign-in').replace();
+    });
+
     var RANK_SITEADMIN = 1;
     var RANK_ADMIN = 2;
     var RANK_POSTER = 3;
@@ -281,17 +286,12 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         }
     });
 
-    if (!$scope.checkingSession && !$scope.loggedIn) { $location.path('/sign-in'); }
-    $scope.$on('user:loggedOut', function(event) {
-        $location.path('/sign-in');
-    });
-
     $scope.logOut = function(){
         user.logout(
             function(data){
-                $location.path('/sign-in');
                 $scope.username = '';
                 $scope.loggedIn = false;
+                return $location.path('/sign-in').replace();
             },
             function(data){
                 console.log(data);

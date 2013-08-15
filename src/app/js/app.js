@@ -11,14 +11,11 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.s
     $routeProvider.when('/home', {templateUrl: '/partials/home.html'});
     $routeProvider.when('/new-post', {templateUrl: '/partials/new-post.html'});
     $routeProvider.when('/profile', {templateUrl: '/partials/profile.html'});
-    $routeProvider.when('/profile/:id', {templateUrl: '/partials/view-profile.html'});
+    $routeProvider.when('/user/:id', {templateUrl: '/partials/view-profile.html'});
     $routeProvider.when('/new-vid', {templateUrl: '/partials/new-vid.html'});
     $routeProvider.when('/article/:id', {templateUrl:"/partials/view-post.html"});
     $routeProvider.when('/search', {templateUrl: "/partials/search.html"});
     $routeProvider.otherwise({redirectTo: '/home'});
-
-     console.log("Provider:");
-     console.log(pageProvider);
 	
 	// fix to remove '#' from url strings in browser
 	/*
@@ -26,6 +23,7 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.s
 	*/
 	$locationProvider.html5Mode(true);
 
+     // Set the base site name for the title-change service.
      pageProvider.setSiteName('My OC Now');
   }]);
 

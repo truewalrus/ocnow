@@ -6,10 +6,10 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
 //	$scope.user = {};
 //	$scope.loggedIn = false;
 
+    if (!$scope.checkingSession && $scope.loggedIn) { return $location.path('/profile').replace(); }
+
     $scope.$on('userLoggedIn', function() {
-      //  $scope.loggedIn = true;
-      //  $scope.userName = iUser.getUser().username;
-        //console.log(iUser.getUser());
+        return $location.path('/profile').replace();
     });
 	
 	var clearUser = function(clearPassOnly) {
@@ -25,18 +25,18 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
 		$scope.errMsg = null;
 	};
 	
-	var checkSession = function() {
-		iUser.checkSession(
-			function(data) {
-			//	$scope.loggedIn = true;
-			//	$scope.userName = data.username;
-			},
-			function(data) {
-			//	$scope.loggedIn = false;
-			}
-		);
-	};
-	checkSession();
+//	var checkSession = function() {
+//		iUser.checkSession(
+//			function(data) {
+//			//	$scope.loggedIn = true;
+//			//	$scope.userName = data.username;
+//			},
+//			function(data) {
+//			//	$scope.loggedIn = false;
+//			}
+//		);
+//	};
+//	checkSession();
 	
 	$scope.showSignIn = function() {
 		clearErrMsg();
@@ -64,7 +64,6 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
 		
 		iUser.login($scope.user.username, $scope.user.pw, function(data) {
 			console.log('logged in!');
-            $location.url('/profile');
 			clearUser();
 		},
 		function(data) {
@@ -92,31 +91,31 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
 		});
 	};
 	
-	$scope.logOut = function() {
-		iUser.logout(
-			function() {
-				console.warn('logout successful!');
-				$scope.userName = '';
-			//	$scope.loggedIn = false;
-			},
-			function() {
-				console.warn('logout failed!');
-			}
-		);
-	};
+//	$scope.logOut = function() {
+//		iUser.logout(
+//			function() {
+//				console.warn('logout successful!');
+//				$scope.userName = '';
+//			//	$scope.loggedIn = false;
+//			},
+//			function() {
+//				console.warn('logout failed!');
+//			}
+//		);
+//	};
 	
-	$scope.deleteUser = function() {
-		iUser.deleteUser(iUser._id,
-			function(data) {
-				console.log(data.message);
-				checkSession();
-				clearUser();
-				clearErrMsg();
-			},
-			function(data) {
-				console.log(data.message);
-			}
-		);
-	};
+//	$scope.deleteUser = function() {
+//		iUser.deleteUser(iUser._id,
+//			function(data) {
+//				console.log(data.message);
+//				checkSession();
+//				clearUser();
+//				clearErrMsg();
+//			},
+//			function(data) {
+//				console.log(data.message);
+//			}
+//		);
+//	};
 	
 }]);

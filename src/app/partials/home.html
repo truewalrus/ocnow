@@ -8,7 +8,7 @@
 
                 <div class = "span10">
                     <h2><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h2>
-                    <p>Posted by <a href = '#'>{{ post.name}}</a> at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</p>
+                    <p>Posted by <a href = '#' ng-click="viewAuthorProfile(post.uid)">{{ post.name}}</a> at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</p>
                     <p ng-bind-html-unsafe="post.article"></p>
                 </div>
             </div>

@@ -1,0 +1,62 @@
+<div ng-controller = "ViewProfileCtrl">
+    <div class = "container-fluid">
+        <div class = "row-fluid">
+            <legend> Profile: {{userInfo.username}} <span ng-show="userInfo.fName || userInfo.lName">({{ ((userInfo.fName || '') + ' ' + (userInfo.lName || '')).trim() }})</span></legend>
+        </div>
+
+        <div class = "row-fluid">
+            <div class = "span3">
+                <div class = "well well-small">
+                    <div class = "row-fluid">
+                        <img ng-src = "{{userInfo.img}}" alt = "Profile" />
+                    </div>
+                    <ul class = "nav nav-tabs nav-stacked">
+                        <li><a href = "#" ng-click = "viewPosts()">Posts</a></li>
+                        <li><a href = "#" ng-click = "viewComments()">Comments</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class = "span9">
+                <div class = "well well-small" ng-switch="currentView">
+                    <div ng-switch-when="posts">
+                        <legend class="no-margin-legend">Posts</legend>
+                        <table class="table no-top-table">
+                            <tr ng-repeat="post in posts">
+                                <td class="media">
+                                    <a class="pull-left" href="#">
+                                        <img class="media-object article-thumbnail" ng-src = "{{post.img}}" alt = "not important"/>
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h4>
+                                        <span class="article-byline">Posted at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</span>
+                                        <p class="article-summary" ng-bind-html-unsafe="post.article"></p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div ng-switch-when="comments">
+                        <legend>Comments</legend>
+                        <table class="table no-top-table">
+                            <tr ng-repeat="comment in comments">
+                                <td class="media">
+                                <!--    <a class="pull-left" href="#">
+                                        <img class="media-object article-thumbnail" ng-src = "{{post.img}}" alt = "not important"/>
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h4>
+                                        <span class="article-byline">Posted at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</span>
+                                        <p class="article-summary" ng-bind-html-unsafe="post.article"></p>
+                                    </div>-->
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

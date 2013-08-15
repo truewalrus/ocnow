@@ -34,5 +34,7 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
         $location.url('/article/' + postId);
     };
 
-
+    $scope.viewAuthorProfile = function(authorId) {
+        $location.path('/user/' + authorId);
+    };
 }]);

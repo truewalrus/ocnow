@@ -38,7 +38,6 @@ collections.push(function(err, db) {
 });
 
 function users_findById(id, fn) {
-    console.log("Finding by ID");
     db_connector.collection('users', function(err, collection) {
         collection.find({'_id': ObjectID(id)}).toArray(function(err, items) {
             if (err) { return fn(err); }
@@ -301,6 +300,23 @@ function ensureAuthentication(request, response, next) {
     return next();
 }
 
+function users_findUserById(request, response) {
+    db_connector.collection('users', function(error, users) {
+        if (error) { return console.error(error); }
+
+        users.findOne({'_id': ObjectID(request.params._id)}, function(error, matched) {
+            if (error) { return console.error(error); }
+
+            if (matched) {
+                return response.send(200, { user: users_cleanUserObject(matched) });
+            }
+            else {
+                return response.send(404, "User not found.");
+            }
+        });
+    });
+}
+
 /* ALL DIS STUFF BE COOL */
 routing.push(function(app) {
 	app.get('/api/user', ensureAuthentication, users_userInfo);
@@ -308,6 +324,8 @@ routing.push(function(app) {
 	app.get('/api/user/fname/:fname', users_findUserByFname);
 
 	app.get('/api/user/age/:age', users_findUserByAge);
+
+    app.get('/api/user/id/:_id', users_findUserById);
 
 	app.get('/api/user/logout', users_userLogout);
 
