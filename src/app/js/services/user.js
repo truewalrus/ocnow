@@ -77,9 +77,24 @@ angular.module("myApp.services")
 					error(data);
 				});
 		};
+
+        this.deleteUser = function(_id, success, error){
+            $http.post('/api/user/delete', {'_id': _id}).
+                success(function(data){
+                    if(_id === $rootScope.user._id){
+                        $rootScope.user = false;
+                        $rootScope.loggedIn = false;
+                        console.log("did i get into here?");
+                    }
+                    success(data);
+                }).
+                error(function(data){
+                    error(data);
+                });
+        };
 		
 		
-		this.deleteLoggedIn = function(success, error) {
+		/*this.deleteLoggedIn = function(success, error) {
 			$http.get('/api/user/delete').
 				success(function(data) {
 					success(data);
@@ -87,6 +102,6 @@ angular.module("myApp.services")
 				error(function(data) {
 					error(data);
 				});
-		};
+		};*/
 
 }]);

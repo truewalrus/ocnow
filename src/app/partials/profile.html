@@ -125,7 +125,7 @@
                                         <div ng-mouseover = "showButtons = 1" ng-mouseleave = "showButtons = 0">
                                             <i ng-show="user.rank==2" class="icon-star"></i><i ng-show="user.rank==3" class="icon-star-empty"></i><i ng-show="user.rank>3" class="icon-user"></i> {{user.username}} <span ng-show="user.fName || user.lName">({{ ((user.fName || ' ') + ' ' + (user.lName || ' ')).trim() }})</span>
                                             <button class="btn btn-mini" ng-click = "adminUserEdit(user)" ng-show = "showButtons"><i class="icon-edit"></i> Edit</button>
-                                            <button class="btn btn-mini btn-danger" ng-click = "adminUserDelete(user)" ng-show = "showButtons"><i class="icon-trash icon-white"></i> Delete</button>
+                                            <button class="btn btn-mini btn-danger" ng-click = "adminUserDelete(user._id)" ng-show = "showButtons"><i class="icon-trash icon-white"></i> Delete</button>
                                         </div>
                                     </li>
                                 </ul>

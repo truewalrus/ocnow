@@ -138,10 +138,10 @@ function users_userInfo(request, response) {
 }
 
 function users_userDelete(request, response) {
-
+    if (request.body._id != request.user._id && !canUpdateUser(request.user.rank)) { return response.send("User does not have permission to update this user.", 401); }
 
     db_connector.collection('users', function(err, collection) {
-        collection.remove({'id': request.user.id}, function(err) {
+        collection.remove({'_id':  ObjectID(request.body._id)}, function(err) {
             if (err) {
                 console.log('error here: ' + err);
                 response.send({'message':'Failed to delete user'}, 401);
@@ -296,8 +296,6 @@ routing.push(function(app) {
 
 	app.get('/api/user/logout', users_userLogout);
 
-	app.get('/api/user/delete', users_userDelete);
-
     app.get('/api/user/allUsers', ensureAuthentication, users_allUsers);
 
     app.get('/api/user/clear', clearDatabase);
@@ -323,4 +321,6 @@ routing.push(function(app) {
 	app.post('/api/user/create', users_createUser);
 
     app.post('/api/user/updateUser', ensureAuthentication, users_updateUser);
+
+    app.post('/api/user/delete', ensureAuthentication, users_userDelete);
 });
