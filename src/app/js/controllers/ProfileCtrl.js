@@ -35,7 +35,6 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.img = $scope.user.img;
         $scope.username = $scope.user.username;
         $scope.admin = ($scope.user.rank < RANK_POSTER); //CHECK TO SEE IF USER IS AN ADMIN
-        console.log($scope.user.rank);
 
         //get Posts related ot this user
         $http.get('/api/articles/getAll/'+$scope.user._id).
@@ -177,6 +176,29 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             }
         );
     };
+    $scope.oldPW = '';
+    $scope.newPW = '';
+    $scope.confirmNew = '';
+    $scope.changePassword = function(){
+        if($scope.confirmNew === $scope.newPW){
+            user.changePassword($scope.user._id, $scope.oldPW, $scope.newPW,
+                function(data){
+                    console.log(data);
+                },
+                function(data){
+                    console.log("failure");
+                    console.log(data);
+                });
+        }
+        else {
+            console.log("passwords do not match");
+        }
+
+        $scope.oldPW = '';
+        $scope.newPW = '';
+        $scope.confirmNew = '';
+
+    };
 
     //ADMIN ACCOUNT CONTROL (AAC)
     $scope.adminUsers = function(){
@@ -209,12 +231,26 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.AAC = 2;
     };
     $scope.adminSaveUserInfo = function(){
-        if($scope.files.length === 0){
+        if($scope.AACFiles.length === 0){
             $scope.saveUserInfoNoImg($scope.AACid, $scope.AACFName, $scope.AACLName, '');
         }
         else{
             $scope.imgUploadID = $scope.AACid;
-            uploadService.send($scope.files[0]);
+            uploadService.send($scope.AACFiles[0]);
+        }
+
+        if($scope.AACpassword){
+            console.log($scope.AACpassword);
+            user.changePassword($scope.AACid, '', $scope.AACpassword,
+                function(data){
+                    console.log(data);
+                    $scope.AACpassword = '';
+                },
+                function(data){
+                    console.log("failure");
+                    console.log(data);
+                    $scope.AACpassword = '';
+                });
         }
     };
 

@@ -23,11 +23,11 @@
         </div>
     </div>
     <div class = "well well-small">
-        <div ng-hide = "loggedIn">Please log in to view comments</div>
-        <div ng-hide = "!loggedIn">
+        <div ng-hide = "loggedIn">Please <a ng-href = '/sign-in'>log in</a> to post comments.</div>
+        <div class = "container-fluid" ng-hide = "!loggedIn">
             <form ng-submit = "postComment()">
-                <textarea ng-model = "content" required></textarea>
-                <button type = "submit">Post SHOUT</button>
+                <textarea class = "row-fluid" ng-model = "content" required></textarea>
+                <button type = "submit">Post comment</button>
             </form>
         </div>
         <ul class = "unstyled">

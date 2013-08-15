@@ -137,7 +137,7 @@
                                     </div>
                                 </form>
                                 <table class="table">
-                                    <tr ng-repeat="siteUser in allViewableUsers | filter: query" ng-mouseover = "showButtons = 1" ng-mouseleave = "showButtons = 0">
+                                    <tr ng-repeat="siteUser in allViewableUsers | filter: query">
                                         <td class="userList-rank"><i ng-show="siteUser.rank==2" class="icon-star"></i><i ng-show="siteUser.rank==3" class="icon-pencil"></i><i ng-show="siteUser.rank>3" class="icon-user"></i></td>
                                         <td class="userList-name"> {{siteUser.username}} <span ng-show="siteUser.fName || siteUser.lName">({{ ((siteUser.fName || ' ') + ' ' + (siteUser.lName || ' ')).trim() }})</span></td>
                                         <td class="userList-actions"><div class="pull-right"><button class="btn btn-mini" ng-click = "adminUserEdit(siteUser)"><i class="icon-edit"></i> Edit</button>
@@ -188,7 +188,7 @@
                                     <div class = "control-group">
                                         <label class = "control-label" for = "AACPW">Change Password: </label>
                                         <div class = "controls">
-                                            <input type = "text" id = "AACPW" ng-model = "AACPassword" file-change>
+                                            <input type = "password" id = "AACPW" ng-model = "AACpassword">
                                         </div>
                                     </div>
 
@@ -278,20 +278,20 @@
                                             <div class = "control-group">
                                                 <label class = "control-label" for = "origPW">Current Password: </label>
                                                 <div class = "controls">
-                                                    <input type = "text" id = "origPW">
+                                                    <input type = "password" id = "origPW" ng-model = "oldPW">
                                                     <span class = "help-block"><a href = "#">Forgot your password?</a></span>
                                                 </div>
                                             </div>
                                             <div class = "control-group">
                                                 <label class = "control-label" for = "newPW">New Password: </label>
                                                 <div class = "controls">
-                                                    <input type = "text" id = "NewPW">
+                                                    <input type = "password" id = "NewPW" ng-model = "newPW">
                                                 </div>
                                             </div>
                                             <div class = "control-group">
                                                 <label class = "control-label" for = "confirmPW">Confirm New Password: </label>
                                                 <div class = "controls">
-                                                    <input type = "text" id = "confirmPW">
+                                                    <input type = "password" id = "confirmPW" ng-model = "confirmNew">
                                                 </div>
                                             </div>
                                             <div class = "control-group">
