@@ -45,10 +45,7 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
         }
         else
         {
-            for (var i = 0, length = $scope.files.length; i < length; i++) {
-                // Hand file off to uploadService.
-                uploadService.send($scope.files[i], 'article');
-            }
+            uploadService.send($scope.files[0], 'article');
         }
 
 

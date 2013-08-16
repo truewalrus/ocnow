@@ -26,6 +26,7 @@ angular.module('myApp.services')
 //                };
                 // Send to server, where we can then access it with $_FILES['file].
                 data.append('file', file, file.name);
+                data.append('test','word');
                 console.log("Upload Service: Uploading %s", file.name);
                 xhr.open('POST', '/api/upload/' + type + '/uploadFile');
                 xhr.send(data);

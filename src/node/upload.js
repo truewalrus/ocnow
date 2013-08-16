@@ -1,5 +1,26 @@
 var formidable = require('formidable');
 
+function upload_parseForm(request, uploadPath, callback) {
+    var form = new formidable.IncomingForm();
+
+    form.uploadDir = uploadPath;
+    form.keepExtensions = true;
+
+    form.on('error', function(error) {
+        console.error(error);
+    });
+
+    request.delayedStream.resume();
+
+    form.parse(request.delayedStream.source, function(error, fields, files) {
+        if (error) { return callback(error); }
+
+        return callback(null, { body: fields, fileName: files.file.name });
+    });
+
+    return;
+}
+
 function upload_parseUpload (req, res){
     var form = new formidable.IncomingForm();
 
