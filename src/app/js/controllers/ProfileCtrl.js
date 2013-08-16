@@ -166,6 +166,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         }
     };
     $scope.saveUserInfoNoImg = function(_id, fname, lname, img){
+        console.log("current Id" + _id);
         user.updateUser(_id, fname, lname, img,
             function(data){
                 if (_id != user._id) { adminUpdateUserList(); }

@@ -23,19 +23,29 @@
         </div>
     </div>
     <div class = "well well-small">
+
         <div ng-hide = "loggedIn">Please <a ng-href = '/sign-in'>log in</a> to post comments.</div>
-        <div class = "container-fluid" ng-hide = "!loggedIn">
+        <div class = "row-fluid" ng-hide = "!loggedIn">
             <form ng-submit = "postComment()">
-                <textarea class = "row-fluid" ng-model = "content" required></textarea>
+                <textarea class = "span12" ng-model = "content" required></textarea>
                 <button type = "submit">Post comment</button>
             </form>
         </div>
-        <ul class = "unstyled">
-            <li class = "row-fluid" ng-repeat = "comment in comments">
-               <div class = "span2"> <img ng-src = " {{ comment.img}}"> </div>
-                <div class = "span10"><a href = #>{{ comment.username }}</a> said, "{{ comment.content }}" on {{ extractDate(comment.date)}} </div>
-            </li>
-        </ul>
+        <div class = "row-fluid">
+            <ul class = "unstyled">
+                <li class = "row-fluid comment-list" ng-repeat = "comment in comments">
+                    <div class = "span2 comment-center"> <img class = "img-polaroid comment-img" ng-src = " {{ comment.img}}"> </div>
+                    <div class = "span10">
+                        <div class = "comment-username" class = "span12">
+                            <a href = #>{{ comment.username }}</a> <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
+                        </div>
+                        {{ comment.content }}
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
     </div>
 
 </div>
