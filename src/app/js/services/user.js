@@ -89,8 +89,17 @@ angular.module("myApp.services")
                     if(_id === $rootScope.user._id){
                         $rootScope.user = false;
                         $rootScope.loggedIn = false;
-                        console.log("did i get into here?");
                     }
+                    success(data);
+                }).
+                error(function(data){
+                    error(data);
+                });
+        };
+
+        this.changePassword = function(_id, oldPW, newPW, success, error){
+            $http.post('/api/user/changePassword', {'_id':_id, 'password':oldPW, 'newPassword': newPW}).
+                success(function(data){
                     success(data);
                 }).
                 error(function(data){

@@ -24,7 +24,7 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.s
 	$locationProvider.html5Mode(true);
 
      // Set the base site name for the title-change service.
-     pageProvider.setSiteName('My OC Now');
+    pageProvider.setSiteName('My OC Now');
   }]);
 
 //angular.module('myApp.services', []).config(['pageProvider', function(pageProvider) {

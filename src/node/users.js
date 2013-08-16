@@ -186,6 +186,35 @@ function users_createUser(request, response){
     });
 }
 
+function users_changePassword(request, response){
+
+
+    if(request.body._id != request.user._id){
+        if (!canUpdateUser(request.user.rank)){
+            return response.send("User does not have permission to update this user.", 401);
+        }
+    }
+    else{
+        if(!bcrypt.compareSync(request.body.password, request.user.password)){
+            return response.send("Incorrect password, ask an admin for assistance.", 401);
+        }
+    }
+
+    var salt = bcrypt.genSaltSync();
+    var password = bcrypt.hashSync(request.body.newPassword, salt);
+
+    db_connector.collection('users', function (err, collection){
+        collection.update({'_id': ObjectID(request.body._id)}, {$set:{'password':password}}, function(err, data){
+            if (err){
+                response.send("Failure to update data", 401);
+            }
+            else{
+                response.send(200);
+            }
+        });
+    });
+}
+
 function users_checkSession(request,response){
     response.send(users_cleanUserObject(request.user));
 }
@@ -356,4 +385,6 @@ routing.push(function(app) {
     app.post('/api/user/updateUser', ensureAuthentication, users_updateUser);
 
     app.post('/api/user/delete', ensureAuthentication, users_userDelete);
+
+    app.post('/api/user/changePassword', ensureAuthentication, users_changePassword);
 });
