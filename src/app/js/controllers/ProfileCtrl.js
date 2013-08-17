@@ -208,6 +208,9 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.adminPosts = function(){
         $scope.adminView = 1;
     };
+    $scope.adminComments = function(){
+        $scope.adminView = 2;
+    };
     $scope.setCreate = function(){
         $scope.AAC = 0;
     };

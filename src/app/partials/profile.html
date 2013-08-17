@@ -69,10 +69,12 @@
                                 <ul class = "nav nav-tabs">
                                     <li ng-click = "adminUsers()" ng-class = "{active: adminView == 0}"><a href = '#'>Users</a></li>
                                     <li ng-click = "adminPosts()" ng-class = "{active: adminView == 1}"><a href = '#'>Posts</a></li>
+                                    <li ng-click = "adminComments()" ng-class = "{active: adminView ==2}"><a href = '#'>Comments</a></li>
                                 </ul>
                             </div>
                             <span ng-show = "adminView == 0">Edit Users</span>
                             <span ng-show = "adminView == 1">Unpublished Posts</span>
+                            <span ng-show = "adminView == 2">Flagged Comments</span>
                         </legend>
                         <div ng-show = "adminView == 0" class = "tabbable">
                             <ul class = "nav nav-tabs">
@@ -220,6 +222,22 @@
                                             <button ng-click = "publish(post._id)">Publish</button>
                                         </div>
 
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--end admin post settings-->
+
+                        <!--admin comment settings-->
+                        <div ng-show = "adminView == 2">
+                            <ul class = "unstyled">
+                                <li class = "row-fluid comment-list" ng-repeat = "comment in comments">
+                                    <div class = "span2 comment-center"> <img ng-show = "comment.img" class = "img-polaroid comment-img" ng-src = " {{ comment.img}}"> </div>
+                                    <div class = "span10">
+                                        <div class = "comment-username" class = "span12">
+                                            <a href = #>{{ comment.username }}</a> <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
+                                        </div>
+                                        {{ comment.content }}
                                     </div>
                                 </li>
                             </ul>

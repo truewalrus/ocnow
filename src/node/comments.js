@@ -77,8 +77,23 @@ function comments_addComment(request, response){
 
 }
 
+function comments_flagComment(request, response){
+    db_connector.collection('comments', function(err, comments) {
+        comments.update({'_id': request.body._id}, {$set: {'flagged': request.body.flagged}}, function(err, data){
+            if(err){
+                response.send(500);
+            }
+            else{
+                console.log("Comment flagged/unflagged");
+                response.send(200);
+            }
+        });
+    });
+}
+
 
 routing.push(function(app) {
-    app.get('/api/comments/:articleId', comments_getComments);
-    app.post('/api/comments/:articleId', comments_addComment);
+    app.post('/api/comments/flagComment', ensureAuthentication, comments_flagComment);
+    app.get('/api/comments/get/:articleId', comments_getComments);
+    app.post('/api/comments/add/:articleId', comments_addComment);
 });

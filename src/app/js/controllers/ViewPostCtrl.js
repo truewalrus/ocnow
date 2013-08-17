@@ -20,7 +20,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
     }
 
     $scope.postComment = function(){
-        $http.post('/api/comments/' +$routeParams.id, {"uId":$scope.user._id, "content": $scope.content}).
+        $http.post('/api/comments/add/' +$routeParams.id, {"uId":$scope.user._id, "content": $scope.content}).
             success(function(data){
                 $scope.getComments();
             }).
@@ -32,7 +32,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
     $scope.comments = [];
 
     $scope.getComments = function(){
-        $http.get('/api/comments/' +$routeParams.id).
+        $http.get('/api/comments/get/' +$routeParams.id).
             success(function(data){
                 $scope.comments = data;
             }).
@@ -41,6 +41,16 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
             });
     };
     $scope.getComments();
+
+    $scope.reportComment = function(_id) {
+        $http.post('/api/comments/flagComment', {"_id":_id, "flagged": 'true'}).
+            success(function(data){
+                console.log("flagged");
+            }).
+            error(function(err){
+                console.error(err);
+            });
+    };
 
     $scope.extractDate = function(time) {
         var d = new Date(time);
