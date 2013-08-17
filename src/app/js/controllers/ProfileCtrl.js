@@ -160,9 +160,10 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     };
     $scope.showChangePP = function(){
         $scope.showChangeProfilePic = !$scope.showChangeProfilePic;
+        $scope.files = [];
     };
     $scope.saveUserInfo = function(){
-        user.updateUser($scope.user._id, $scope.fName, $scope.lName, $scope.files[0]);
+        user.updateUser($scope.user._id, $scope.fName, $scope.lName, $scope.files[0], function(){$scope.files=[];}, function(){});
 
 //        if($scope.files.length === 0){
 //            $scope.saveUserInfoNoImg($scope.user._id, $scope.fName, $scope.lName, $scope.img);
@@ -235,14 +236,14 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.AACpassword = '';
     $scope.AACFName = '';
     $scope.AACLName = '';
-    $scope.AACFiles = [];
+    //$scope.AACFiles = [];
     $scope.adminUserEdit = function(user){
         $scope.AACpassword = '';
         $scope.AACFName = user.fName;
         $scope.AACLName = user.lName;
         $scope.AACUsername = user.username;
         $scope.AACid = user._id;
-        $scope.AACFiles = [];
+        $scope.files = [];
 
         $scope.AAC = 2;
     };
@@ -255,18 +256,10 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 //            $scope.imgUploadID = $scope.AACid;
 //            uploadService.send($scope.AACFiles[0]);
 //        }
-
-        if ($scope.AACFiles.length > 0) {
-            console.log("Saving user info with image: ", $scope.AACFiles);
-            $scope.imgUploadID = $scope.AACid;
-            user.updateUser($scope.AACid, $scope.AACFName, $scope.AACLName, $scope.AACFiles);
-        }
-        else {
-            user.updateUser($scope.AACid, $scope.AACFName, $scope.AACLName);
-        }
+        user.updateUser($scope.AACid, $scope.AACFName, $scope.AACLName, $scope.files[0], function(){$scope.files = [];}, function(){});
 
         if($scope.AACpassword){
-            console.log($scope.AACpassword);
+           // console.log($scope.AACpassword);
             user.changePassword($scope.AACid, '', $scope.AACpassword,
                 function(data){
                     console.log(data);

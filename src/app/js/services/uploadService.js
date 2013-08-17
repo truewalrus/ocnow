@@ -36,7 +36,10 @@ angular.module('myApp.services')
                 var xhr = new JSONHttpRequest();
 
                 if (file) {
+                    console.log("here's the error I'm looking for");
+                    console.log(file === []);
                     data.append('file', file, file.name);
+                    console.log('after');
                 }
 
                 for (var attr in form) {

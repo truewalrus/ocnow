@@ -47,7 +47,7 @@ angular.module("myApp.services")
             console.log("img: ", img);
 
             upload.upload('/api/user/update/' + _id, userInfo, img, function(response) {
-                if ($rootScope.user._id == _id) { updateUserInfo(response.user); }
+                if ($rootScope.user._id == _id) { updateUserInfo(response); }
 
                 success(response);
             }, error);
