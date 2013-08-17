@@ -79,13 +79,54 @@ function comments_addComment(request, response){
 
 function comments_flagComment(request, response){
     db_connector.collection('comments', function(err, comments) {
-        comments.update({'_id': request.body._id}, {$set: {'flagged': request.body.flagged}}, function(err, data){
+        comments.update({'_id': ObjectID(request.body._id)}, {$set: {'flagged': request.body.flagged}}, function(err, data){
             if(err){
                 response.send(500);
             }
             else{
-                console.log("Comment flagged/unflagged");
                 response.send(200);
+            }
+        });
+    });
+}
+
+function comments_getFlagged(request, response){
+    db_connector.collection('comments', function(err, comments) {
+        comments.find({'flagged': true}).toArray(function(err, data) {
+            if(err){
+                response.send(500);
+            }
+            else
+            {
+                var userIdTable = [];
+                for(var i = 0; i < data.length; i++){
+                    userIdTable.push(ObjectID(data[i].uId));
+                }
+
+                users_findByIds(userIdTable, function (userInfo){
+                    if (userInfo)
+                    {
+                        var hashedUser = {};
+                        for (var i = 0; i < userInfo.length; i++){
+                            hashedUser[String(userInfo[i]._id)] = i;
+
+
+                        }
+
+                        for(var i = 0; i < data.length; i++){
+                            var user = userInfo[hashedUser[data[i].uId]];
+
+
+                            data[i].username = user.username;
+                            data[i].img = user.img;
+                        }
+                    }
+
+
+                    response.send(data);
+
+                });
+
             }
         });
     });
@@ -93,7 +134,8 @@ function comments_flagComment(request, response){
 
 
 routing.push(function(app) {
-    app.post('/api/comments/flagComment', ensureAuthentication, comments_flagComment);
     app.get('/api/comments/get/:articleId', comments_getComments);
+    app.get('/api/comments/getFlagged', comments_getFlagged);
     app.post('/api/comments/add/:articleId', comments_addComment);
+    app.post('/api/comments/flagComment', ensureAuthentication, comments_flagComment);
 });

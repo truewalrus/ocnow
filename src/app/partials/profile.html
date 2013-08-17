@@ -231,13 +231,13 @@
                         <!--admin comment settings-->
                         <div ng-show = "adminView == 2">
                             <ul class = "unstyled">
-                                <li class = "row-fluid comment-list" ng-repeat = "comment in comments">
+                                <li class = "row-fluid comment-list" ng-repeat = "comment in flaggedComments">
                                     <div class = "span2 comment-center"> <img ng-show = "comment.img" class = "img-polaroid comment-img" ng-src = " {{ comment.img}}"> </div>
                                     <div class = "span10">
                                         <div class = "comment-username" class = "span12">
-                                            <a href = #>{{ comment.username }}</a> <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
+                                            <a href = #>{{ comment.username }}</a> in <a ng-click = "viewPost(comment.articleId)" href = '#'>this</a> article <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
                                         </div>
-                                        {{ comment.content }}
+                                        <div class = "comment-profile-content">{{ comment.content }}</div> <div class = "comment-profile-icons"><i ng-click = "unflagComment(comment._id)" title = "Unflag this comment" class = "profile-icon icon-ok"></i><i ng-click = "" title = "Delete this comment" class = "profile-icon icon-trash"></i></div>
                                     </div>
                                 </li>
                             </ul>

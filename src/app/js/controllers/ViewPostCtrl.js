@@ -43,7 +43,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
     $scope.getComments();
 
     $scope.reportComment = function(_id) {
-        $http.post('/api/comments/flagComment', {"_id":_id, "flagged": 'true'}).
+        $http.post('/api/comments/flagComment', {"_id":_id, "flagged": true}).
             success(function(data){
                 console.log("flagged");
             }).

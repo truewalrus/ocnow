@@ -136,6 +136,11 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             adminUpdatePosts();
         }
 
+        $scope.flaggedComments = '';
+        if($scope.admin >=1){
+            adminUpdateComments();
+        }
+
     };
     $scope.viewPosts = function(){
         $scope.showSettings =0;
@@ -258,6 +263,19 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         }
     };
 
+    $scope.unflagComment = function (_id){
+        $http.post('/api/comments/flagComment', {"_id":_id, "flagged": false}).
+            success(function(data){
+                console.log("flagged");
+            }).
+            error(function(err){
+                console.error(err);
+            });
+
+
+        adminUpdateComments();
+    };
+
     var adminUpdateUserList = function() {
         $http.get('/api/user/allUsers').
             success(function(data){
@@ -272,6 +290,17 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $http.get('/api/articles/getUnpublished').
             success(function(data){
                 $scope.unpublishedPosts = data;
+            }).
+            error(function(data){
+                console.log(data);
+            });
+    };
+
+    var adminUpdateComments = function(){
+        $http.get('/api/comments/getFlagged').
+            success(function(data){
+                $scope.flaggedComments = data;
+                console.log(data);
             }).
             error(function(data){
                 console.log(data);
