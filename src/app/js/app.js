@@ -13,6 +13,7 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.s
     $routeProvider.when('/profile', {templateUrl: '/partials/profile.html'});
     $routeProvider.when('/user/:id', {templateUrl: '/partials/view-profile.html'});
     $routeProvider.when('/new-vid', {templateUrl: '/partials/new-vid.html'});
+    $routeProvider.when('/article/:_id/edit', {templateUrl:"/partials/edit-post.html"});
     $routeProvider.when('/article/:id', {templateUrl:"/partials/view-post.html"});
     $routeProvider.when('/search', {templateUrl: "/partials/search.html"});
     $routeProvider.otherwise({redirectTo: '/home'});
@@ -42,6 +43,14 @@ app.run(['$rootScope', function($rootScope) {
         else {
             this.$apply(fn);
         }
+    };
+
+    $rootScope.profilePic = function(image) {
+        return image ? '/img/' + image : '';
+    };
+
+    $rootScope.articlePic = function(image) {
+        return image ? '/img/' + image : '';
     };
 }]);
 

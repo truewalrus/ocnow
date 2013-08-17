@@ -1,0 +1,46 @@
+<div ng-controller = "EditPostCtrl">
+    <div ng-show="user.rank <= 3" class="ng-cloak">
+        <div class="alert" ng-class="{ 'alert-info': post.published }">
+            <div ng-show="!post.published"><strong>Unpublished!</strong> This article is not yet published; it is viewable only by the author and site admins.<span></span></div>
+            <div ng-show="post.published"><strong>Published!</strong> This article is published; it is viewable by everyone</div>
+        </div>
+    </div>
+    <form ng-submit="editPost()">
+        <legend>Edit Post</legend>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input id="title" type = "text" class = "input-large form-control" placeholder = "Title" required ng-model = "post.title">
+        </div>
+        <span class = "help-block"></span>
+        <div class="form-group">
+            <label for="article">Article</label>
+            <textarea id="article" ui-tinymce="editorOptions" placeholder = "Content" required ng-model = "post.article"></textarea>
+        </div>
+        <br />
+
+        <label class="checkbox">
+            <input type="checkbox" ng-model="editImage"> Edit article image?
+        </label
+
+        <img ng-src="{{imagePath()}}">
+        <input type = "file" ng-model = "image" file-change>
+
+        <br />
+
+        <div class="well well-small" ng-show="isAdmin">
+            <div>Options</div>
+            <label class="checkbox">
+                <input type="checkbox" ng-model="publishArticle">Publish article on submit
+            </label>
+        </div>
+
+        <button type = "submit" class = "btn" ng-disabled="submitDisabled" name = "temp">Submit</button>
+    </form>
+
+    <button class="btn btn-default" ng-click = "findPosts()">FIND</button>
+    <div class="btn-group">
+        <button class="btn btn-primary" ng-click = "topPosts()">TOP 3</button>
+        <button class="btn btn-info" ng-click = "nextPosts()">NEXT 3</button>
+    </div>
+    <button class="btn btn-danger" ng-click = "clearDatabase()">Clear Database</button>
+</div>

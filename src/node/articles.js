@@ -1,4 +1,5 @@
 function canCreateArticle(userRank) { return users_hasPermission(userRank, RANK_POSTER) };
+function canUpdateArticle(userRank) { return users_hasPermission(userRank, RANK_ADMIN) };
 function canPublishArticle(userRank) { return users_hasPermission(userRank, RANK_ADMIN) };
 
 collections.push(function(err, db) {
@@ -36,14 +37,16 @@ function articles_create(request, response) {
     // If the user has permission to publish articles, and the article is requested to be published, then set published flag to true
     var published = (canPublishArticle(request.user.rank) && request.body.published == true);
 
+    console.log(request.body);
+
     db_connector.collection('articles', function(err, collection) {
-        collection.insert({"uid": request.body.uid, "name": users_parseName(request.user), "article": request.body.article, "title":request.body.title, "img": request.body.img, "date": d.getTime(), "published": published, "commentCount":0 }, function(err, data){
+        collection.insert({"uid": String(request.user._id), "name": users_parseName(request.user), "article": request.body.article, "title":request.body.title, "img": request.body.img, "date": d.getTime(), "published": published, "commentCount":0 }, function(err, data){
             if (err) {
                 response.send("Article already exists!!!", 401);
             }
             else {
-                console.log("Data added as " + data);
-                response.send(data);
+                console.log("Data added as ", data[0]);
+                response.send(200, { article: data[0] });
             }
         });
     });
@@ -143,22 +146,60 @@ function articles_getUnpublished(request, response) {
     }
 }
 
+//function articles_publish(request, response){
+//    if (canPublishArticle(request.user.rank)){
+//        var d = new Date();
+//        db_connector.collection('articles', function(err, collection) {
+//            collection.update({"_id":ObjectID(request.body._id)}, {$set:{"date": d.getTime(), "published": true} }, function(err, data){
+//                if (err) {
+//                    response.send(500, "Database error occurred while processing request.");
+//                }
+//                else {
+//                    response.send(200);
+//                }
+//            });
+//        });
+//    }
+//    else{
+//        response.send(401, "User does not have permission to publish articles.");
+//    }
+//}
+
 function articles_publish(request, response){
-    if (canPublishArticle(request.user.rank)){
+    if (canPublishArticle(request.user.rank)) {
         var d = new Date();
+
         db_connector.collection('articles', function(err, collection) {
-            collection.update({"_id":ObjectID(request.body._id)}, {$set:{"date": d.getTime(), "published": true} }, function(err, data){
+            collection.findAndModify({ "_id": ObjectID(request.body._id) }, [], { $set: { "date": d.getTime(), "published": true } }, { new: true }, function(err, data){
                 if (err) {
-                    response.send("Article already exists!!!", 401);
+                    response.send(500, "Database error occurred while processing request.");
                 }
                 else {
-                    response.send(200);
+                    response.send(200, { article: data });
                 }
             });
         });
     }
     else{
-        response.send(401);
+        response.send(401, "User does not have permission to publish articles.");
+    }
+}
+
+function articles_unpublish(request, response){
+    if (canPublishArticle(request.user.rank)) {
+        db_connector.collection('articles', function(err, collection) {
+            collection.findAndModify({ "_id": ObjectID(request.body._id) }, [], { $set: { "published": false } }, { new: true }, function(err, data){
+                if (err) {
+                    response.send(500, "Database error occurred while processing request.");
+                }
+                else {
+                    response.send(200, { article: data });
+                }
+            });
+        });
+    }
+    else{
+        response.send(401, "User does not have permission to unpublish articles.");
     }
 }
 
@@ -176,11 +217,54 @@ function articles_search(request, response) {
     });
 }
 
+function articles_update_setup(request, response, next) {
+    var updatedFields = {};
+    updatedFields.title = request.body.title;
+    updatedFields.article = request.body.article;
+    if (request.body.img) {
+        updatedFields.img = request.body.img;
+
+        request.updates = updatedFields;
+
+        db_connector.collection('users', function (err, articles){
+            articles.findOne({ '_id': ObjectID(request.params._id) }, function(error, article) {
+                if (article.img) {
+                    console.log("Deleting article image");
+                    fs.unlink('app/img/' + article.img);
+                }
+
+                return next();
+            });
+        });
+    }
+    else {
+        request.updates = updatedFields;
+
+        return next();
+    }
+}
+
+function articles_update(request, response) {
+    db_connector.collection('articles', function (error, articles){
+        var d = new Date();
+
+        articles.update({ '_id': ObjectID(request.params._id) }, { $set: request.updates }, function(error, data){
+            if (error) {
+                response.send(500, "Database error occurred while processing request.");
+            }
+            else {
+                response.send(200);
+            }
+        });
+    });
+}
+
 /* ALL DIS STUFF BE COOL */
 routing.push(function(app) {
-    app.post('/api/articles/create', ensureAuthentication, articles_create);
+//    app.post('/api/articles/create', ensureAuthentication, articles_create);
     app.post('/api/articles/clear', ensureAuthentication, articles_clearDatabase);
     app.post('/api/articles/publish', ensureAuthentication, articles_publish);
+    app.post('/api/articles/unpublish', ensureAuthentication, articles_unpublish);
     app.get('/api/articles/getAll/:uid', articles_getAll);
     app.get('/api/articles/get/:_id', articles_get);
     app.get('/api/articles/search/:query', articles_search);

@@ -1,7 +1,7 @@
 //Service for user login
 'use strict';
 angular.module("myApp.services")
-    .service('user', ['$rootScope', '$http', function($rootScope, $http){
+    .service('user', ['$rootScope', '$http', 'uploadService', function($rootScope, $http, upload){
 
         $rootScope.user = false;
         $rootScope.loggedIn = false;
@@ -31,14 +31,26 @@ angular.module("myApp.services")
         };
 
         this.updateUser = function(_id, fName, lName, img, success, error){
-            $http.post('/api/user/updateUser',{'_id':_id, 'fName':fName, 'lName':lName, 'img': img}).
-                success(function(data){
-                    updateUserInfo(data);
-                    success(data);
-                }).
-                error(function(data){
-                    error(data);
-                });
+//            $http.post('/api/user/updateUser',{'_id':_id, 'fName':fName, 'lName':lName, 'img': img}).
+//                success(function(data){
+//                    updateUserInfo(data);
+//                    success(data);
+//                }).
+//                error(function(data){
+//                    error(data);
+//                });
+
+            var userInfo = {'fName': fName, 'lName': lName};
+
+            console.log("(user.js) Updating user...", userInfo);
+
+            console.log("img: ", img);
+
+            upload.upload('/api/user/update/' + _id, userInfo, img, function(response) {
+                if ($rootScope.user._id == _id) { updateUserInfo(response.user); }
+
+                success(response);
+            }, error);
         };
 
         //login -- email/display name, password,

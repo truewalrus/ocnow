@@ -4,6 +4,7 @@ angular.module('myApp.directives')
         var linker = function ($scope, element, attributes) {
             // onChange, push the files to $scope.files.
             element.bind('change', function (event) {
+                $scope.files = [];
                 var files = event.target.files;
                 $scope.$apply(function () {
                     for (var i = 0, length = files.length; i < length; i++) {

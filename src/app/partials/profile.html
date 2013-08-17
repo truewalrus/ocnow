@@ -8,7 +8,7 @@
             <div class = "span3">
                 <div class = "well well-small">
                     <div class = "row-fluid">
-                        <img ng-src = "{{img}}" alt = "Profile" />
+                        <img ng-src = "{{ profilePic(img) }}" alt = "Profile" />
                     </div>
                     <ul class = "nav nav-tabs nav-stacked">
                         <li ng-click = "viewPosts()"><a href = "#">My Posts</a></li>
@@ -31,7 +31,7 @@
                             <tr ng-repeat="post in posts">
                                 <td class="media">
                                     <a class="pull-left" href="#">
-                                        <img class="media-object article-thumbnail" ng-src = "{{post.img}}" alt = "not important"/>
+                                        <img class="media-object article-thumbnail" ng-class="{ hidden: !post.img }" ng-src = "{{ articlePic(post.img) }}" alt = "not important"/>
                                     </a>
                                     <div class="media-body">
                                         <h4 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h4>
@@ -272,8 +272,8 @@
                                         </div>
                                         <div class = "control-group">
                                             <div class = "controls">
-                                                <button ng-show = "!showChangeProfilePic" ng-click = "showChangePP()">Change Profile Picture</button>
-                                                <input ng-show = "showChangeProfilePic" type = "file" ng-model = "files" file-change>  <button  ng-show = "showChangeProfilePic" ng-click = "showChangePP()">Cancel</button>
+                                                <button type="button" ng-show = "!showChangeProfilePic" ng-click = "showChangePP()">Change Profile Picture</button>
+                                                <input ng-show = "showChangeProfilePic" type = "file" ng-model = "files" file-change>  <button type="button" ng-show = "showChangeProfilePic" ng-click = "showChangePP()">Cancel</button>
                                             </div>
                                         </div>
                                         <div class = "control-group">

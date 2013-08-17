@@ -162,14 +162,21 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.showChangeProfilePic = !$scope.showChangeProfilePic;
     };
     $scope.saveUserInfo = function(){
-        if($scope.files.length === 0){
-            $scope.saveUserInfoNoImg($scope.user._id, $scope.fName, $scope.lName, $scope.img);
-        }
-        else{
-            $scope.imgUploadID = $scope.user._id;
-            uploadService.send($scope.files[0], 'profile');
-        }
+        user.updateUser($scope.user._id, $scope.fName, $scope.lName, $scope.files[0]);
+
+//        if($scope.files.length === 0){
+//            $scope.saveUserInfoNoImg($scope.user._id, $scope.fName, $scope.lName, $scope.img);
+//        }
+//        else{
+//            $scope.imgUploadID = $scope.user._id;
+//            uploadService.send($scope.files[0], 'profile');
+//        }
     };
+
+    $scope.profileImage = function() {
+        return $scope.img ? '/img/' + $scope.img : '';
+    };
+
     $scope.saveUserInfoNoImg = function(_id, fname, lname, img){
         console.log("current Id" + _id);
         user.updateUser(_id, fname, lname, img,
@@ -239,13 +246,23 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 
         $scope.AAC = 2;
     };
+
     $scope.adminSaveUserInfo = function(){
-        if($scope.AACFiles.length === 0){
-            $scope.saveUserInfoNoImg($scope.AACid, $scope.AACFName, $scope.AACLName, '');
-        }
-        else{
+//        if($scope.AACFiles.length === 0){
+//            $scope.saveUserInfoNoImg($scope.AACid, $scope.AACFName, $scope.AACLName, '');
+//        }
+//        else{
+//            $scope.imgUploadID = $scope.AACid;
+//            uploadService.send($scope.AACFiles[0]);
+//        }
+
+        if ($scope.AACFiles.length > 0) {
+            console.log("Saving user info with image: ", $scope.AACFiles);
             $scope.imgUploadID = $scope.AACid;
-            uploadService.send($scope.AACFiles[0]);
+            user.updateUser($scope.AACid, $scope.AACFName, $scope.AACLName, $scope.AACFiles);
+        }
+        else {
+            user.updateUser($scope.AACid, $scope.AACFName, $scope.AACLName);
         }
 
         if($scope.AACpassword){
@@ -337,26 +354,26 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 
 
     //update user info when a new profile img is uploaded
-    $scope.$on('upload:complete', function (event, code, response) {
-        if (code != 200) {
-            console.error("Error uploading file: %d - %s", code, response);
-        }
-        else {
-            console.log("ProfileCtrl: File uploaded as: %s", response);
-
-            response = '/' + response.substr(response.indexOf('\\') + 1);
-
-            user.updateUser($scope.imgUploadID, $scope.fName, $scope.lName, response,
-                function(data){
-                    if ($scope.imgUploadID != user._id) { adminUpdateUserList(); }
-                    //console.log("success" + data);
-                },
-                function(data){
-                   // console.log("failure" + data);
-                }
-            );
-        }
-    });
+//    $scope.$on('upload:complete', function (event, code, response) {
+//        if (code != 200) {
+//            console.error("Error uploading file: %d - %s", code, response);
+//        }
+//        else {
+//            console.log("ProfileCtrl: File uploaded as: %s", response);
+//
+//            response = '/' + response.substr(response.indexOf('\\') + 1);
+//
+//            user.updateUser($scope.imgUploadID, $scope.fName, $scope.lName, response,
+//                function(data){
+//                    if ($scope.imgUploadID != user._id) { adminUpdateUserList(); }
+//                    //console.log("success" + data);
+//                },
+//                function(data){
+//                   // console.log("failure" + data);
+//                }
+//            );
+//        }
+//    });
 
     $scope.logOut = function(){
         user.logout(

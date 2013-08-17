@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user', '$http', '$rootScope', 'uploadService', function($scope, user, $http, $rootScope, uploadService){
+angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user', '$http', '$rootScope', '$location', 'uploadService', function($scope, user, $http, $rootScope, $location, uploadService){
 
     var createArticle = function(imgPath) {
         if (!imgPath) { imgPath = ''; }
@@ -39,19 +39,33 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
     $scope.newPost = function(){
         $scope.submitDisabled = true;
 
-        if($scope.files.length === 0)
-        {
-            createArticle();
-        }
-        else
-        {
-            uploadService.send($scope.files[0], 'article');
-        }
+//        if($scope.files.length === 0)
+//        {
+//            createArticle();
+//        }
+//        else
+//        {
+//            uploadService.send($scope.files[0], 'article');
+//        }
 
+        uploadService.upload('/api/articles/create', { title: $scope.title, article: $scope.article, published: $scope.published }, $scope.files[0],
+            function(response) {
+                console.log("Creation success!");
+                console.log('/article/%s', response.article._id);
 
+                $location.url('/article/' + response.article._id);
+            }, function(response) {
+                $scope.submitDisabled = false;
+            });
+    };
+
+    $scope.articleImage = function() {
+        return $scope.files[0] ? $scope.files[0].path : '';
     };
 
     $scope.findPosts = function(){
+        console.log($scope.files[0]);
+
         $http.post('api/articles/getAll', {'_uid': $scope.username}).
             success(function(data) {
                 console.log(data);
@@ -103,26 +117,26 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
 //        }
 //    }, true);
 
-    $scope.$on('upload:complete', function (event, code, response) {
-        if (code != 200) {
-            console.error("Error uploading file: %d - %s", code, response);
-        }
-        else {
-            console.log("NewPostCtrl: File uploaded as: %s", response);
-
-            response = '/' + response.substr(response.indexOf('\\') + 1);
-
-            createArticle(response);
-
-//            $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title, 'img': response}).
-//                success(function(data) {
-//                    console.log(data);
-//                }).
-//                error(function(data) {
-//                    console.warn("Failure: " + data);
-//                });
-        }
-    });
+//    $scope.$on('upload:complete', function (event, code, response) {
+//        if (code != 200) {
+//            console.error("Error uploading file: %d - %s", code, response);
+//        }
+//        else {
+//            console.log("NewPostCtrl: File uploaded as: %s", response);
+//
+//            response = '/' + response.substr(response.indexOf('\\') + 1);
+//
+//            createArticle(response);
+//
+////            $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title, 'img': response}).
+////                success(function(data) {
+////                    console.log(data);
+////                }).
+////                error(function(data) {
+////                    console.warn("Failure: " + data);
+////                });
+//        }
+//    });
 /*
     $rootScope.$on('upload:error', function () {
         console.log('Controller: on `error`');

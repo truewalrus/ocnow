@@ -1,6 +1,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt-nodejs');
+var fs = require('fs');
 
 var RANK_SITEADMIN = 1;
 var RANK_ADMIN = 2;
@@ -324,7 +325,7 @@ passport.use(new LocalStrategy(
 
 //ensureAuthentication: confirm a user is logged in
 function ensureAuthentication(request, response, next) {
-    if (!request.user) { return response.send(401); }
+    if (!request.user) { return response.send(401, "Must be logged in."); }
 
     return next();
 }
@@ -341,6 +342,62 @@ function users_findUserById(request, response) {
             }
             else {
                 return response.send(404, "User not found.");
+            }
+        });
+    });
+}
+
+function users_update_setup(request, response, next) {
+    var updatedFields = {};
+    updatedFields.fName = request.body.fName;
+    updatedFields.lName = request.body.lName;
+
+    if (request.body.img) {
+        updatedFields.img = request.body.img;
+
+        request.updates = updatedFields;
+
+        db_connector.collection('users', function (err, users){
+            users.findOne({ '_id': ObjectID(request.params._id) }, function(error, user) {
+                if (user.img) {
+                    console.log("Deleting image");
+                    fs.unlink('app/img/' + user.img);
+                }
+
+                return next();
+            });
+        });
+    }
+    else {
+        request.updates = updatedFields;
+
+        return next();
+    }
+}
+
+function users_update(request, response) {
+    db_connector.collection('users', function (err, users){
+        users.update({ '_id': ObjectID(request.params._id) }, { $set: request.updates }, function(error, data){
+            if (error) {
+                response.send(500, "Database error occurred while processing request.");
+            }
+            else {
+                users.findOne({'_id': ObjectID(request.params._id)}, function(err, user) {
+                    if (err) { return console.error("(users.js) Error searching for user by _id"); }
+
+                    db_connector.collection('articles', function(err, articles) {
+                        if (err) { return console.error("(users.js) Error updating name fields of articles."); }
+
+                        articles.update({'uid': request.params._id}, {$set: {'name': users_parseName(user)}}, { multi: true });
+                    });
+                });
+
+                //   console.log("Success: ");
+                var userInfo = users_cleanUserObject(request.user);
+                for (var attr in request.body){
+                    userInfo[attr] = request.body[attr];
+                }
+                response.send(200, userInfo);
             }
         });
     });
@@ -382,7 +439,7 @@ routing.push(function(app) {
 
 	app.post('/api/user/create', users_createUser);
 
-    app.post('/api/user/updateUser', ensureAuthentication, users_updateUser);
+//    app.post('/api/user/updateUser', ensureAuthentication, users_updateUser);
 
     app.post('/api/user/delete', ensureAuthentication, users_userDelete);
 
