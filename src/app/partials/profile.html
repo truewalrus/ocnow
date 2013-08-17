@@ -237,7 +237,7 @@
                                         <div class = "comment-username" class = "span12">
                                             <a href = #>{{ comment.username }}</a> in <a ng-click = "viewPost(comment.articleId)" href = '#'>this</a> article <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
                                         </div>
-                                        <div class = "comment-profile-content">{{ comment.content }}</div> <div class = "comment-profile-icons"><i ng-click = "unflagComment(comment._id)" title = "Unflag this comment" class = "profile-icon icon-ok"></i><i ng-click = "" title = "Delete this comment" class = "profile-icon icon-trash"></i></div>
+                                        <div class = "comment-profile-content">{{ comment.content }}</div> <div class = "comment-profile-icons"><i ng-click = "unflagComment(comment._id)" title = "Unflag this comment" class = "profile-icon icon-ok"></i><i ng-click = "deleteComment(comment._id, comment.articleId)" title = "Delete this comment" class = "profile-icon icon-trash"></i></div>
                                     </div>
                                 </li>
                             </ul>

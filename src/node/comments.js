@@ -132,10 +132,25 @@ function comments_getFlagged(request, response){
     });
 }
 
+function comments_removeComment(request, response){
+    db_connector.collection('comments', function(err, comments) {
+        comments.remove({'_id':  ObjectID(request.body._id)}, function(err) {
+            if (err) {
+                response.send({'message':'Failed to delete comment'}, 401);
+            }
+            else {
+                articles_removeComment(request.body.articleId);
+                response.send(200);
+            }
+        });
+    });
+}
+
 
 routing.push(function(app) {
     app.get('/api/comments/get/:articleId', comments_getComments);
     app.get('/api/comments/getFlagged', comments_getFlagged);
     app.post('/api/comments/add/:articleId', comments_addComment);
     app.post('/api/comments/flagComment', ensureAuthentication, comments_flagComment);
+    app.post('/api/comments/removeComment', ensureAuthentication, comments_removeComment);
 });

@@ -39,7 +39,7 @@
                         <div class = "comment-username" class = "span12">
                             <a href = #>{{ comment.username }}</a> <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
                         </div>
-                        <div class = "comment-content">{{ comment.content }}</div> <div class = "comment-warn-icon"><i ng-click = "reportComment(comment._id)" title = "Report this comment" class = "icon-warning-sign"></i></div>
+                        <div class = "comment-content">{{ comment.content | commentFilter }}</div> <div class = "comment-warn-icon"><i ng-click = "reportComment(comment._id)" title = "Report this comment" class = "icon-warning-sign"></i></div>
                     </div>
 
                 </li>

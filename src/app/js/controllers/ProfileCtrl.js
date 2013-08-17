@@ -283,7 +283,20 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.unflagComment = function (_id){
         $http.post('/api/comments/flagComment', {"_id":_id, "flagged": false}).
             success(function(data){
-                console.log("flagged");
+             //   console.log("flagged");
+            }).
+            error(function(err){
+                console.error(err);
+            });
+
+
+        adminUpdateComments();
+    };
+
+    $scope.deleteComment = function (_id, articleId){
+        $http.post('/api/comments/removeComment', {"_id":_id, "articleId":articleId}).
+            success(function(data){
+                console.log("deleted");
             }).
             error(function(err){
                 console.error(err);
@@ -317,7 +330,6 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $http.get('/api/comments/getFlagged').
             success(function(data){
                 $scope.flaggedComments = data;
-                console.log(data);
             }).
             error(function(data){
                 console.log(data);
