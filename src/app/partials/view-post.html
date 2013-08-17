@@ -34,7 +34,7 @@
         <div class = "row-fluid">
             <ul class = "unstyled">
                 <li class = "row-fluid comment-list" ng-repeat = "comment in comments">
-                    <div class = "span2 comment-center"> <img class = "img-polaroid comment-img" ng-src = " {{ comment.img}}"> </div>
+                    <div class = "span2 comment-center"> <img ng-show = "comment.img" class = "img-polaroid comment-img" ng-src = " {{ comment.img}}"> </div>
                     <div class = "span10">
                         <div class = "comment-username" class = "span12">
                             <a href = #>{{ comment.username }}</a> <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
