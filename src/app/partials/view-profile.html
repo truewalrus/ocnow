@@ -28,8 +28,8 @@
                                         <img ng-class="{ hidden: !post.img }" class="media-object article-thumbnail" ng-src = "{{articlePic(post.img)}}" alt = "not important"/>
                                     </a>
                                     <div class="media-body">
-                                        <h4 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h4>
-                                        <span class="article-byline">Posted at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</span>
+                                        <h4 class="media-heading"><a ng-href = '/article/{{ post._id }}'>{{post.title}}</a></h4>
+                                        <span class="article-byline">Posted at {{ extractDate(post.date) }} (<a ng-href = "/article/{{ post._id }}">{{post.commentCount }} comments</a>)</span>
                                         <p class="article-summary" ng-bind-html-unsafe="post.article"></p>
                                     </div>
                                 </td>

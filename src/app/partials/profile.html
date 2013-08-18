@@ -34,8 +34,8 @@
                                         <img class="media-object article-thumbnail" ng-class="{ hidden: !post.img }" ng-src = "{{ articlePic(post.img) }}" alt = "not important"/>
                                     </a>
                                     <div class="media-body">
-                                        <h4 class="media-heading"><a href ng-click = "viewPost(post._id)">{{post.title}}</a></h4>
-                                        <span class="article-byline">Posted at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</span>
+                                        <h4 class="media-heading"><a ng-href = "/article/{{ post._id }}">{{post.title}}</a></h4>
+                                        <span class="article-byline">Posted at {{ extractDate(post.date) }} (<a ng-href = "/article/{{ post._id }}">{{post.commentCount }} comments</a>)</span>
                                         <p class="article-summary" ng-bind-html-unsafe="post.article"></p>
                                     </div>
                                 </td>
@@ -213,8 +213,8 @@
                                         </div>
 
                                         <div class = "span9">
-                                            <h2><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h2>
-                                            <p>Posted by <a href = '#'>{{ post.name}}</a> at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</p>
+                                            <h2><a ng-href = '/article/{{ post._id }}'>{{post.title}}</a></h2>
+                                            <p>Posted by <a ng-href = '/user/{{ post.uid }}'>{{ post.name}}</a> at {{ extractDate(post.date) }} (<a ng-href = "/article/{{ post._id }}">{{post.commentCount }} comments</a>)</p>
                                             <p ng-bind-html-unsafe="post.article"></p>
                                         </div>
 
@@ -235,7 +235,7 @@
                                     <div class = "span2 comment-center"> <img ng-show = "comment.img" class = "img-polaroid comment-img" ng-src = " {{ profilePic(comment.img) }}"> </div>
                                     <div class = "span10">
                                         <div class = "comment-username" class = "span12">
-                                            <a href = #>{{ comment.username }}</a> in <a ng-click = "viewPost(comment.articleId)" href = '#'>this</a> article <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
+                                            <a ng-href = '/user/{{ comment.uId }}'>{{ comment.username }}</a> in <a ng-href = '/article/{{ comment.articleId }}'>this</a> article <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
                                         </div>
                                         <div class = "comment-profile-content">{{ comment.content }}</div> <div class = "comment-profile-icons"><i ng-click = "unflagComment(comment._id)" title = "Unflag this comment" class = "profile-icon icon-ok"></i><i ng-click = "deleteComment(comment._id, comment.articleId)" title = "Delete this comment" class = "profile-icon icon-trash"></i></div>
                                     </div>

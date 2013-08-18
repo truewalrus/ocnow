@@ -66,8 +66,8 @@
                     </div>
 
                     <div ng-class = "{'span10': post.img, 'span12': !post.img, 'no-left-margin': !post.pic}">
-                        <h2><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h2>
-                        <p>Posted by <a href = '#' ng-click="viewAuthorProfile(post.uid)">{{ post.name }}</a> {{ post.date | date:"'at' h:mm:ss a 'on' MMMM d, y" }} (<a ng-click = "viewPost(post._id)" href = "#"><span ng-pluralize count="post.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
+                        <h2><a ng-href = '/article/{{ post._id }}'>{{post.title}}</a></h2>
+                        <p>Posted by <a ng-href = '/user/{{ post.uid }}'>{{ post.name }}</a> {{ post.date | date:"'at' h:mm:ss a 'on' MMMM d, y" }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="post.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
                         <p ng-bind-html-unsafe="post.article"></p>
                     </div>
                 </div>
