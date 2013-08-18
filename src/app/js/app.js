@@ -3,7 +3,7 @@
 // Declare app level module which depends on filters, and services
 
 var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.services', 'myApp.controllers', 'ngCookies']);
- app.config(['$routeProvider', '$locationProvider', 'pageProvider', function($routeProvider, $locationProvider, pageProvider) {
+ app.config(['$routeProvider', '$locationProvider', 'pageProvider', 'GoogleApiProvider', function($routeProvider, $locationProvider, pageProvider, GoogleApiProvider) {
 
 	// angular front end routes
 	$routeProvider.when('/sign-in', {templateUrl: '/partials/sign-in.html'});
@@ -26,6 +26,8 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.s
 
      // Set the base site name for the title-change service.
     pageProvider.setSiteName('My OC Now');
+
+     GoogleApiProvider.setApiKey('AIzaSyAR61gl3uKPz59viYfdfvWvbM_44dG8UG0');
   }]);
 
 //angular.module('myApp.services', []).config(['pageProvider', function(pageProvider) {
