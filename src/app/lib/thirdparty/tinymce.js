@@ -26641,7 +26641,7 @@ define("tinymce/Editor", [
 
 				body.innerHTML = content;
 
-				self.fire('SetContent', args);
+	//			self.fire('SetContent', args);
 			} else {
 				// Parse and serialize the html
 				if (args.format !== 'raw') {

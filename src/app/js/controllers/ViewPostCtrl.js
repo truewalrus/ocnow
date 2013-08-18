@@ -1,6 +1,7 @@
 
 'use strict';
-angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', function($scope, $routeParams, $location, $http, user){
+angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', 'page', function($scope, $routeParams, $location, $http, user, page){
+    page.setPage('Article');
 
     $scope.post = '';
     $scope.content = '';
@@ -11,6 +12,8 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
         $http.get('/api/articles/get/' + $routeParams.id).
             success(function(data) {
                 $scope.post = data;
+
+                page.setPage('Article - ' + $scope.post.title);
             }).
             error(function(err) {
                 console.error(err);
