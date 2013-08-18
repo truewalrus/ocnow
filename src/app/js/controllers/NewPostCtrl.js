@@ -11,7 +11,10 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
             }).
             error(function(data) {
                 console.warn("Failure: " + data);
+                $scope.$emit('MessagePopup', 'Failure:' + data, '');
             });
+
+
     };
 
   /*  var checkSession = function(){
@@ -54,8 +57,11 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
                 console.log('/article/%s', response.article._id);
 
                 $location.url('/article/' + response.article._id);
+                $scope.$emit('MessagePopup', '', 'Article created.');
             }, function(response) {
                 $scope.submitDisabled = false;
+                $scope.$emit('MessagePopup', 'Failure: ' +response, '');
+
             });
     };
 

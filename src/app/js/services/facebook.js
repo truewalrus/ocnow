@@ -4,7 +4,7 @@
 angular.module('myApp.services')
 .service('Facebook', ['$q', '$timeout', function($q, $timeout){
 
-	//setting a variable for response from facebook
+        //setting a variable for response from facebook
 	this.fbResponse	= '';
 	
 	/**

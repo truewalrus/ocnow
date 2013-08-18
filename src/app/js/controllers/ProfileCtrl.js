@@ -85,12 +85,14 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
                 console.log('added %s', data.username);
                 clearUser();
                 adminUpdateUserList();
+               $scope.$emit('MessagePopup', '', 'User created.');
             },
             function(data) {
                 console.log('failed to add user');
                 $scope.errMsg = data;
                 clearUser();
                 console.log(data);
+                $scope.$emit('MessagePopup', 'Failure: ' + data, '');
             });
     };
     var clearUser = function(){
@@ -163,7 +165,11 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.files = [];
     };
     $scope.saveUserInfo = function(){
-        user.updateUser($scope.user._id, $scope.fName, $scope.lName, $scope.files[0], function(){$scope.files=[];}, function(){});
+        user.updateUser($scope.user._id, $scope.fName, $scope.lName, $scope.files[0],
+            function(){
+                $scope.files=[];
+                $scope.$emit('MessagePopup', '', 'User updated.');},
+            function(error){$scope.$emit('MessagePopup', 'Failure: '+error, '');});
 
 //        if($scope.files.length === 0){
 //            $scope.saveUserInfoNoImg($scope.user._id, $scope.fName, $scope.lName, $scope.img);
@@ -178,7 +184,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         return $scope.img ? '/img/' + $scope.img : '';
     };
 
-    $scope.saveUserInfoNoImg = function(_id, fname, lname, img){
+  /*  $scope.saveUserInfoNoImg = function(_id, fname, lname, img){
         console.log("current Id" + _id);
         user.updateUser(_id, fname, lname, img,
             function(data){
@@ -189,7 +195,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             //    console.log("failure" + data);
             }
         );
-    };
+    };*/
     $scope.oldPW = '';
     $scope.newPW = '';
     $scope.confirmNew = '';
@@ -198,10 +204,12 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             user.changePassword($scope.user._id, $scope.oldPW, $scope.newPW,
                 function(data){
                     console.log(data);
+                    $scope.$emit('MessagePopup', '', 'Password changed.');
                 },
                 function(data){
                     console.log("failure");
                     console.log(data);
+                    $scope.$emit('MessagePopup', 'Failure: ' + data, '');
                 });
         }
         else {
@@ -256,7 +264,11 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
 //            $scope.imgUploadID = $scope.AACid;
 //            uploadService.send($scope.AACFiles[0]);
 //        }
-        user.updateUser($scope.AACid, $scope.AACFName, $scope.AACLName, $scope.files[0], function(){$scope.files = [];}, function(){});
+        user.updateUser($scope.AACid, $scope.AACFName, $scope.AACLName, $scope.files[0],
+            function(){
+                $scope.files = [];
+                $scope.$emit('MessagePopup', '', 'User updated.');},
+            function(error){$scope.$emit('MessagePopup', 'Failure: ' + error, '');});
 
         if($scope.AACpassword){
            // console.log($scope.AACpassword);
@@ -277,9 +289,11 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $http.post('/api/comments/flagComment', {"_id":_id, "flagged": false}).
             success(function(data){
              //   console.log("flagged");
+                $scope.$emit('MessagePopup', '', "Comment Ok'd.");
             }).
             error(function(err){
                 console.error(err);
+                $scope.$emit('MessagePopup', 'Failure: ' + err, "");
             });
 
 
@@ -290,9 +304,11 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $http.post('/api/comments/removeComment', {"_id":_id, "articleId":articleId}).
             success(function(data){
                 console.log("deleted");
+                $scope.$emit('MessagePopup', '', "Comment Deleted.");
             }).
             error(function(err){
                 console.error(err);
+                $scope.$emit('MessagePopup', 'Failure: ' + err, "");
             });
 
 
@@ -333,10 +349,12 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         if($scope.admin >=1){
             user.deleteUser(id,
                 function(data) {
+                    $scope.$emit('MessagePopup', '', "User Deleted.");
                     adminUpdateUserList();
                 },
                 function(data) {
                     console.log(data);
+                    $scope.$emit('MessagePopup', 'Failure: ' + data, "");
                 });
         }
 
@@ -347,9 +365,11 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             $http.post('/api/articles/publish', {"_id": id}).
                 success(function(data){
                     console.log("published");
+                    $scope.$emit('MessagePopup', '', "Article Published.");
                 }).
                 error(function(data){
                     console.log(data);
+                    $scope.$emit('MessagePopup', 'Failure: ' + data, "");
                 });
         }
 
