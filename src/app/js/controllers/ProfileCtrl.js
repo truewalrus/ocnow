@@ -348,9 +348,9 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.createNewPost = function(){
         $location.url('/new-post');
     };
-    $scope.viewPost = function(postId){
+ /*   $scope.viewPost = function(postId){
         $location.url('/article/' + postId);
-    };
+    };*/
 
 
     /**********************************************************************************************

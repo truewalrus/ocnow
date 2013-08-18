@@ -55,12 +55,12 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
     };
 
     $scope.retrievePosts();
-
+/*
     $scope.viewPost = function(postId){
         $location.url('/article/' + postId);
     };
 
     $scope.viewAuthorProfile = function(authorId) {
         $location.path('/user/' + authorId);
-    };
+    };*/
 }]);
