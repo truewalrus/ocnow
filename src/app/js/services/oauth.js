@@ -1,19 +1,23 @@
+/*
 'use strict';
 angular.module('myApp.services')
-    /*   .service('oauth', ['$http', function($http){
+    */
+/*   .service('oauth', ['$http', function($http){
 
         var OnLoadCallback = function() {
 
             console.log("test");
         };
     }]);
+*/
 /*
       this.getMyVideos = function(){
             $http.jsonp('https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=AIzaSyAR61gl3uKPz59viYfdfvWvbM_44dG8UG0&part=snippet,contentDetails,statistics,status&callback=JSON_CALLBACK').then(function (response) {
                 console.log(response.data);
             });
         };
-*/
+*//*
+
 
 
 
@@ -93,21 +97,26 @@ angular.module('myApp.services')
             else{
                 deferred.reject('error');
             }
-               /*     var request = gapi.client.oauth2.userinfo.get();
+               */
+/*     var request = gapi.client.oauth2.userinfo.get();
                     request.execute(function (resp) {
                         $rootScope.$apply(function () {
                             data.email = resp.email;
                         });
                     });
-                });*/
-          /*      deferred.resolve(data);
+                });*//*
+
+          */
+/*      deferred.resolve(data);
             } else {
                 deferred.reject('error');
-            }*/
+            }*//*
+
         };
 
 
 
+*/
 /*
 
         this.handleAuthClick = function (event) {
@@ -124,7 +133,8 @@ angular.module('myApp.services')
             gapi.auth.init(function () { });
             window.setTimeout(this.checkAuth, 1);
         };
-*/
+*//*
+
 
     }]);
 
@@ -135,4 +145,5 @@ angular.module('myApp.services')
 //    po.src = 'https://apis.google.com/js/client:plusone.js';
 //    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
 //})();
+*/
 
