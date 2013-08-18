@@ -70,7 +70,7 @@ angular.module('myApp.services')
 //          <div id='fb-root'></div>
 
 //Facebook necessary api methods
-window.fbAsyncInit = function() {
+/*window.fbAsyncInit = function() {
 	FB.init({
         //appId is obtained through Facebook's create an App setup. This will change per project
 		appId: '281909378612016'
@@ -84,4 +84,4 @@ window.fbAsyncInit = function() {
     js = d.createElement('script'); js.id = id; js.async = true;
     js.src = "//connect.facebook.net/en_US/all.js";
     ref.parentNode.insertBefore(js, ref);
-}(document));
+}(document));*/

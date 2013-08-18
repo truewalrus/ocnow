@@ -1,7 +1,67 @@
 'use strict';
 
-angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '$location', function($scope, iUser, $location){
-	$scope.signingIn = true;
+angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '$location', function($scope, user, $location){
+    var RANK_COMMENTER = 4;
+
+    if (!$scope.checkingSession && $scope.loggedIn) { return $location.path('/profile').replace(); }
+
+    $scope.$on('userLoggedIn', function() {
+        return $location.path('/profile').replace();
+    });
+
+
+    $scope.username = '';
+    $scope.password = '';
+
+     $scope.newUser = {
+        username: "",
+        password:"",
+        confirm:"",
+        fName: "",
+        lName: "",
+        rank: RANK_COMMENTER
+    };
+    var clearUser = function(){
+        $scope.newUser = {
+            username: "",
+            password:"",
+            confirm:"",
+            fName: "",
+            lName: "",
+            rank: RANK_COMMENTER
+        };
+    };
+
+    $scope.createUser = function(){
+        user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName,  function(data) {
+                console.log('added %s', data.username);
+                $scope.login($scope.newUser.username, $scope.newUser.password);
+
+            },
+            function(data) {
+                clearUser();
+                $scope.$emit('MessagePopup', 'Failure: ' + data, '');
+            });
+    };
+
+    $scope.login = function(username, password){
+        user.login(username, password,
+            function(data){
+                var emitun = $scope.newUser.username || $scope.username;
+                $scope.$emit('MessagePopup', '', 'Welcome ' + emitun + '.');
+                clearUser();
+                $scope.username = '';
+                $scope.password = '';
+            },
+            function(data){
+                $scope.$emit('MessagePopup', 'Error: ' + data, '');
+                $scope.username = '';
+                $scope.password = '';
+            });
+    };
+
+
+/*	$scope.signingIn = true;
 	$scope.userName = '';
 //	$scope.user = {};
 //	$scope.loggedIn = false;
@@ -113,6 +173,6 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
 //				console.log(data.message);
 //			}
 //		);
-//	};
+//	};*/
 	
 }]);
