@@ -5,8 +5,8 @@
             <div ng-show="post.published"><strong>Published!</strong> This article is published; it is viewable by everyone</div>
         </div>
         <div class="well well-small">
-            <button class="btn btn-small btn-primary" ng-show="!post.published && user.rank <= 1" ng-click="publish()"><i class="icon-eye-open icon-white"></i> Publish</button>
-            <button class="btn btn-small btn-warning" ng-show="post.published && user.rank <= 1" ng-click="unpublish()"><i class="icon-eye-close icon-white"></i> Unpublish</button>
+            <button class="btn btn-small btn-primary" ng-show="!post.published && user.rank <= 2" ng-click="publish()"><i class="icon-eye-open icon-white"></i> Publish</button>
+            <button class="btn btn-small btn-warning" ng-show="post.published && user.rank <= 2" ng-click="unpublish()"><i class="icon-eye-close icon-white"></i> Unpublish</button>
             <button class="btn btn-small" ng-click="edit()"><i class="icon-edit"></i> Edit</button>
             <button class="btn btn-small btn-danger" ng-click="delete()"><i class="icon-trash icon-white"></i> Delete</button>
         </div>

@@ -6,13 +6,29 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
 
     $scope.posts = [];
 
-    $scope.videos = [];
+    $scope.video = {
+        id: '',
+        snippet: {
+            title: '',
+            description: '',
+            publishedAt: '',
+            resourceId: {
+                videoId: ''
+            },
+            thumbnails: {
+                medium: {
+                    url: ''
+                }
+            }
+        }
+    };
 
     var episodes = GoogleAPI.youtube.playlist.items('PL66Y-U6XiSG2AdBTWfRjvhw8ItsMpOCJR', {maxResults: 1});
 
     episodes.then(function(videos) {
         console.log("Retrieved video playlist: ", videos);
-        $scope.videos = videos;
+        $scope.video = videos[0];
+
     }, function(error) {
         console.error(error);
     });
