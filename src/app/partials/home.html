@@ -1,15 +1,31 @@
 <div class = "container-fluid " ng-controller = "HomeCtrl">
-        <div class="media home-episode">
-            <div class = "pull-left home-episode-image">
-                <img class = "media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}"/>
-            </div>
+        <!--<div class="media home-episode">-->
+            <!--<div class = "pull-left home-episode-image">-->
+                <!--<img class = "media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}"/>-->
+            <!--</div>-->
 
-            <div class = "media-body">
-                <h5 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{video.snippet.title}}</a></h5>
-                <p class="home-episode-description">Posted on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-click = "viewPost(post._id)" href = "#">{{post.commentCount }} comments</a>)</p>
-                <p class="home-episode-description">{{ video.snippet.description }}</p>
-            </div>
-        </div>
+            <!--<div class = "media-body">-->
+                <!--<h5 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{video.snippet.title}}</a></h5>-->
+                <!--<p class="home-episode-description">Posted on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-click = "viewPost(post._id)" href = "#">{{post.commentCount }} comments</a>)</p>-->
+                <!--<p class="home-episode-description">{{ video.snippet.description }}</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <table>
+            <tbody>
+                <tr ng-show="video.id" class="media home-episode">
+                    <td class="home-episode-image">
+                        <h4>Latest Episode</h4>
+                        <img class = "img-polaroid media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}" />
+                    </td>
+                    <td class="media-body">
+                        <h5 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{ video.snippet.title }}</a></h5>
+                        <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-click = "viewPost(post._id)" href = "#"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
+                        <p class="home-episode-description">{{ video.snippet.description }}</p>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         <ul class = "unstyled">
             <!--<li class="home-episode">-->
                 <!--<div class = "row-fluid">-->

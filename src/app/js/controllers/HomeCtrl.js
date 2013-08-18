@@ -20,15 +20,22 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
                     url: ''
                 }
             }
-        }
+        },
+        commentCount: 0
     };
 
-    var episodes = GoogleAPI.youtube.playlist.items('PL66Y-U6XiSG2AdBTWfRjvhw8ItsMpOCJR', {maxResults: 1});
+    var episodes = GoogleAPI.youtube.playlist.items('PLB974F6E8F4766DB9', {maxResults: 1});
 
     episodes.then(function(videos) {
         console.log("Retrieved video playlist: ", videos);
         $scope.video = videos[0];
 
+        $http.get('/api/comments/count?id=yt-' + $scope.video.snippet.resourceId.videoId).
+            success(function(response) {
+                $scope.video.commentCount = response.count;
+            }).error(function(response) {
+                $scope.video.commentCount = 0;
+            });
     }, function(error) {
         console.error(error);
     });
@@ -38,21 +45,13 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
     };
 
     $scope.retrievePosts = function() {
-        $http.get('api/articles/front/1/10').
+        $http.get('api/articles/front?page=1&count=10').
             success(function(data) {
-              //  console.log(data);
-
                 $scope.posts = data;
             }).
             error(function(err) {
                 console.error(err);
             });
-    };
-
-    $scope.extractDate = function(time) {
-        var d = new Date(time);
-
-        return d.toLocaleTimeString() + " on " + d.toLocaleDateString();
     };
 
     $scope.retrievePosts();

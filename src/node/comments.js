@@ -14,6 +14,17 @@ collections.push(function(err, db) {
     }
 });
 
+function comments_getCommentCount(request, response) {
+    db_connector.collection('comments', function(err, comments) {
+        comments.count({ "articleId": request.query.id }, function(error, count) {
+            if (error) {
+                return response.send(500, "Database error occurred while processing the request.");
+            }
+
+            return response.send(200, { count: count });
+        });
+    });
+}
 
 function comments_getComments(request, response){
     db_connector.collection('comments', function(err, comments) {
@@ -150,6 +161,7 @@ function comments_removeComment(request, response){
 routing.push(function(app) {
     app.get('/api/comments/get/:articleId', comments_getComments);
     app.get('/api/comments/getFlagged', comments_getFlagged);
+    app.get('/api/comments/count', comments_getCommentCount);
     app.post('/api/comments/add/:articleId', comments_addComment);
     app.post('/api/comments/flagComment', ensureAuthentication, comments_flagComment);
     app.post('/api/comments/removeComment', ensureAuthentication, comments_removeComment);

@@ -99,8 +99,10 @@ function articles_getAll(request, response) {
 }
 
 function articles_getInOrder(request, response) {
-    var count = parseInt(request.params.count);
-    var page = parseInt(request.params.page);
+    var count = parseInt(request.query.count);
+    var page = parseInt(request.query.page);
+
+    console.log("Sending %d articles from page %d", count, page);
 
     // Ensure that count exists and is within the bounds of 1 to 15, inclusive.
     if (!count || count < 1) {
@@ -268,6 +270,6 @@ routing.push(function(app) {
     app.get('/api/articles/getAll/:uid', articles_getAll);
     app.get('/api/articles/get/:_id', articles_get);
     app.get('/api/articles/search/:query', articles_search);
-    app.get('/api/articles/front/:page/:count', articles_getInOrder);
+    app.get('/api/articles/front', articles_getInOrder);
     app.get('/api/articles/getUnpublished', articles_getUnpublished);
 });
