@@ -40,7 +40,7 @@
                     <!--</div>-->
                 <!--</div>-->
             <!--</li>-->
-            <li class = "home-article" ng-repeat = "post in posts">
+            <li class = "home-article media" ng-repeat = "post in posts">
                 <!--<div ng-show = "post.img" class = "row-fluid">-->
                     <!--<div class = "span2">-->
                         <!--<img class = "img-polaroid home-img" ng-src = "{{ articlePic(post.img) }}"/>-->
@@ -62,13 +62,13 @@
 
                 <div class = "row-fluid">
                     <div ng-show = "post.img" class = "span2">
-                        <img class = "img-polaroid home-img" ng-src = "{{ articlePic(post.img) }}"/>
+                        <img class = "img-polaroid home-img media-object" ng-src = "{{ articlePic(post.img) }}"/>
                     </div>
 
-                    <div ng-class = "{'span10': post.img, 'span12': !post.img, 'no-left-margin': !post.pic}">
-                        <h2><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h2>
+                    <div class="media-body" ng-class = "{'span10': post.img, 'span12': !post.img, 'no-left-margin': !post.pic}">
+                        <h3 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h3>
                         <p>Posted by <a href = '#' ng-click="viewAuthorProfile(post.uid)">{{ post.name }}</a> {{ post.date | date:"'at' h:mm:ss a 'on' MMMM d, y" }} (<a ng-click = "viewPost(post._id)" href = "#"><span ng-pluralize count="post.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
-                        <p ng-bind-html-unsafe="post.article"></p>
+                        <p ng-bind="post.article | blurbFilter"></p>
                     </div>
                 </div>
             </li>

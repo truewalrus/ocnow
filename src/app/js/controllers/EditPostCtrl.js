@@ -2,8 +2,7 @@
 
 angular.module("myApp.controllers").controller('EditPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', 'uploadService', function($scope, $routeParams, $location, $http, user, upload){
 
-    $scope.post = '';
-
+    $scope.post = { title: '', article: '' };
     $scope.editImage = false;
     $scope.image = [];
 

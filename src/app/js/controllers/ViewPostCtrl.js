@@ -4,6 +4,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
 
     $scope.post = '';
     $scope.content = '';
+
     if ($routeParams.id)
     {
         console.log($routeParams.id);
@@ -23,7 +24,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
         $location.path('/user/' + authorId);
     };
 
-    $scope.postComment = function(){
+    $scope.postComment = function() {
         $http.post('/api/comments/add/' +$routeParams.id, {"uId":$scope.user._id, "content": $scope.content}).
             success(function(data){
                 $scope.getComments();
