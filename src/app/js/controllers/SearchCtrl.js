@@ -12,5 +12,6 @@ angular.module("myApp.controllers").controller('SearchCtrl', ['$scope', '$http',
 
     $scope.viewPost = function(postId){
         $location.url('/article/' + postId);
+
     };
 }]);

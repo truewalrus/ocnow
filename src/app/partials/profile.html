@@ -34,7 +34,7 @@
                                         <img class="media-object article-thumbnail" ng-class="{ hidden: !post.img }" ng-src = "{{ articlePic(post.img) }}" alt = "not important"/>
                                     </a>
                                     <div class="media-body">
-                                        <h4 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h4>
+                                        <h4 class="media-heading"><a href ng-click = "viewPost(post._id)">{{post.title}}</a></h4>
                                         <span class="article-byline">Posted at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</span>
                                         <p class="article-summary" ng-bind-html-unsafe="post.article"></p>
                                     </div>
@@ -209,7 +209,7 @@
                                 <li ng-repeat = "post in unpublishedPosts">
                                     <div class = "row-fluid">
                                         <div class = "span2">
-                                            <img ng-src = "{{post.img}}" alt = "not important"/>
+                                            <img ng-src = "{{ articlePic(post.img)}}" alt = "not important"/>
                                         </div>
 
                                         <div class = "span9">
@@ -232,7 +232,7 @@
                         <div ng-show = "adminView == 2">
                             <ul class = "unstyled">
                                 <li class = "row-fluid comment-list" ng-repeat = "comment in flaggedComments">
-                                    <div class = "span2 comment-center"> <img ng-show = "comment.img" class = "img-polaroid comment-img" ng-src = " {{ comment.img}}"> </div>
+                                    <div class = "span2 comment-center"> <img ng-show = "comment.img" class = "img-polaroid comment-img" ng-src = " {{ profilePic(comment.img) }}"> </div>
                                     <div class = "span10">
                                         <div class = "comment-username" class = "span12">
                                             <a href = #>{{ comment.username }}</a> in <a ng-click = "viewPost(comment.articleId)" href = '#'>this</a> article <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
