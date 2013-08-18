@@ -348,9 +348,9 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.createNewPost = function(){
         $location.url('/new-post');
     };
-    $scope.viewPost = function(postId){
+ /*   $scope.viewPost = function(postId){
         $location.url('/article/' + postId);
-    };
+    };*/
 
 
     /**********************************************************************************************
@@ -380,7 +380,6 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.saveUserInfo = function(){
         user.updateUser($scope.user._id, $scope.fName, $scope.lName, $scope.files[0],
             function(){
-                $scope.files=[];
                 $scope.$emit('MessagePopup', '', 'User updated.');},
             function(error){$scope.$emit('MessagePopup', 'Failure: '+error, '');});
 

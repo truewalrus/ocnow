@@ -18,8 +18,8 @@
                         <img class = "img-polaroid media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}" />
                     </td>
                     <td class="media-body">
-                        <h5 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{ video.snippet.title }}</a></h5>
-                        <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-click = "viewPost(post._id)" href = "#"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
+                        <h5 class="media-heading"><a ng-href = '/article/{{ post._id }}'>{{ video.snippet.title }}</a></h5>
+                        <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
                         <p class="home-episode-description">{{ video.snippet.description }}</p>
 
                     </td>
@@ -66,8 +66,8 @@
                     </div>
 
                     <div class="media-body" ng-class = "{'span10': post.img, 'span12': !post.img, 'no-left-margin': !post.pic}">
-                        <h3 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h3>
-                        <p>Posted by <a href = '#' ng-click="viewAuthorProfile(post.uid)">{{ post.name }}</a> {{ post.date | date:"'at' h:mm:ss a 'on' MMMM d, y" }} (<a ng-click = "viewPost(post._id)" href = "#"><span ng-pluralize count="post.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
+                        <h3 class="media-heading"><a ng-href = '/article/{{ post._id }}'>{{post.title}}</a></h3>
+                        <p>Posted by <a ng-href = '/user/{{ post.uid }}'>{{ post.name }}</a> {{ post.date | date:"'at' h:mm:ss a 'on' MMMM d, y" }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="post.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
                         <p ng-bind="post.article | blurbFilter"></p>
                     </div>
                 </div>

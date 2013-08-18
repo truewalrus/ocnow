@@ -51,9 +51,11 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
         $http.post('/api/comments/flagComment', {"_id":_id, "flagged": true}).
             success(function(data){
                 console.log("flagged");
+                $scope.$emit("MessagePopup", '', 'Comment reported.');
             }).
             error(function(err){
                 console.error(err);
+                $scope.$emit("MessagePopup", err, '');
             });
     };
 
