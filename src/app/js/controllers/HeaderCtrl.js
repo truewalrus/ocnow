@@ -20,7 +20,10 @@ angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', 
     };
 
     $scope.search = function(){
-        $location.path('/search').search({'query': $scope.query});
+        if ($scope.query){
+            $location.path('/search').search({'query': $scope.query});
+        }
+
     };
 
 
