@@ -32,10 +32,10 @@
             </div>
 
             <div class = "row-fluid new-post-clear">
-                <div class = "control-group">
+                <div class = "control-group span5">
                     <label for = "availableTags">Available Tags: </label>
                     <div class = "controls">
-                        <div class = "span5 new-post-tag-box" id = "availableTags">
+                        <div class = "new-post-tag-box" id = "availableTags">
                             <ul class = "unstyled">
                                 <li ng-repeat = "tag in tags | filter: tagToAdd">
                                     {{ tag.tag }} <div class = "btn" ng-click = "addTagToArticle(tag.tag)">Add Tag to Article</div>
@@ -45,12 +45,10 @@
                     </div>
                 </div>
 
-                <div class = "span1"></div>
-
-                <div class = "control-group">
+                <div class = "control-group span5 offset2">
                     <label for = "availableTags">Article Tags: </label>
                     <div class = "controls">
-                        <div class = "span5 new-post-tag-box" id = "articleTags">
+                        <div class = "new-post-tag-box" id = "articleTags">
                             <ul class = "unstyled">
                                 <li ng-repeat = "tag in articleTags">
                                     {{ tag }} <div class = "btn" ng-click = "removeTagFromArticle(tag)">Remove</div>
