@@ -42,6 +42,11 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.username = $scope.user.username;
         $scope.admin = ($scope.user.rank < RANK_POSTER); //Check to see if the user is an admin
 
+        if($scope.user.rank === RANK_COMMENTER){
+            $scope.showSettings = 1;
+            $scope.showPosts = 0;
+        }
+
         //get articles that this user has posted
         $http.get('/api/articles/getAll/'+$scope.user._id).
             success(function(data){
@@ -86,7 +91,8 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
             password:"",
             fName: "",
             lName: "",
-            admin: false
+            admin: false,
+            rank: RANK_POSTER
         };
     };
 
@@ -135,10 +141,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
                $scope.$emit('MessagePopup', '', 'User created.');
             },
             function(data) {
-                console.log('failed to add user');
-                $scope.errMsg = data;
                 clearUser();
-                console.log(data);
                 $scope.$emit('MessagePopup', 'Failure: ' + data, '');
             });
     };
@@ -232,25 +235,32 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     *
     */
     $scope.adminSaveUserInfo = function(){
-        user.updateUser($scope.AACid, $scope.AACFName, $scope.AACLName, $scope.files[0],
-            function(){
-                $scope.files = [];
-                $scope.$emit('MessagePopup', '', 'User updated.');},
-            function(error){$scope.$emit('MessagePopup', 'Failure: ' + error, '');});
+        if ($scope.AACid){
+            user.updateUser($scope.AACid, $scope.AACFName, $scope.AACLName, $scope.files[0],
+                function(){
+                    $scope.files = [];
+                    $scope.$emit('MessagePopup', '', 'User updated.');
+                    adminUpdateUserList();},
+                function(error){$scope.$emit('MessagePopup', 'Failure: ' + error, '');});
 
-        if($scope.AACpassword){
-            // console.log($scope.AACpassword);
-            user.changePassword($scope.AACid, '', $scope.AACpassword,
-                function(data){
-                    console.log(data);
-                    $scope.AACpassword = '';
-                },
-                function(data){
-                    console.log("failure");
-                    console.log(data);
-                    $scope.AACpassword = '';
-                });
+            if($scope.AACpassword){
+                // console.log($scope.AACpassword);
+                user.changePassword($scope.AACid, '', $scope.AACpassword,
+                    function(data){
+                        console.log(data);
+                        $scope.AACpassword = '';
+                    },
+                    function(data){
+                        console.log("failure");
+                        console.log(data);
+                        $scope.AACpassword = '';
+                    });
+            }
         }
+        else{
+            $scope.$emit('MessagePopup', 'No user selected.', '');
+        }
+
     };
 
     /**

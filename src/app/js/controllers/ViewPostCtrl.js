@@ -1,10 +1,12 @@
 
 'use strict';
-angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', 'page', function($scope, $routeParams, $location, $http, user, page){
+angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', 'page', '$timeout', function($scope, $routeParams, $location, $http, user, page, $timeout){
     page.setPage('Article');
 
     $scope.post = '';
     $scope.content = '';
+
+    var commentingDisabled = false;
 
     if ($routeParams.id)
     {
@@ -28,13 +30,25 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
     };
 
     $scope.postComment = function() {
-        $http.post('/api/comments/add/' +$routeParams.id, {"uId":$scope.user._id, "content": $scope.content}).
-            success(function(data){
-                $scope.getComments();
-            }).
-            error(function(err){
-                console.error(err);
-            });
+        if(commentingDisabled){
+            $scope.$emit('MessagePopup' , 'Please wait 15 seconds in between posting comments', '');
+        }
+        else{
+            $http.post('/api/comments/add/' +$routeParams.id, {"uId":$scope.user._id, "content": $scope.content}).
+                success(function(data){
+                    $scope.getComments();
+                    commentingDisabled = true;
+                    $timeout(enableCommenting, 15000);
+                }).
+                error(function(err){
+                    console.error(err);
+                });
+        }
+
+    };
+
+    var enableCommenting = function(){
+        commentingDisabled = false;
     };
 
     $scope.comments = [];

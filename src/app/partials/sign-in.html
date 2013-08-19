@@ -1,5 +1,5 @@
 <div ng-controller="SignInCtrl">
-	<div class="signin-wrapper">
+	<!--<div class="signin-wrapper">
 		<h1 ng-show="signingIn">Sign In</h1>
 		<h1 ng-show="!signingIn">Sign Up</h1>
 
@@ -19,7 +19,93 @@
 			<input required type="password" ng-model="user.pw" /><br>
 			<button type="submit">Sign up</button>
 		</form>
-	</div>
+	</div>-->
+    <div class = "container-fluid">
+        <div class = "row-fluid">
+            <div class = "span12">
+                <div class = "span6">
+                    <div class = "area">
+                        <form class = "form-horizontal" ng-submit = "login(username, password)">
+                            <div class = "centerer heading">
+                                <h4 class = "form-heading">Sign In</h4>
+                            </div>
+
+                            <div class = "control-group">
+                                <label class = "control-label" for = "inputUsername">Username:</label>
+                                <div class = "controls">
+                                    <input type = "text" id = "inputUsername" ng-model = "username" required>
+                                </div>
+                            </div>
+                            <div class = "control-group">
+                                <label class = "control-label" for = "inputPassword">Password:</label>
+                                <div class = "controls">
+                                    <input type = "password" id = "inputPassword" ng-model = "password" required>
+                                    <span class = "help-block"><a href = "#">Forgot your password?</a></span>
+                                </div>
+                            </div>
+
+                            <div class = "control-group">
+                                <div class = "controls">
+                                    <button type = "submit" class = "btn btn-success">Sign In</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+                <div class = "span6">
+                    <div class = "area">
+                        <form class = "form-horizontal" ng-submit = "createUser()">
+                            <div class = "heading">
+                                <h4 class = "form-heading">Sign Up</h4>
+                            </div>
+                            <div class = "control-group">
+                                <label class = "control-label" for = "inputnUsername">* Username:</label>
+                                <div class = "controls">
+                                    <input type = "text" id = "inputnUsername" ng-model = "newUser.username" required>
+                                </div>
+                            </div>
+                            <div class = "control-group">
+                                <label class = "control-label" for = "inputnPassword">* Password: </label>
+                                <div class = "controls">
+                                    <input type = "password" id = "inputnPassword" ng-model = "newUser.password" required>
+                                </div>
+                            </div>
+                            <div class = "control-group">
+                                <label class = "control-label" for = "inputcPassword">* Confirm Password: </label>
+                                <div class = "controls">
+                                    <input type = "password" id = "inputcPassword" ng-model = "newUser.confirm" required>
+                                </div>
+                            </div>
+                            <div class = "control-group">
+                                <label class = "control-label" for = "inputFName">First Name: </label>
+                                <div class = "controls">
+                                    <input type = "text" id = "inputFName" ng-model = "newUser.fName">
+                                </div>
+                            </div>
+                            <div class = "control-group">
+                                <label class = "control-label" for = "inputLName">Last Name: </label>
+                                <div class = "controls">
+                                    <input type = "text" id = "inputLName" ng-model = "newUser.lName">
+                                    <span class = "help-block">* denotes a required field.</span>
+                                </div>
+                            </div>
+                            <div class = "control-group">
+                                <div class = "controls">
+                                    <button type = "submit" class = "btn btn-success">Sign Up</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
 	
 	<div class="alert alert-error" ng-show="errMsg" ng-bind="errMsg"></div>
 </div>

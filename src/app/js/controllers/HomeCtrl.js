@@ -2,6 +2,8 @@
 angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', 'user', '$location', 'page', 'GoogleApi', function($scope, $http, user, $location, page, GoogleAPI){
     page.setPage();
 
+    $scope.url = "";
+
     $scope.cont = true;
 
     $scope.posts = [];

@@ -1,5 +1,6 @@
 <div ng-controller = "ProfileCtrl">
     <div class = "container-fluid">
+
         <div class = "row-fluid">
             <legend> Profile: {{username}} </legend>
         </div>
@@ -11,7 +12,7 @@
                         <img ng-src = "{{ profilePic(img) }}" alt = "Profile" />
                     </div>
                     <ul class = "nav nav-tabs nav-stacked">
-                        <li ng-click = "viewPosts()"><a href = "#">My Posts</a></li>
+                        <li ng-click = "viewPosts()" ng-hide = "user.rank == 4"><a href = "#">My Posts</a></li>
                         <li ng-click = "viewSettings()"><a href = "#">Settings</a></li>
                         <li ng-click = "viewAdmin()" ng-hide = "!admin"><a href = '#'>Admin</a></li>
                         <li ng-click = "logOut()"><a href = "#">Log Out</a></li>
