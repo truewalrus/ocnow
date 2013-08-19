@@ -1,7 +1,7 @@
 <div ng-controller = "ViewProfileCtrl">
     <div class = "container-fluid">
-        <div class = "row-fluid">
-            <legend> Profile: {{userInfo.username}} <span ng-show="userInfo.fName || userInfo.lName">({{ ((userInfo.fName || '') + ' ' + (userInfo.lName || '')).trim() }})</span></legend>
+        <div class = "page-header">
+            <h2>Profile <small>{{userInfo.username}} <span ng-show="userInfo.fName || userInfo.lName">({{ ((userInfo.fName || '') + ' ' + (userInfo.lName || '')).trim() }})</span></small></h2>
         </div>
 
         <div class = "row-fluid">
