@@ -1,0 +1,87 @@
+<<<<<<< HEAD
+<div  ng-controller = "HomeCtrl">
+=======
+<div class = "container-fluid " ng-controller = "HomeCtrl">
+
+>>>>>>> fa298af0d66c97c1887c8f841143164d50680d7e
+        <!--<div class="media home-episode">-->
+            <!--<div class = "pull-left home-episode-image">-->
+                <!--<img class = "media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}"/>-->
+            <!--</div>-->
+
+            <!--<div class = "media-body">-->
+                <!--<h5 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{video.snippet.title}}</a></h5>-->
+                <!--<p class="home-episode-description">Posted on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-click = "viewPost(post._id)" href = "#">{{post.commentCount }} comments</a>)</p>-->
+                <!--<p class="home-episode-description">{{ video.snippet.description }}</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <table class="hero-unit">
+            <tbody>
+                <tr ng-show="video.id" class="media home-episode">
+                    <td class="home-episode-headers">
+                        <h4 class="home-episode-section">Latest Episode</h4>
+                    </td>
+                    <td class="media-body home-episode-headers">
+                        <h4 class="media-heading"><a ng-href = 'article/{{ post._id }}'>{{ video.snippet.title }}</a></h4>
+                    </td>
+                    </tr>
+                <tr ng-show="video.id" class="media home-episode">
+                    <td class="home-episode-image">
+                        <!--<img class = "img-polaroid media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}" />-->
+                        <iframe width="250" height="187" ng-src="http://www.youtube.com/embed/{{ video.snippet.resourceId.videoId }}" frameborder="0" allowfullscreen></iframe>'
+                    </td>
+                    <td class="media-body home-episode-details">
+                        <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
+                        <p class="home-episode-description" ng-bind-html-unsafe="video.snippet.description | blurbFilter"></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul class = "container-fluid unstyled">
+            <!--<li class="home-episode">-->
+                <!--<div class = "row-fluid">-->
+                    <!--<div class = "span4" style="height: inherit">-->
+                        <!--<img class = "img-polaroid home-episode-image" ng-src = "{{ video.snippet.thumbnails.medium.url }}"/>-->
+                    <!--</div>-->
+
+                    <!--<div class = "span6">-->
+                        <!--<h5><a href = '#' ng-click = "viewPost(post._id)">{{video.snippet.title}}</a></h5>-->
+                        <!--<p class="home-episode-description">Posted by <a href = '#' ng-click="viewAuthorProfile(post.uid)">{{ post.name}}</a> at {{ extractDate(post.date) }} (<a ng-click = "viewPost(post._id)" href = "#">{{post.commentCount }} comments</a>)</p>-->
+                        <!--<p class="home-episode-description">{{ video.snippet.description }}</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</li>-->
+            <li class = "home-article media" ng-repeat = "post in posts">
+                <!--<div ng-show = "post.img" class = "row-fluid">-->
+                    <!--<div class = "span2">-->
+                        <!--<img class = "img-polaroid home-img" ng-src = "{{ articlePic(post.img) }}"/>-->
+                    <!--</div>-->
+
+                    <!--<div class = "span10">-->
+                        <!--<h2><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h2>-->
+                        <!--<p>Posted by <a href = '#' ng-click="viewAuthorProfile(post.uid)">{{ post.name}}</a> at {{ extractDate(post.date) }} (<a ng-click = "viewPost(post._id)" href = "#">{{post.commentCount }} comments</a>)</p>-->
+                        <!--<p ng-bind-html-unsafe="post.article"></p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div ng-show = "!post.img" class = "row-fluid">-->
+                    <!--<div class = "span12">-->
+                        <!--<h2><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h2>-->
+                        <!--<p>Posted by <a href = '#' ng-click="viewAuthorProfile(post.uid)">{{ post.name}}</a> at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</p>-->
+                        <!--<p ng-bind-html-unsafe="post.article"></p>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div class = "row-fluid">
+                    <div ng-show = "post.img" class = "span2">
+                        <img class = "img-polaroid home-img media-object" ng-src = "{{ articlePic(post.img) }}"/>
+                    </div>
+
+                    <div class="media-body" ng-class = "{'span10': post.img, 'span12': !post.img, 'no-left-margin': !post.pic}">
+                        <h3 class="media-heading"><a ng-href = '/article/{{ post._id }}'>{{post.title}}</a></h3>
+                        <p class="home-article-byline">Posted by <a ng-href = '/user/{{ post.uid }}'>{{ post.name }}</a> {{ post.date | date:"'at' h:mm:ss a 'on' MMMM d, y" }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="post.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
+                        <p class="home-article-desc" ng-bind="post.article | blurbFilter"></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+</div>
