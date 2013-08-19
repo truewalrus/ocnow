@@ -5,7 +5,7 @@ var gapiInterface = {
     loaded: false,
     callback: function() { },
     load: function() {
-        console.info("Google API Client Script: Google Client API has been loaded.");
+//        console.info("Google API Client Script: Google Client API has been loaded.");
         this.loaded = true;
         this.callback();
     }
@@ -19,7 +19,7 @@ angular.module('myApp.services').provider('GoogleApi', function () {
 
 
     this.setApiKey = function(apiKey) {
-        console.log("Google API Provider: API Key set to " + apiKey);
+//        console.log("Google API Provider: API Key set to " + apiKey);
           appApiKey = apiKey;
     };
 
@@ -28,6 +28,9 @@ angular.module('myApp.services').provider('GoogleApi', function () {
             youtube: {
                 playlistItems: {
                     list: 'youtube.playlistItems.list'
+                },
+                videos: {
+                    list: 'youtube.videos.list'
                 }
             }
         };
@@ -38,11 +41,11 @@ angular.module('myApp.services').provider('GoogleApi', function () {
             initializing = true;
             gapi.client.setApiKey(appApiKey);
 
-            console.log("Google API Service: Initialized Google API. Loading API components...");
+//            console.log("Google API Service: Initialized Google API. Loading API components...");
             gapi.client.load('youtube', 'v3', function() {
                 loaded = true;
 
-                console.info("Google API Service: API components loaded.");
+//                console.info("Google API Service: API components loaded.");
 
                 if (requestQueue.length > 0) {
                     executeRequestQueue();
@@ -54,25 +57,28 @@ angular.module('myApp.services').provider('GoogleApi', function () {
             if (code == requestCode.youtube.playlistItems.list) {
                 return gapi.client.youtube.playlistItems.list;
             }
+            else if (code == requestCode.youtube.videos.list) {
+                return gapi.client.youtube.videos.list;
+            }
             else {
                 console.error("Google API Service: Unknown parse request code.");
             }
         };
 
         if (!initializing) {
-            console.log("Google API Service: Google API Service not initialized. Initializing...");
+//            console.log("Google API Service: Google API Service not initialized. Initializing...");
 
             if (!gapiInterface.loaded) {
-                console.warn("Google API Service: Google API not yet loaded. Postponing initialization...");
+//                console.warn("Google API Service: Google API not yet loaded. Postponing initialization...");
                 gapiInterface.callback = initialize;
             }
             else {
-                console.info("Google API Service: Google API is loaded.");
+//                console.info("Google API Service: Google API is loaded.");
                 initialize();
             }
         }
         else {
-            console.log("Google API Service is connected.");
+//            console.log("Google API Service is connected.");
         }
 
         var queueRequest = function(request, params, callback) {
@@ -80,7 +86,7 @@ angular.module('myApp.services').provider('GoogleApi', function () {
         };
 
         var executeRequestQueue = function() {
-            console.log("Google API Service: Found %s pending requests, executing...", requestQueue.length);
+//            console.log("Google API Service: Found %s pending requests, executing...", requestQueue.length);
 
             for (var i = 0; i < requestQueue.length; i++) {
                 var request = parseRequestCode(requestQueue[i].request)(requestQueue[i].params);
@@ -99,7 +105,7 @@ angular.module('myApp.services').provider('GoogleApi', function () {
 
                         if (!params) { params = {}; }
 
-                        params.part = 'id,snippet';
+                        params.part = 'snippet';
                         params.playlistId = playlistId;
 
                         var callback = function(response) {
@@ -114,18 +120,50 @@ angular.module('myApp.services').provider('GoogleApi', function () {
                         };
 
                         if (loaded) {
-                            console.log("Google API Service: Received request. Executing...");
+//                            console.log("Google API Service: Received request. Executing...");
                             var request = gapi.client.youtube.playlistItems.list(params);
 
                             request.execute(callback);
                         }
                         else {
-                            console.warn("Google API Service: Received request but API is not loaded. Postponing request...");
+//                            console.warn("Google API Service: Received request but API is not loaded. Postponing request...");
                             queueRequest(requestCode.youtube.playlistItems.list, params, callback);
                         }
 
                         return results.promise;
                     }
+                },
+                video: function(videoId, params) {
+                    var results = $q.defer();
+
+                    if (!params) { params = {}; }
+
+                    params.part = 'snippet';
+                    params.id = videoId;
+
+                    var callback = function(response) {
+                        $rootScope.$safeApply( function() {
+                            if (response.error) {
+                                results.reject(response.error);
+                            }
+                            else {
+                                results.resolve(response.items);
+                            }
+                        });
+                    };
+
+                    if (loaded) {
+                        //                            console.log("Google API Service: Received request. Executing...");
+                        var request = gapi.client.youtube.videos.list(params);
+
+                        request.execute(callback);
+                    }
+                    else {
+                        //                            console.warn("Google API Service: Received request but API is not loaded. Postponing request...");
+                        queueRequest(requestCode.youtube.videos.list, params, callback);
+                    }
+
+                    return results.promise;
                 }
             }
         };

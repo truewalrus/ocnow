@@ -15,6 +15,7 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.s
     $routeProvider.when('/new-vid', {templateUrl: '/partials/new-vid.html'});
     $routeProvider.when('/article/:_id/edit', {templateUrl:"/partials/edit-post.html"});
     $routeProvider.when('/article/:id', {templateUrl:"/partials/view-post.html"});
+    $routeProvider.when('/episode/:id', {templateUrl:"/partials/view-video.html"});
     $routeProvider.when('/search', {templateUrl: "/partials/search.html"});
     $routeProvider.otherwise({redirectTo: '/home'});
 	

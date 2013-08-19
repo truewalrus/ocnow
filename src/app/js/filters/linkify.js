@@ -1,12 +1,8 @@
 'use strict';
 angular.module('myApp.filters')
-    .filter('blurbFilter', [ function() {
+    .filter('linkify', [ function() {
         return function(text) {
             var blurb = text;
-//            blurb = blurb.replace('</p>',' ');
-//            blurb = blurb.replace(new RegExp('\\<.+?\\>','ig'), '');
-
-            var links = true;
 
             var matches = blurb.match(new RegExp('(https?://.\\S+)|(www\\.\\S+\\.\\S+)','ig'));
 

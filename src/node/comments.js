@@ -80,7 +80,7 @@ function comments_addComment(request, response){
             }
             else{
                 console.log("Comment added as " + data);
-                articles_addComment(request.params.articleId);
+                if (request.params.articleId.length == 24) { articles_addComment(request.params.articleId) };
                 response.send(200);
             }
         });
