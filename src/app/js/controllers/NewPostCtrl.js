@@ -56,6 +56,17 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
             });
     };
 
+    $scope.deleteTag = function(tag){
+        $http.post('/api/tags/deleteTag', {'_id': tag._id}).
+            success(function(data){
+                getTags();
+            }).
+            error(function(data){
+                console.warn("Failure: " + data);
+                $scope.$emit('MessagePopup', data, '');
+            });
+    };
+
     $scope.addTagToArticle = function(tag){
         if (!contains(tag, $scope.articleTags)){
             $scope.articleTags.push(tag);

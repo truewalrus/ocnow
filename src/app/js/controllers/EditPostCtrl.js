@@ -4,7 +4,7 @@ angular.module("myApp.controllers").controller('EditPostCtrl', ['$scope', '$rout
 
     $scope.post = { title: '', article: '' };
     $scope.editImage = false;
-    $scope.image = [];
+    $scope.files = [];
 
     if ($routeParams._id)
     {
@@ -21,7 +21,7 @@ angular.module("myApp.controllers").controller('EditPostCtrl', ['$scope', '$rout
     }
 
     $scope.editPost = function() {
-        upload.upload('/api/articles/update/' + $routeParams._id, { 'article': $scope.post.article, 'title': $scope.post.title }, $scope.image[0],
+        upload.upload('/api/articles/update/' + $routeParams._id, { 'article': $scope.post.article, 'title': $scope.post.title }, $scope.files[0],
             function(response) {
                 $location.path('/article/' + $routeParams._id);
             });

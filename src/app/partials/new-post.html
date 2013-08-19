@@ -27,7 +27,7 @@
             <div class = "control-group">
                 <label for = "tags">Tags: </label>
                 <div class = "controls">
-                    <input id = "tags" type = "text" ng-model = "tagToAdd" placeholder = "Search tags..."><i ng-show = "user.rank <3" class = "icon-plus-sign icon-click" ng-click = "addTag(tagToAdd)"></i>
+                    <input id = "tags" type = "text" ng-model = "tagToAdd" placeholder = "Search tags..."><i ng-show = "user.rank <3" class = "icon-plus-sign icon-click" ng-click = "addTag(tagToAdd)" title = "Add tag to Database"></i>
                 </div>
             </div>
 
@@ -39,7 +39,7 @@
                             <div class = "new-post-tag-box span12" id = "availableTags">
                                 <ul class = "unstyled">
                                     <li ng-repeat = "tag in tags | filter: tagToAdd">
-                                        {{ tag.tag }} <div class = "btn" ng-click = "addTagToArticle(tag.tag)">Add Tag to Article</div>
+                                        {{ tag.tag }} <div class = "pull-right"><i class = "icon-plus-sign icon-click" ng-click = "addTagToArticle(tag.tag)" title = "Add {{ tag.tag }} to Article"></i> <i class = "icon-trash icon-click" ng-show = "user.rank <3" class = "btn" ng-click = deleteTag(tag) title = "Delete {{ tag.tag }} from Database"></i></div>
                                     </li>
                                 </ul>
                             </div>
@@ -54,7 +54,7 @@
                             <div class = "new-post-tag-box span12" id = "articleTags">
                                 <ul class = "unstyled">
                                     <li ng-repeat = "tag in articleTags">
-                                        {{ tag }} <div class = "btn" ng-click = "removeTagFromArticle(tag)">Remove</div>
+                                        {{ tag }} <div class = "pull-right"><i class = "icon-trash icon-click" ng-click = "removeTagFromArticle(tag)" title = "Remove {{ tag }} from article"></i></div>
                                     </li>
                                 </ul>
                             </div>

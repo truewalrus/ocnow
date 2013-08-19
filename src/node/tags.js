@@ -58,5 +58,7 @@ function tags_get(request, response){
 
 routing.push(function(app) {
     app.post('/api/tags/addTag', ensureAuthentication, tags_addTag);
+    app.post('/api/tags/deleteTag', ensureAuthentication, tags_deleteTag);
     app.get('/api/tags/get', tags_get);
+
 });

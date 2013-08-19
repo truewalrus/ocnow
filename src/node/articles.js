@@ -223,12 +223,13 @@ function articles_update_setup(request, response, next) {
     var updatedFields = {};
     updatedFields.title = request.body.title;
     updatedFields.article = request.body.article;
+    console.log(request.body);
     if (request.body.img) {
         updatedFields.img = request.body.img;
 
         request.updates = updatedFields;
 
-        db_connector.collection('users', function (err, articles){
+        db_connector.collection('articles', function (err, articles){
             articles.findOne({ '_id': ObjectID(request.params._id) }, function(error, article) {
                 if (article.img) {
                     console.log("Deleting article image");
