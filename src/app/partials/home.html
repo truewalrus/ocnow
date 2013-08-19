@@ -24,7 +24,7 @@
                 <tr ng-show="video.id" class="media home-episode">
                     <td class="home-episode-image">
                         <!--<img class = "img-polaroid media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}" />-->
-                        <iframe width="250" height="187" ng-src="{{ videoEmbedSrc() }}" frameborder="0" allowfullscreen></iframe>'
+                        <iframe width="250" height="187" ng-src="{{ videoEmbedSrc() }}" frameborder="0" allowfullscreen></iframe>
                     </td>
                     <td class="media-body home-episode-details">
                         <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>

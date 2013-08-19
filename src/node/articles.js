@@ -252,10 +252,10 @@ function articles_update(request, response) {
 
         articles.update({ '_id': ObjectID(request.params._id) }, { $set: request.updates }, function(error, data){
             if (error) {
-                response.send(500, "Database error occurred while processing request.");
+                response.send(500, { error: "Database error occurred while processing request." });
             }
             else {
-                response.send(200);
+                response.send(200, { message: 'Article updated.' });
             }
         });
     });

@@ -37,7 +37,7 @@ function upload_parseUpload (request, response, next){
     form.parse(request.delayedStream.source, function(err, fields, files) {
         if (err) {
             console.log("Error: " + err);
-            return response.send(500);
+            return response.send(500, { error: 'Database error occurred.' });
         }
 
         for (var attr in fields) {
@@ -55,7 +55,7 @@ function upload_parseUpload (request, response, next){
 function delayedEnsureAuthentication(request, response, next) {
     if (!request.user) {
         request.delayedStream.resume();
-        return response.send("Must be logged in.", 401);
+        return response.send(401, { error: 'Article updated.' });
     }
 
     return next();
@@ -87,7 +87,7 @@ routing.push(function(app) {
     app.post('/api/user/update/:_id', delayedEnsureAuthentication,
         function(req, res, next) { req.body.uploadDir = './app/img/'; return next(); },
         function(request, response, next) {
-            if (request.params._id != request.user._id && !canUpdateUser(request.user.rank)) { return response.send(401, "User does not have permission to update this user."); }
+            if (request.params._id != request.user._id && !canUpdateUser(request.user.rank)) { return response.send(401, { error: "User does not have permission to update this user." }); }
 
             return next();
         },
@@ -99,7 +99,7 @@ routing.push(function(app) {
             if (!canUpdateArticle(request.user.rank)) {
                 db_connector.collection('articles', function(error, articles) {
                     articles.findOne({ "_id": ObjectID(request.params._id ) }, function(error, article) {
-                        if (article.uid != request.user._id) { return response.send(401, "User does not have permission to update this user."); }
+                        if (article.uid != request.user._id) { return response.send(401, { error: "User does not have permission to update this user." }); }
                     });
                 });
             }
@@ -111,7 +111,7 @@ routing.push(function(app) {
     app.post('/api/articles/create', delayedEnsureAuthentication,
         function(req, res, next) { req.body.uploadDir = './app/img/'; return next(); },
         function(request, response, next) {
-            if (!canCreateArticle(request.user.rank)) { return response.send(401, "User does not have permission to create articles."); }
+            if (!canCreateArticle(request.user.rank)) { return response.send(401, { error: "User does not have permission to create articles." }); }
 
             return next();
         },

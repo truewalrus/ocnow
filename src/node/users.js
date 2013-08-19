@@ -379,7 +379,7 @@ function users_update(request, response) {
     db_connector.collection('users', function (err, users){
         users.update({ '_id': ObjectID(request.params._id) }, { $set: request.updates }, function(error, data){
             if (error) {
-                response.send(500, "Database error occurred while processing request.");
+                response.send(500, { error: "Database error occurred while processing request." });
             }
             else {
                 users.findOne({'_id': ObjectID(request.params._id)}, function(err, user) {
