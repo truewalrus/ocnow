@@ -5,7 +5,7 @@ angular.module('myApp.directives')
             // onChange, push the files to $scope.files.
             element.bind('change', function (event) {
                 //$scope.files = [];
-                var acceptedFileTypes = ["jpg", "png", "gif"];
+                var acceptedFileTypes = ["jpg", "png", "gif", "jpeg"];
                 var files = event.target.files;
                 console.log(files[0]);
                 var ext = files[0].name.substring(files[0].name.lastIndexOf('.') + 1).toLowerCase();
