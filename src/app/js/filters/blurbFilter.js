@@ -25,8 +25,7 @@ angular.module('myApp.filters')
 
                     blurb = blurb.substring(location + matches[i].length);
 
-                    console.log(matches[i]);
-                    console.log(location);
+
                 }
             }
 

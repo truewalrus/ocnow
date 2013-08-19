@@ -2,10 +2,23 @@
 
 angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user', '$http', '$rootScope', '$location', 'uploadService', function($scope, user, $http, $rootScope, $location, uploadService){
 
+    var RANK_COMMENTER = 4;
+
+    if (!$scope.checkingSession && !$scope.loggedIn) { return $location.path('/sign-in').replace(); }
+    else{
+        if ($scope.user.rank === RANK_COMMENTER){
+            $location.path('/home');
+        }
+    }
+    $scope.$on('user:loggedOut', function(event) {
+        return $location.path('/sign-in').replace();
+    });
+
+
     var createArticle = function(imgPath) {
         if (!imgPath) { imgPath = ''; }
 
-        $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title ,'img': imgPath, 'published': $scope.publishArticle}).
+        $http.post('api/articles/create', {'uid': $scope.user._id, 'name': $scope.user.username, 'article': $scope.article, 'title': $scope.title ,'img': imgPath, 'published': $scope.publishArticle, 'tags': $scope.articleTags}).
             success(function(data) {
                 console.log(data);
             }).
@@ -15,6 +28,51 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
             });
 
 
+    };
+
+    $scope.tags = [];
+    $scope.articleTags = [];
+
+    var getTags = function(){
+        $http.get('api/tags/get').
+            success(function(data) {
+                $scope.tags = data;
+            }).
+            error(function(data) {
+                console.warn("Failure: " + data);
+            });
+    };
+    getTags();
+
+    $scope.addTag = function(tagToAdd){
+        $http.post('api/tags/addTag', {'tag':tagToAdd}).
+            success(function(data){
+                getTags();
+                $scope.tagToAdd = '';
+            }).
+            error(function(data){
+                console.warn("Failure: " +data);
+                $scope.$emit('MessagePopup', 'Failure: ' + data, '');
+            });
+    };
+
+    $scope.addTagToArticle = function(tag){
+        if (!contains(tag, $scope.articleTags)){
+            $scope.articleTags.push(tag);
+        }
+    };
+
+    var contains = function (a, array){
+        for (var i = 0; i < array.length; i++){
+            if (array[i] === a){
+                return true;
+            }
+        }
+        return false;
+    };
+
+    $scope.removeTagFromArticle = function(tag){
+        $scope.articleTags.splice($scope.articleTags.indexOf(tag), 1);
     };
 
   /*  var checkSession = function(){
@@ -51,7 +109,7 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
 //            uploadService.send($scope.files[0], 'article');
 //        }
 
-        uploadService.upload('/api/articles/create', { title: $scope.title, article: $scope.article, published: $scope.published }, $scope.files[0],
+        uploadService.upload('/api/articles/create', { title: $scope.title, article: $scope.article, published: $scope.published, tags: $scope.articleTags }, $scope.files[0],
             function(response) {
                 console.log("Creation success!");
                 console.log('/article/%s', response.article._id);

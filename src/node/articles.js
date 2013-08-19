@@ -40,7 +40,7 @@ function articles_create(request, response) {
     console.log(request.body);
 
     db_connector.collection('articles', function(err, collection) {
-        collection.insert({"uid": String(request.user._id), "name": users_parseName(request.user), "article": request.body.article, "title":request.body.title, "img": request.body.img, "date": d.getTime(), "published": published, "commentCount":0 }, function(err, data){
+        collection.insert({"uid": String(request.user._id), "name": users_parseName(request.user), "article": request.body.article, "title":request.body.title, "img": request.body.img, "date": d.getTime(), "published": published, "tags": request.body.tags, "commentCount":0 }, function(err, data){
             if (err) {
                 response.send("Article already exists!!!", 401);
             }

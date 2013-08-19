@@ -1,5 +1,5 @@
 /*Service for getting facebook login*/
-
+/*
 'use strict';
 angular.module('myApp.services')
 .service('Facebook', ['$q', '$timeout', function($q, $timeout){
@@ -12,7 +12,7 @@ angular.module('myApp.services')
 	*
 	* @method login
 	*/
-	this.login = function(scope){
+/*	this.login = function(scope){
         console.debug("Logging into Facebook.");
         //$q.defer sets up an asynchronous promise
 		var resp = $q.defer();
@@ -32,7 +32,7 @@ angular.module('myApp.services')
                 });
             }*/
 
-            FB.api('/me', function(response) {
+ /*           FB.api('/me', function(response) {
                 console.info("(Facebook) Logged in as %s", response.name);
             });
 

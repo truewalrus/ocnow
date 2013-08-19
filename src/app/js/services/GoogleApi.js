@@ -1,6 +1,7 @@
 'use strict';
 
 var gapiInterface = {
+
     loaded: false,
     callback: function() { },
     load: function() {
@@ -8,12 +9,14 @@ var gapiInterface = {
         this.loaded = true;
         this.callback();
     }
+
 };
 
 angular.module('myApp.services').provider('GoogleApi', function () {
     var appApiKey = '';
     var initializing = false;
     var loaded = false;
+
 
     this.setApiKey = function(apiKey) {
         console.log("Google API Provider: API Key set to " + apiKey);
@@ -141,4 +144,5 @@ angular.module('myApp.services').run(['GoogleApi', function(GoogleApi) {
 
 function gapiLoad() {
     gapiInterface.load();
+
 }

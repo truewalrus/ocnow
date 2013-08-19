@@ -1,19 +1,107 @@
 <div ng-controller = "NewPostCtrl">
+    <div class = "container-fluid">
+        <legend>Create a New Post</legend>
+        <form ng-submit = "newPost()">
+            <div class = "control-group">
+                <label for = "title" class = "control-label">Title: </label>
+                <div class = "controls">
+                    <input id = "title" type = "text" class = "input-block-level" ng-model = "title" required>
+                </div>
+            </div>
+
+            <div class = "control-group">
+                <label class = "control-label" for = "image">Image: </label>
+                <div class = "controls">
+                    <img ng-src="{{ articleImage() }}">
+                    <input type = "file" ng-model = "files" id = "image" file-change>
+                </div>
+            </div>
+
+            <div class = "control-group">
+                <label for = "article">Article: </label>
+                <div class = "controls">
+                    <textarea id = "article" ui-tinymce = "editorOptions" ng-model = "article" required></textarea>
+                </div>
+            </div>
+
+            <div class = "control-group">
+                <label for = "tags">Tags: </label>
+                <div class = "controls">
+                    <input id = "tags" type = "text" ng-model = "tagToAdd" placeholder = "Search or Add tags to Database..."><i class = "icon-plus-sign" ng-click = "addTag(tagToAdd)"></i>
+                </div>
+            </div>
+
+            <div class = "row-fluid new-post-clear">
+                <div class = "control-group">
+                    <label for = "availableTags">Available Tags: </label>
+                    <div class = "controls">
+                        <div class = "span5 new-post-tag-box" id = "availableTags">
+                            <ul class = "unstyled">
+                                <li ng-repeat = "tag in tags | filter: tagToAdd">
+                                    {{ tag.tag }} <div class = "btn" ng-click = "addTagToArticle(tag.tag)">Add Tag to Article</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class = "span1"></div>
+
+                <div class = "control-group">
+                    <label for = "availableTags">Article Tags: </label>
+                    <div class = "controls">
+                        <div class = "span5 new-post-tag-box" id = "articleTags">
+                            <ul class = "unstyled">
+                                <li ng-repeat = "tag in articleTags">
+                                    {{ tag }} <div class = "btn" ng-click = "removeTagFromArticle(tag)">Remove</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class = "control-group">
+                <div class = "controls">
+                    <button type = "submit" class = "btn" ng-disabled="submitDisabled" name = "temp">Submit</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
     <form ng-submit="newPost()">
         <legend>Create a New Post</legend>
         <div class="form-group">
-            <label for="title">Title</label>
-            <input id="title" type = "text" class = "input-large form-control" placeholder = "Title" required ng-model = "title">
+            <label>Title</label>
+            <input type = "text" class = "input-large form-control" placeholder = "Title" required ng-model = "title">
         </div>
         <span class = "help-block"></span>
         <div class="form-group">
             <label for="article">Article</label>
-            <textarea id="article" ui-tinymce="editorOptions" placeholder = "Content" required ng-model = "article"></textarea>
+            <textarea ui-tinymce="editorOptions" placeholder = "Content" required ng-model = "article"></textarea>
         </div>
         <br />
 
-        <img ng-src="{{ articleImage() }}">
-        <input type = "file" ng-model = "files" file-change>
 
         <br />
 
@@ -24,6 +112,27 @@
             </label>
         </div>
 
+        <div>
+        <input type = "text" ng-model = "tagToAdd"> <div class = "btn" ng-click = "addTag(tagToAdd)">Add Tag To Database</div>
+        </div>
+
+        <div class = "profile-well-white span4">
+            <ul class = "unstyled">
+                <li ng-repeat = "tag in tags | filter: tagToAdd">
+                    {{ tag.tag }} <div class = "btn" ng-click = "addTagToArticle(tag.tag)">Add Tag to Article</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class = "profile-well-white span4">
+            <ul class = "unstyled">
+                <li ng-repeat = "tag in articleTags">
+                    {{ tag }} <div class = "btn" ng-click = "removeTagFromArticle(tag)">Remove</div>
+                </li>
+            </ul>
+        </div>
+
+
         <button type = "submit" class = "btn" ng-disabled="submitDisabled" name = "temp">Submit</button>
     </form>
 	
@@ -32,5 +141,5 @@
         <button class="btn btn-primary" ng-click = "topPosts()">TOP 3</button>
         <button class="btn btn-info" ng-click = "nextPosts()">NEXT 3</button>
     </div>
-    <button class="btn btn-danger" ng-click = "clearDatabase()">Clear Database</button>
+    <button class="btn btn-danger" ng-click = "clearDatabase()">Clear Database</button>-->
 </div>
