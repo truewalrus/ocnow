@@ -32,28 +32,32 @@
             </div>
 
             <div class = "row-fluid">
-                <div class = "control-group span5">
-                    <label for = "availableTags">Available Tags: </label>
-                    <div class = "controls">
-                        <div class = "new-post-tag-box span12" id = "availableTags">
-                            <ul class = "unstyled">
-                                <li ng-repeat = "tag in tags | filter: tagToAdd">
-                                    {{ tag.tag }} <div class = "btn" ng-click = "addTagToArticle(tag.tag)">Add Tag to Article</div>
-                                </li>
-                            </ul>
+                <div class = "control-group span6">
+                    <div class="span9 offset2">
+                        <label for = "availableTags">Available Tags: </label>
+                        <div class = "controls">
+                            <div class = "new-post-tag-box span12" id = "availableTags">
+                                <ul class = "unstyled">
+                                    <li ng-repeat = "tag in tags | filter: tagToAdd">
+                                        {{ tag.tag }} <div class = "btn" ng-click = "addTagToArticle(tag.tag)">Add Tag to Article</div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class = "control-group span5 offset2">
-                    <label for = "availableTags">Article Tags: </label>
-                    <div class = "controls">
-                        <div class = "new-post-tag-box span12" id = "articleTags">
-                            <ul class = "unstyled">
-                                <li ng-repeat = "tag in articleTags">
-                                    {{ tag }} <div class = "btn" ng-click = "removeTagFromArticle(tag)">Remove</div>
-                                </li>
-                            </ul>
+                <div class = "control-group span6">
+                    <div class="span9 offset1">
+                        <label for = "availableTags">Article Tags: </label>
+                        <div class = "controls">
+                            <div class = "new-post-tag-box span12" id = "articleTags">
+                                <ul class = "unstyled">
+                                    <li ng-repeat = "tag in articleTags">
+                                        {{ tag }} <div class = "btn" ng-click = "removeTagFromArticle(tag)">Remove</div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
