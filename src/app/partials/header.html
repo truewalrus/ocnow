@@ -1,7 +1,9 @@
 <div class = "header" ng-controller = "HeaderCtrl">
     <div class = "row">
         <facebook-like url = "{{ pageUrl }}"></facebook-like>
-        <div class="navbar navbar-fixed-top navbar-inverse centerer">
+
+
+        <div class = "navbar navbar-inverse centerer fix-header" ng-class = "{'navbar-fixed-top': lockHeader}">
             <div class = "navbar-inner">
 
                 <ul class="nav">
@@ -23,7 +25,6 @@
             </div>
         </div>
     </div>
-
 
         <div ng-show = "msg_notify" class = "alert alert-success notify-alert centerer">{{ msg_notify }}</div>
         <div ng-show = "msg_error" class = "alert alert-error notify-alert centerer">{{ msg_error }}</div>

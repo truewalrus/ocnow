@@ -1,9 +1,26 @@
 'use strict';
 
-angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', '$location','$rootScope', '$timeout', 'messageService', function ($scope, user, $location, $rootScope, $timeout, ms){
+angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', '$location','$rootScope', '$timeout', 'messageService', '$window', function ($scope, user, $location, $rootScope, $timeout, ms, $window){
     $scope.$on('userLoggedIn', function() {
         user.checkSession();
     });
+
+    $scope.lockHeader = false;
+
+
+        angular.element($window).bind('scroll', function(){
+            $scope.$safeApply(function() {
+                if($window.pageYOffset < 200){
+                    $scope.lockHeader = false;
+                }
+                else{
+                    $scope.lockHeader = true;
+                }
+            });
+        });
+
+
+
 
     $scope.pageUrl = "http://www.google.com";
 

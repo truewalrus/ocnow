@@ -8,6 +8,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
 
     var commentingDisabled = false;
 
+
     if ($routeParams.id)
     {
         console.log($routeParams.id);
@@ -25,6 +26,8 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
         $location.url('/home');
     }
 
+
+
     $scope.viewAuthorProfile = function(authorId) {
         $location.path('/user/' + authorId);
     };
@@ -39,6 +42,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
                     $scope.getComments();
                     commentingDisabled = true;
                     $timeout(enableCommenting, 15000);
+                    $scope.content = '';
                 }).
                 error(function(err){
                     console.error(err);
@@ -73,6 +77,19 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
             error(function(err){
                 console.error(err);
                 $scope.$emit("MessagePopup", err, '');
+            });
+    };
+
+    $scope.deleteComment = function(_id){
+        $http.post('/api/comments/removeComment', {"_id":_id, "articleId":$routeParams.id}).
+            success(function(data){
+                console.log("deleted");
+                $scope.$emit('MessagePopup', '', "Comment Deleted.");
+                $scope.getComments();
+            }).
+            error(function(err){
+                console.error(err);
+                $scope.$emit('MessagePopup', 'Failure: ' + err, "");
             });
     };
 
