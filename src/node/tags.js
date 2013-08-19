@@ -33,6 +33,19 @@ function tags_addTag(request, response){
     });
 }
 
+function tags_deleteTag(request, response){
+    db_connector.collection('tags', function(err, tags) {
+        tags.remove({'_id':  ObjectID(request.body._id)}, function(err) {
+            if (err) {
+                response.send({'message':'Failed to delete tag'}, 401);
+            }
+            else {
+               response.send(200);
+            }
+        });
+    });
+}
+
 function tags_get(request, response){
     db_connector.collection('tags', function(err, tags){
         tags.find().sort({'id':1}).toArray(function(err, items){

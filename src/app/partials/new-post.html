@@ -27,7 +27,7 @@
             <div class = "control-group">
                 <label for = "tags">Tags: </label>
                 <div class = "controls">
-                    <input id = "tags" type = "text" ng-model = "tagToAdd" placeholder = "Search or Add tags to Database..."><i class = "icon-plus-sign" ng-click = "addTag(tagToAdd)"></i>
+                    <input id = "tags" type = "text" ng-model = "tagToAdd" placeholder = "Search tags..."><i ng-show = "user.rank <3" class = "icon-plus-sign icon-click" ng-click = "addTag(tagToAdd)"></i>
                 </div>
             </div>
 
@@ -65,7 +65,7 @@
 
             <div class = "control-group">
                 <div class = "controls">
-                    <button type = "submit" class = "btn" ng-disabled="submitDisabled" name = "temp">Submit</button>
+                    <button type = "submit" class = "btn" ng-disabled="submitDisabled" name = "temp">Preview</button>
                 </div>
             </div>
 
