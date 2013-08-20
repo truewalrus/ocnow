@@ -15,7 +15,10 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
         $http.get('/api/articles/get/' + $routeParams.id).
             success(function(data) {
                 $scope.post = data;
-                //console.log(data);
+                console.log(data);
+                if(!data){
+                    $location.url('/home');
+                }
 
                 page.setPage('Article - ' + $scope.post.title);
             }).
@@ -120,6 +123,18 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
 
     $scope.edit = function() {
         $location.path('/article/' + $scope.post._id + '/edit');
+    };
+
+    $scope.deleteArticle = function(){
+        $http.post('/api/articles/delete/' + $routeParams.id).
+            success(function(response) {
+                console.log("Article deleted!");
+                $scope.$emit('MessagePopup', '', 'Article deleted.');
+                $location.url('/home');
+            }).
+            error(function(response) {
+                console.error("Article was not deleted.", response);
+            });
     };
 
     $scope.extractDate = function(time) {

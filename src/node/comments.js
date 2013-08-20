@@ -157,6 +157,19 @@ function comments_removeComment(request, response){
     });
 }
 
+function comments_deleteAll(request, response, next){
+    db_connector.collection('comments', function(err, comments){
+        comments.remove({'articleId':  request.params._id}, function(err) {
+            if (err) {
+                response.send({'message':'Failed to delete comment'}, 401);
+            }
+            console.log("comments deleted");
+
+            return next();
+        });
+    })
+}
+
 
 routing.push(function(app) {
     app.get('/api/comments/get/:articleId', comments_getComments);

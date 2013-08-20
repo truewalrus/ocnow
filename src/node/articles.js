@@ -263,12 +263,46 @@ function articles_update(request, response) {
     });
 }
 
+
+function articles_deleteImg(request,response,next){
+    if(canUpdateArticle(request.user.rank)){
+        db_connector.collection('articles', function(error, articles){
+            articles.findOne({ '_id': ObjectID(request.params._id) }, function(error, article) {
+                if (article.img) {
+                    console.log("Deleting article image");
+                    fs.unlink('app/img/' + article.img);
+                }
+
+                return next();
+            });
+        })
+    }
+    else{
+        response.send(401, "Unauthorized.");
+    }
+
+}
+
+function articles_delete(request, response){
+    db_connector.collection('articles', function(error, articles){
+        articles.remove({ '_id': ObjectID(request.params._id) }, function(error, data){
+            if (error) {
+                response.send(500, { error: "Database error occurred while processing request." });
+            }
+            else {
+                response.send(200, { message: 'Article deleted.' });
+            }
+        });
+    })
+}
+
 /* ALL DIS STUFF BE COOL */
 routing.push(function(app) {
 //    app.post('/api/articles/create', ensureAuthentication, articles_create);
     app.post('/api/articles/clear', ensureAuthentication, articles_clearDatabase);
     app.post('/api/articles/publish', ensureAuthentication, articles_publish);
     app.post('/api/articles/unpublish', ensureAuthentication, articles_unpublish);
+    app.post('/api/articles/delete/:_id', ensureAuthentication, articles_deleteImg, comments_deleteAll, articles_delete);
     app.get('/api/articles/getAll/:uid', articles_getAll);
     app.get('/api/articles/get/:_id', articles_get);
     app.get('/api/articles/search/:query', articles_search);
