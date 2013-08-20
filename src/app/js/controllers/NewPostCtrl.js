@@ -71,6 +71,9 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
         if (!contains(tag, $scope.articleTags)){
             $scope.articleTags.push(tag);
         }
+        else{
+            $scope.$emit('MessagePopup', '', 'Already added.');
+        }
     };
 
     var contains = function (a, array){

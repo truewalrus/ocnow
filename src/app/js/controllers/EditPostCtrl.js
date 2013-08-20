@@ -71,6 +71,9 @@ angular.module("myApp.controllers").controller('EditPostCtrl', ['$scope', '$rout
         if (!contains(tag, $scope.post.tags)){
             $scope.post.tags.push(tag);
         }
+        else{
+            $scope.$emit('MessagePopup', '', 'Already added.');
+        }
     };
 
     $scope.removeTagFromArticle = function(tag){
