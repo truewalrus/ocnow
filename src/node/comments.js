@@ -52,8 +52,7 @@ function comments_getComments(request, response){
                         for(var i = 0; i < data.length; i++){
                             var user = userInfo[hashedUser[data[i].uId]];
 
-
-                            data[i].username = user.username;
+                            data[i].name = users_parseName(user);
                             data[i].img = user.img;
                         }
                     }

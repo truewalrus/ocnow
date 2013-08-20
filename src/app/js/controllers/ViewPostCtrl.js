@@ -1,6 +1,6 @@
 
 'use strict';
-angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', 'page', '$timeout', function($scope, $routeParams, $location, $http, user, page, $timeout){
+angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', 'page', '$timeout', '$anchorScroll', function($scope, $routeParams, $location, $http, user, page, $timeout, $anchorScroll){
     page.setPage('Article');
 
     $scope.post = '';
@@ -47,6 +47,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
                     commentingDisabled = true;
                     $timeout(enableCommenting, 15000);
                     $scope.content = '';
+                    $scope.post.commentCount++;
                 }).
                 error(function(err){
                     console.error(err);

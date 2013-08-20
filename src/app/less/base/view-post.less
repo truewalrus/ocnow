@@ -1,9 +1,47 @@
 .comment-username{
+  .border-mixin;
+}
+
+.border-mixin{
   border-color: -moz-use-text-color -moz-use-text-color #E5E5E5;
   border-image: none;
   border-style: none none solid;
   border-width: 0 0 1px;
 }
+
+.view-title-legend{
+  margin-bottom: 0px;
+}
+
+.view-post-user-info{
+  .border-mixin;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  margin-bottom: 10px;
+  font-size: 10px;
+}
+
+.view-post-image-divider{
+  .border-mixin;
+  padding-bottom: 15px;
+  padding-top: 5px;
+  margin-bottom: 10px;
+}
+
+.view-post-article{
+  .view-post-image-divider;
+}
+
+@image-height: 300px;
+
+.view-post-image-div{
+  max-height: @image-height;
+}
+
+.view-post-image{
+  max-height: @image-height;
+}
+
 .comment-list {
   margin-bottom: 10px;
 }

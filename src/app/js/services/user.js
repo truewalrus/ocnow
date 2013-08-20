@@ -58,9 +58,11 @@ angular.module("myApp.services")
             $http.post('/api/user/login', {'username': username, 'password': password}).
                 success(function(data) {
                     $rootScope.$broadcast('userLoggedIn');
+                    console.log(data);
                     success(data);
                 }).
                 error(function(data) {
+                    console.log(data);
                     error(data);
                 });
 

@@ -11,21 +11,25 @@
             <button class="btn btn-small btn-danger" ng-click="deleteArticle()"><i class="icon-trash icon-white"></i> Delete</button>
         </div>
     </div>
-    <div class = "row-fluid">
-        <div class = "span2">
-            <img ng-src = "{{ articlePic(post.img) }}" alt = "not important"/>
-        </div>
 
-        <div class = "span10">
-            <h2><a href = '#' ng-click = "">{{post.title}}</a></h2>
-            <p>Posted by <a href = '#' ng-click="viewAuthorProfile(post.uid)">{{ post.name}}</a> at {{extractDate(post.date)}} (<a href = "#">{{ post.commentCount }} comments</a>)</p>
-            <p ng-bind-html-unsafe="post.article"></p>
-        </div>
+    <legend class = "view-title-legend">{{ post.title }}</legend>
+    <div class = "view-post-user-info">by <a ng-href = '/user/{{ post.uid }}'>{{ post.name }}</a> at {{ extractDate(post.date) }}</div>
+    <div ng-show = "post.img" class = "row-fluid  view-post-image-divider">
+        <div class = "span8 offset2 view-post-image-div"><img class = "view-post-image centerer" ng-src = "{{ articlePic(post.img) }}"/></div>
+    </div>
+    <div class = "view-post-article"><p ng-bind-html-unsafe="post.article"></p></div>
+
+    <div class = "row-fluid">
+
+
+            <p>({{ post.commentCount }} comments)</p>
+
+
     </div>
     <div class = "well well-small">
 
         <div ng-hide = "loggedIn">Please <a ng-href = '/sign-in'>log in</a> to post comments.</div>
-        <div class = "row-fluid" ng-hide = "!loggedIn">
+        <div id = "comments" class = "row-fluid" ng-hide = "!loggedIn">
             <form ng-submit = "postComment()">
                 <textarea class = "span12" ng-model = "content" required></textarea>
                 <button type = "submit">Post comment</button>
@@ -37,7 +41,7 @@
                     <div class = "span2 comment-center"> <img ng-show = "comment.img" class = "img-polaroid comment-img" ng-src = "{{ profilePic(comment.img) }}"> </div>
                     <div class = "span10">
                         <div class = "comment-username" class = "span12">
-                            <a href = #>{{ comment.username }}</a> <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
+                            <a href = #>{{ comment.name }}</a> <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
                         </div>
                         <div class = "comment-content">{{ comment.content | commentFilter }}</div> <div class = "comment-warn-icon"><i ng-show = "user.rank > 2" ng-click = "reportComment(comment._id)" title = "Report this comment" class = "icon-warning-sign"></i><i ng-show = "user.rank <= 2" ng-click = "deleteComment(comment._id)" title = "Delete this comment" class = "icon-trash"></i></div>
                     </div>

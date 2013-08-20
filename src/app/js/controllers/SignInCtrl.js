@@ -33,15 +33,21 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
     };
 
     $scope.createUser = function(){
-        user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName,  function(data) {
-                console.log('added %s', data.username);
-                $scope.login($scope.newUser.username, $scope.newUser.password);
+        if ($scope.newUser.password === $scope.newUser.confirm){
+            user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName,  function(data) {
+                    console.log('added %s', data.username);
+                    $scope.login($scope.newUser.username, $scope.newUser.password);
 
-            },
-            function(data) {
-                clearUser();
-                $scope.$emit('MessagePopup', 'Failure: ' + data, '');
-            });
+                },
+                function(data) {
+                    clearUser();
+                    $scope.$emit('MessagePopup', data, '');
+                });
+        }
+        else{
+            $scope.$emit('MessagePopup', "Passwords don't match.", '');
+        }
+
     };
 
     $scope.login = function(username, password){

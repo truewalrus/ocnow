@@ -177,7 +177,7 @@ function users_createUser(request, response){
     db_connector.collection('users', function(err, collection){
         collection.insert({'username': request.body.username, 'password': password, 'id': request.body.username.toUpperCase(), 'rank': rank, 'fName': request.body.fName, 'lName':request.body.lName}, {safe: true}, function(err, data){
             if (err) {
-                response.send("Username already exists!!!", 401);
+                response.send("Username already exists.", 401);
             }
             else {
                 console.log("Data added as " + data[0].id);
@@ -422,9 +422,9 @@ routing.push(function(app) {
 
 	app.post('/api/user/login', function(request, response, next) {
 			passport.authenticate('local', function(err, user, info) {
-				if (err) { return next(err); }
+				if (err) {;return next(err); }
 				if (!user) {
-					return response.send(401, info);
+					return response.send(401, 'Incorrect Username or Password.');
 				}
 
 				request.login(user, function(err) {
