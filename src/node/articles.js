@@ -223,6 +223,7 @@ function articles_update_setup(request, response, next) {
     var updatedFields = {};
     updatedFields.title = request.body.title;
     updatedFields.article = request.body.article;
+    updatedFields.tags = request.body.tags;
     console.log(request.body);
     if (request.body.img) {
         updatedFields.img = request.body.img;

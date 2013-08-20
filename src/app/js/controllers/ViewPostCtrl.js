@@ -15,7 +15,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
         $http.get('/api/articles/get/' + $routeParams.id).
             success(function(data) {
                 $scope.post = data;
-                console.log(data);
+                //console.log(data);
 
                 page.setPage('Article - ' + $scope.post.title);
             }).

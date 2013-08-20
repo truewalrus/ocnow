@@ -34,7 +34,7 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
     $scope.articleTags = [];
 
     var getTags = function(){
-        $http.get('api/tags/get').
+        $http.get('/api/tags/get').
             success(function(data) {
                 $scope.tags = data;
             }).
@@ -45,7 +45,7 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
     getTags();
 
     $scope.addTag = function(tagToAdd){
-        $http.post('api/tags/addTag', {'tag':tagToAdd}).
+        $http.post('/api/tags/addTag', {'tag':tagToAdd}).
             success(function(data){
                 getTags();
                 $scope.tagToAdd = '';

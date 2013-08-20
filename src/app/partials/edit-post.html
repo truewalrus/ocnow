@@ -1,26 +1,106 @@
 <div ng-controller = "EditPostCtrl">
-    <div ng-show="user.rank <= 3" class="ng-cloak">
-        <div class="alert" ng-class="{ 'alert-info': post.published }">
-            <div ng-show="!post.published"><strong>Unpublished!</strong> This article is not yet published; it is viewable only by the author and site admins.<span></span></div>
-            <div ng-show="post.published"><strong>Published!</strong> This article is published; it is viewable by everyone</div>
+    <div class = "container-fluid">
+        <div ng-show="user.rank <= 3" class="ng-cloak">
+            <div class="alert" ng-class="{ 'alert-info': post.published }">
+                <div ng-show="!post.published"><strong>Unpublished!</strong> This article is not yet published; it is viewable only by the author and site admins.<span></span></div>
+                <div ng-show="post.published"><strong>Published!</strong> This article is published; it is viewable by everyone</div>
+            </div>
         </div>
+
+        <legend>Edit Post</legend>
+        <form ng-submit = "editPost()">
+            <div class = "control-group">
+                <label for = "title" class = "control-label">Title: </label>
+                <div class = "controls">
+                    <input id = "title" type = "text" class = "input-block-level" ng-model = "post.title" required>
+                </div>
+            </div>
+
+            <div class = "control-group">
+                <label for = "currentImage" class = "control-label">Current Image: </label>
+                <div class = "controls">
+                    <img id = "currentImage" class = "img-polaroid home-img media-object" ng-src = "{{ articlePic(post.img) }}"/>
+                </div>
+
+                <label for = "editImage" class = "control-label">Edit article image?</label>
+                <div class = "controls">
+                    <img id ="editImage" ng-src = "{{ imagePath() }}">
+                    <input type = "file" ng-model = "files" file-change>
+                </div>
+            </div>
+
+            <div class = "control-group">
+                <label for = "article">Article: </label>
+                <div class = "controls">
+                    <textarea ui-tinymce = "editorOptions" placeholder = "Content" ng-model = "post.article" required></textarea>
+                </div>
+            </div>
+
+            <div class = "control-group">
+                <label for = "tags">Tags: </label>
+                <div class = "controls">
+                    <input id = "tags" type = "text" ng-model = "tagToAdd" placeholder = "Search tags..."><i ng-show = "user.rank <3" class = "icon-plus-sign icon-click" ng-click = "addTag(tagToAdd)" title = "Add tag to Database"></i>
+                </div>
+            </div>
+
+            <div class = "row-fluid">
+                <div class = "control-group span6">
+                    <div class="span9 offset2">
+                        <label for = "availableTags">Available Tags: </label>
+                        <div class = "controls">
+                            <div class = "new-post-tag-box span12" id = "availableTags">
+                                <ul class = "unstyled">
+                                    <li ng-repeat = "tag in tags | filter: tagToAdd">
+                                        {{ tag.tag }} <div class = "pull-right"><i class = "icon-plus-sign icon-click" ng-click = "addTagToArticle(tag.tag)" title = "Add {{ tag.tag }} to Article"></i> <i class = "icon-trash icon-click" ng-show = "user.rank <3" class = "btn" ng-click = deleteTag(tag) title = "Delete {{ tag.tag }} from Database"></i></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class = "control-group span6">
+                    <div class="span9 offset1">
+                        <label for = "availableTags">Article Tags: </label>
+                        <div class = "controls">
+                            <div class = "new-post-tag-box span12" id = "articleTags">
+                                <ul class = "unstyled">
+                                    <li ng-repeat = "tag in post.tags">
+                                        {{ tag }} <div class = "pull-right"><i class = "icon-trash icon-click" ng-click = "removeTagFromArticle(tag)" title = "Remove {{ tag }} from article"></i></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class = "control-group">
+                <div class = "controls">
+                    <button type = "submit" class = "btn" ng-disabled="submitDisabled" name = "temp">Save Changes</button>
+                </div>
+            </div>
+        </form>
+
     </div>
+
     <form ng-submit="editPost()">
         <legend>Edit Post</legend>
         <div class="form-group">
-            <label for="title">Title</label>
-            <input id="title" type = "text" class = "input-large form-control" placeholder = "Title" required ng-model = "post.title">
+            <label>Title</label>
+            <input type = "text" class = "input-large form-control" placeholder = "Title" required ng-model = "post.title">
         </div>
         <span class = "help-block"></span>
-        <div class="form-group">
+      <!--  <div class="form-group">
             <label>Article</label>
             <textarea  ui-tinymce="editorOptions" placeholder = "Content" required ng-model = "post.article"></textarea>
-        </div>
+        </div>-->
         <br />
 
         <label class="checkbox">
             <input type="checkbox" ng-model="editImage"> Edit article image?
-        </label
+        </label>
 
         <img ng-src="{{imagePath()}}">
         <input type = "file" ng-model = "files" file-change>
