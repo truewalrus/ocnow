@@ -2,7 +2,7 @@
 
 angular.module("myApp.controllers").controller('EditPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', 'uploadService', function($scope, $routeParams, $location, $http, user, upload){
 
-    $scope.post = { title: '', article: '', img: '', tags: '' };
+    $scope.post = { title: '', article: '', img: '', tags: [] };
     //$scope.editImage = false;
     $scope.files = [];
 
@@ -13,6 +13,9 @@ angular.module("myApp.controllers").controller('EditPostCtrl', ['$scope', '$rout
                 $scope.post = data;
                 if($scope.post.tags){
                    $scope.post.tags = $scope.post.tags.split(',');
+                }
+                else{
+                    $scope.post.tags = [];
                 }
             }).
             error(function(err) {
@@ -27,6 +30,7 @@ angular.module("myApp.controllers").controller('EditPostCtrl', ['$scope', '$rout
         upload.upload('/api/articles/update/' + $routeParams._id, { 'article': $scope.post.article, 'title': $scope.post.title, 'tags':$scope.post.tags }, $scope.files[0],
             function(response) {
                 $location.path('/article/' + $routeParams._id);
+                $scope.$emit('MessagePopup', '', 'Article updated.');
             });
     };
 

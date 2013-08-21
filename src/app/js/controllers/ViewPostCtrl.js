@@ -1,6 +1,6 @@
 
 'use strict';
-angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', 'page', '$timeout', function($scope, $routeParams, $location, $http, user, page, $timeout){
+angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', 'page', '$timeout', '$anchorScroll', function($scope, $routeParams, $location, $http, user, page, $timeout, $anchorScroll){
     page.setPage('Article');
 
     $scope.post = '';
@@ -47,6 +47,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
                     commentingDisabled = true;
                     $timeout(enableCommenting, 15000);
                     $scope.content = '';
+                    $scope.post.commentCount++;
                 }).
                 error(function(err){
                     console.error(err);
@@ -124,6 +125,21 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
     $scope.edit = function() {
         $location.path('/article/' + $scope.post._id + '/edit');
     };
+
+
+    $scope.deleteModal = false;
+    $scope.deleteDialog = function(){
+        $scope.deleteModal = true;
+    };
+    $scope.closeDialog = function(){
+        $scope.deleteModal = false;
+    };
+
+    $scope.opts = {
+        backdropFade: true,
+        dialogFade:true
+    };
+
 
     $scope.deleteArticle = function(){
         $http.post('/api/articles/delete/' + $routeParams.id).
