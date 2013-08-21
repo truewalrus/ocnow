@@ -5,23 +5,6 @@ angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', 
         user.checkSession();
     });
 
-    $scope.lockHeader = false;
-
-
-        angular.element($window).bind('scroll', function(){
-            $scope.$safeApply(function() {
-                if($window.pageYOffset < 200){
-                    $scope.lockHeader = false;
-                }
-                else{
-                    $scope.lockHeader = true;
-                }
-            });
-        });
-
-
-
-
     $scope.pageUrl = "http://www.google.com";
 
     /*$scope.$on('userLoggedOut', function(){
