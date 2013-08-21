@@ -1,4 +1,5 @@
 <div ng-controller = "ViewPostCtrl" class = "container-fluid">
+
     <div ng-show="user.rank <= 3" class="ng-cloak">
         <div class="alert" ng-class="{'alert-info': post.published}">
             <div ng-show="!post.published"><strong>Unpublished!</strong> This article is not yet published; it is viewable only by the author and site admins.<span></span></div>
@@ -8,7 +9,19 @@
             <button class="btn btn-small btn-primary" ng-show="!post.published && user.rank <= 2" ng-click="publish()"><i class="icon-eye-open icon-white"></i> Publish</button>
             <button class="btn btn-small btn-warning" ng-show="post.published && user.rank <= 2" ng-click="unpublish()"><i class="icon-eye-close icon-white"></i> Unpublish</button>
             <button class="btn btn-small" ng-click="edit()"><i class="icon-edit"></i> Edit</button>
-            <button class="btn btn-small btn-danger" ng-click="deleteArticle()"><i class="icon-trash icon-white"></i> Delete</button>
+            <button class="btn btn-small btn-danger" ng-click="deleteDialog()"><i class="icon-trash icon-white"></i> Delete</button>
+            <div modal="deleteModal" close="closeDialog()" options="opts">
+                <div class="modal-header">
+                    <h3>Are you sure you want to delete this article?</h3>
+                </div>
+                <div class="modal-body">
+                    This article will be lost forever if you confirm this deletion. Forever!!!
+                </div>
+                <div class="modal-footer">
+                    <button class = "btn btn-primary" ng-click = "deleteArticle(); closeDialog();">Delete</button>
+                    <button class="btn btn-warning cancel" ng-click="closeDialog()">Cancel</button>
+                </div>
+            </div>
         </div>
     </div>
 

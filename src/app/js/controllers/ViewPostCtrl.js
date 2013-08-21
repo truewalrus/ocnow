@@ -126,6 +126,21 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
         $location.path('/article/' + $scope.post._id + '/edit');
     };
 
+
+    $scope.deleteModal = false;
+    $scope.deleteDialog = function(){
+        $scope.deleteModal = true;
+    };
+    $scope.closeDialog = function(){
+        $scope.deleteModal = false;
+    };
+
+    $scope.opts = {
+        backdropFade: true,
+        dialogFade:true
+    };
+
+
     $scope.deleteArticle = function(){
         $http.post('/api/articles/delete/' + $routeParams.id).
             success(function(response) {

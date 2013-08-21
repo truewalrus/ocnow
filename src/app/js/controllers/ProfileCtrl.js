@@ -153,6 +153,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     * @param id  -  user _id
     */
     $scope.adminUserDelete = function(id){
+        console.log(id);
         if($scope.admin >=1){
             user.deleteUser(id,
                 function(data) {
@@ -165,6 +166,21 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
                 });
         }
 
+    };
+
+    //modal for admin user delete confirmation
+    $scope.deleteModal = false;
+    $scope.deleteDialog = function(id){
+        console.log(id);
+        $scope.deleteModal = id;
+    };
+    $scope.closeDialog = function(){
+        $scope.deleteModal = false;
+    };
+
+    $scope.opts = {
+        backdropFade: true,
+        dialogFade:true
     };
 
     /**
