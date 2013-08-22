@@ -1,6 +1,24 @@
 <div  ng-controller = "HomeCtrl">
 
-        <!--<div class="media home-episode">-->
+        <!--<div class="row-fluid">
+            <div class="span6">
+                <ul>
+                    <li ng-repeat="slide in slides">
+                        <button class="btn btn-mini" ng-class="{'btn-info': !slide.active, 'btn-success': slide.active}" ng-disabled="slide.active" ng-click="slide.active = true">select</button>
+                        {{$index}}: {{slide.text}}
+                    </li>
+                </ul>
+                <a class="btn" ng-click="addSlide()">Add Slide</a>
+            </div>
+            <div class="span6">
+                Interval, in milliseconds: <input type="number" ng-model="myInterval">
+                <br />Enter a negative number to stop the interval.
+            </div>
+        </div>-->
+
+
+
+    <!--<div class="media home-episode">-->
             <!--<div class = "pull-left home-episode-image">-->
                 <!--<img class = "media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}"/>-->
             <!--</div>-->

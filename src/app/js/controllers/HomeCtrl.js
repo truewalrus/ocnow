@@ -73,4 +73,5 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
     $scope.viewAuthorProfile = function(authorId) {
         $location.path('/user/' + authorId);
     };*/
+
 }]);

@@ -72,7 +72,8 @@ module.exports = function(grunt) {
 					"gapi":			false,
 					"FormData":		false,
 					"XMLHttpRequest": false,
-					"JSONHttpRequest": false
+					"JSONHttpRequest": false,
+					"Recaptcha":	false
 				}
 			}
 		},

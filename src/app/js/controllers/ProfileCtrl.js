@@ -134,7 +134,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
        if($scope.newUser.admin){
            $scope.newUser.rank = RANK_ADMIN;
        }
-       user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName,  function(data) {
+       user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName, '', '',  function(data) {
                 console.log('added %s', data.username);
                 clearUser();
                 adminUpdateUserList();

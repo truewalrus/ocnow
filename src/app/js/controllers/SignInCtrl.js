@@ -33,20 +33,28 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
     };
 
     $scope.createUser = function(){
-        if ($scope.newUser.password === $scope.newUser.confirm){
-            user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName,  function(data) {
-                    console.log('added %s', data.username);
-                    $scope.login($scope.newUser.username, $scope.newUser.password);
-
-                },
-                function(data) {
-                    clearUser();
-                    $scope.$emit('MessagePopup', data, '');
-                });
+        var challenge = Recaptcha.get_challenge();
+        var response = Recaptcha.get_response();
+        if(response){
+            if ($scope.newUser.password === $scope.newUser.confirm){
+                 user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName, challenge, response,  function(data) {
+                     console.log('added %s', data.username);
+                     $scope.login($scope.newUser.username, $scope.newUser.password);
+                 },
+                 function(data) {
+                     clearUser();
+                     $scope.$emit('MessagePopup', data, '');
+                 });
+                 }
+             else{
+                 $scope.$emit('MessagePopup', "Passwords don't match.", '');
+             }
         }
         else{
-            $scope.$emit('MessagePopup', "Passwords don't match.", '');
+            $scope.$emit('MessagePopup', 'Please prove you are a human by filling out the captcha', '');
         }
+
+        Recaptcha.reload();
 
     };
 
@@ -180,5 +188,16 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
 //			}
 //		);
 //	};*/
+
+
+        Recaptcha.create("6LcFauYSAAAAAIvuSNRTeV3Tb4_QOFdlBSolzMEO",
+            'recaptcha',
+            {
+                theme: "red",
+                callback: Recaptcha.focus_response_field
+            }
+        );
+
+
 	
 }]);

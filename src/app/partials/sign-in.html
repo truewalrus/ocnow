@@ -57,6 +57,7 @@
                 <div class = "span6">
                     <div class = "area">
                         <form class = "form-horizontal" ng-submit = "createUser()">
+
                             <div class = "heading">
                                 <h4 class = "form-heading">Sign Up</h4>
                             </div>
@@ -88,9 +89,20 @@
                                 <label class = "control-label" for = "inputLName">Last Name: </label>
                                 <div class = "controls">
                                     <input type = "text" id = "inputLName" ng-model = "newUser.lName">
-                                    <span class = "help-block">* denotes a required field.</span>
                                 </div>
                             </div>
+
+                            <div class = "control-group">
+                                <label class ="control-label" for="recaptcha">*Prove you are human: </label>
+                                <div class = "controls">
+                                    <div class = "signin-captcha">
+                                        <div id = "recaptcha"></div>
+                                    </div>
+                                    <span class = "help-block">* denotes a required field.</span>
+
+                                </div>
+                            </div>
+
 
 
 

@@ -165,6 +165,7 @@ function users_userDelete(request, response) {
 }
 
 function users_createUser(request, response){
+
     var salt = bcrypt.genSaltSync();
     var password =  bcrypt.hashSync(request.body.password, salt);
 
@@ -437,7 +438,7 @@ routing.push(function(app) {
 
 	app.get('/api/user/checkSession', ensureAuthentication, users_checkSession);
 
-	app.post('/api/user/create', users_createUser);
+	app.post('/api/user/create', captcha_verify, users_createUser);
 
 //    app.post('/api/user/updateUser', ensureAuthentication, users_updateUser);
 
