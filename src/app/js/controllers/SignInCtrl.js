@@ -193,8 +193,8 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
         Recaptcha.create("6LcFauYSAAAAAIvuSNRTeV3Tb4_QOFdlBSolzMEO",
             'recaptcha',
             {
-                theme: "red",
-                callback: Recaptcha.focus_response_field
+                theme: "red"
+             //   callback: Recaptcha.focus_response_field
             }
         );
 
