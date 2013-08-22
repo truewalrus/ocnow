@@ -4,6 +4,10 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
 
     $scope.url = "";
 
+    $scope.page = 1;
+    $scope.showPrevious = false;
+    $scope.showNext = true;
+
     $scope.cont = true;
 
     $scope.posts = [];
@@ -55,9 +59,13 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
     };
 
     $scope.retrievePosts = function() {
-        $http.get('api/articles/front?page=1&count=10').
+        console.log($scope.page);
+        $http.get('api/articles/front?page='+$scope.page+'&count=10').
             success(function(data) {
                 $scope.posts = data;
+                if ($scope.posts.length < 10){
+                    $scope.showNext = false;
+                }
             }).
             error(function(err) {
                 console.error(err);
@@ -65,6 +73,22 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
     };
 
     $scope.retrievePosts();
+
+    $scope.nextPage = function(){
+        $scope.page++;
+        $scope.showPrevious = true;
+        $scope.retrievePosts();
+    };
+
+    $scope.previousPage = function(){
+        $scope.page--;
+        if ($scope.page === 1){
+            $scope.showPrevious = false;
+        }
+        $scope.showNext = true;
+        $scope.retrievePosts();
+    };
+
 /*
     $scope.viewPost = function(postId){
         $location.url('/article/' + postId);
@@ -73,5 +97,8 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
     $scope.viewAuthorProfile = function(authorId) {
         $location.path('/user/' + authorId);
     };*/
-
+    $scope.slides = [];
+    $scope.slides.push({text: 'cats!', image: 'http://placekitten.com/300/200'});
+    $scope.slides.push({text: 'cats!', image: 'http://placekitten.com/301/200'});
+    $scope.slides.push({text: 'cats!', image: 'http://placekitten.com/302/200'});
 }]);

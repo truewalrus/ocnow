@@ -1,4 +1,5 @@
 <div  ng-controller = "HomeCtrl">
+    <div class = "container-fluid">
 
         <!--<div class="row-fluid">
             <div class="span6">
@@ -15,9 +16,6 @@
                 <br />Enter a negative number to stop the interval.
             </div>
         </div>-->
-
-
-
     <!--<div class="media home-episode">-->
             <!--<div class = "pull-left home-episode-image">-->
                 <!--<img class = "media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}"/>-->
@@ -29,7 +27,8 @@
                 <!--<p class="home-episode-description">{{ video.snippet.description }}</p>-->
             <!--</div>-->
         <!--</div>-->
-    <carousel interval="5000">
+  <!--  <carousel interval="5000">
+
         <slide ng-repeat="post in posts">
             <img class = "media-object" ng-src = "{{ articlePic(post.img) }}"/>
             <div class="carousel-caption">
@@ -37,7 +36,7 @@
                 <p>by {{ post.name }}</p>
             </div>
         </slide>
-    </carousel>
+    </carousel>-->
         <table class="hero-unit">
             <tbody>
                 <tr ng-show="video.id" class="media home-episode">
@@ -51,7 +50,7 @@
                 <tr ng-show="video.id" class="media home-episode">
                     <td class="home-episode-image">
                         <!--<img class = "img-polaroid media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}" />-->
-                        <iframe width="250" height="187" ng-src="{{ videoEmbedSrc() }}" frameborder="0" allowfullscreen></iframe>
+                       <iframe width="250" height="187" ng-src="{{ videoEmbedSrc() }}" frameborder="0" allowfullscreen></iframe>
                     </td>
                     <td class="media-body home-episode-details">
                         <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
@@ -60,7 +59,8 @@
                 </tr>
             </tbody>
         </table>
-        <ul class = "container-fluid unstyled">
+
+        <ul class = "unstyled">
             <li class = "home-article media" ng-repeat = "post in posts">
                 <div class = "row-fluid">
                     <div ng-show = "post.img" class = "span2">
@@ -75,4 +75,11 @@
                 </div>
             </li>
         </ul>
+        <div class = "row-fluid">
+            <div class = "span12">
+                <button ng-click = "previousPage()" ng-show = "showPrevious" class = "btn btn-mini"><i class ="icon-chevron-left"></i>Previous</button>
+                <button ng-click = "nextPage()" ng-show = "showNext" class = "btn btn-mini pull-right">Next<i class = "icon-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
 </div>
