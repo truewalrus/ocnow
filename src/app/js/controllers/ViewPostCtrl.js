@@ -11,11 +11,9 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
 
     if ($routeParams.id)
     {
-        console.log($routeParams.id);
         $http.get('/api/articles/get/' + $routeParams.id).
             success(function(data) {
                 $scope.post = data;
-                console.log(data);
                 if(!data){
                     $location.url('/home');
                 }

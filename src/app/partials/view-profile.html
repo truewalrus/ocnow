@@ -39,20 +39,17 @@
 
                     <div ng-switch-when="comments">
                         <legend>Comments</legend>
-                        <table class="table no-top-table">
-                            <tr ng-repeat="comment in comments">
-                                <td class="media">
-                                <!--    <a class="pull-left" href="#">
-                                        <img class="media-object article-thumbnail" ng-src = "{{post.img}}" alt = "not important"/>
-                                    </a>
-                                    <div class="media-body">
-                                        <h4 class="media-heading"><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h4>
-                                        <span class="article-byline">Posted at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</span>
-                                        <p class="article-summary" ng-bind-html-unsafe="post.article"></p>
-                                    </div>-->
-                                </td>
-                            </tr>
-                        </table>
+                        <ul class = "unstyled">
+                            <li class = "row-fluid comment-list" ng-repeat = "comment in comments">
+                                <div class = "span2 comment-center"> <img ng-show = "comment.img" class = "img-polaroid comment-img" ng-src = " {{ profilePic(comment.img) }}"> </div>
+                                <div class = "span10">
+                                    <div class = "comment-username" class = "span12">
+                                        in <a ng-href = '/article/{{ comment.articleId }}'>this</a> article <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
+                                    </div>
+                                    <div class = "comment-profile-content">{{ comment.content | commentFilter }}</div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

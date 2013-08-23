@@ -14,8 +14,8 @@ angular.module("myApp.controllers")
     // Sets the default view profile title.
     page.setPage('View Profile');
 
-    // If the user logged in is currently the same as the user being viewed, redirects to the user's personal profile page.
-    if ((!$scope.checkingSession && $scope.loggedIn && $scope.user._id == $params.id) || ($params.id === '')) { return $location.path('/profile').replace(); }
+    // If the user logged in is currently the same as the user being viewed, redirects to the user's personal profile page. -- this is currently taken out so users can view their own profile
+   // if ((!$scope.checkingSession && $scope.loggedIn && $scope.user._id == $params.id) || ($params.id === '')) { return $location.path('/profile').replace(); }
 
     // If the application entry point is this page, listens for the session retrieval callback and then redirects as above.
     $scope.$on('userLoggedIn', function(event) {
@@ -60,6 +60,15 @@ angular.module("myApp.controllers")
                     }).
                     error(function(error){
                         console.error("(ViewProfileCtrl.js) Error occurred while retrieving the user's post history:", error);
+                    });
+
+                // Requests the comment history from the server for the user specified in the url paramaters.
+                $http.get('/api/comments/getUserComments/' + $params.id).
+                    success(function(comments){
+                        $scope.comments = comments;
+                    }).
+                    error(function(error){
+                        console.error("(ViewProfileCtrl.js) Error occurred while retrieving the user's comment history:", error);
                     });
             }).
             error(function(error) {

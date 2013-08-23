@@ -56,18 +56,35 @@ function comments_getComments(request, response){
                             data[i].img = user.img;
                         }
                     }
-
-
                     response.send(data);
 
                 });
-
             }
-
         });
-
     });
+}
 
+function comments_getUserComments(request, response){
+    db_connector.collection('comments', function(err, comments) {
+        comments.find({"uId": request.params.uId}).sort({'date': -1}).toArray(function(err, data){
+            if(err){
+                response.send(500);
+            }
+            else
+            {
+                users_findByIds([ObjectID(request.params.uId)], function (userInfo){
+                    if (userInfo)
+                    {
+                        for(var i = 0; i < data.length; i++){
+                            data[i].name = users_parseName(userInfo[0]);
+                            data[i].img = userInfo[0].img;
+                        }
+                    }
+                    response.send(data);
+                });
+            }
+        });
+    });
 }
 
 function comments_addComment(request, response){
@@ -84,7 +101,6 @@ function comments_addComment(request, response){
             }
         });
     });
-
 }
 
 function comments_flagComment(request, response){
@@ -174,6 +190,7 @@ routing.push(function(app) {
     app.get('/api/comments/get/:articleId', comments_getComments);
     app.get('/api/comments/getFlagged', comments_getFlagged);
     app.get('/api/comments/count', comments_getCommentCount);
+    app.get('/api/comments/getUserComments/:uId', comments_getUserComments);
     app.post('/api/comments/add/:articleId', comments_addComment);
     app.post('/api/comments/flagComment', ensureAuthentication, comments_flagComment);
     app.post('/api/comments/removeComment', ensureAuthentication, comments_removeComment);
