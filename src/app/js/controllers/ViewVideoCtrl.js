@@ -19,7 +19,7 @@ angular.module("myApp.controllers").controller('ViewVideoCtrl', ['$scope', '$rou
     };
 
     if ($routeParams.id) {
-        var episode = GoogleAPI.youtube.playlist.items('PLB974F6E8F4766DB9', {maxResults: 1, videoId: $routeParams.id});
+        var episode = GoogleAPI.youtube.playlist.items('PL401099F3429AC0B2', {maxResults: 1, videoId: $routeParams.id});
 
         episode.then(function(videos) {
             $scope.video = videos[0];

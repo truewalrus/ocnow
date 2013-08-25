@@ -38,7 +38,7 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
         return $scope.video.snippet.resourceId.videoId ? 'http://www.youtube.com/embed/' + $scope.video.snippet.resourceId.videoId : '';
     };
 
-    var episodes = GoogleAPI.youtube.playlist.items('PLB974F6E8F4766DB9', {maxResults: 1});
+    var episodes = GoogleAPI.youtube.playlist.items('PL401099F3429AC0B2', {maxResults: 1});
 
     episodes.then(function(videos) {
   //      console.log("Retrieved video playlist: ", videos);

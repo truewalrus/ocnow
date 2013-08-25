@@ -1,6 +1,18 @@
 <div  ng-controller = "HomeCtrl">
     <div class = "container-fluid">
-
+        <div class="row-fluid">
+            <div class="span8 home-latest-episode-container">
+                <div><h4>Latest Episode</h4></div>
+                <div ng-hide="video.id">Loading episode...</div>
+                <div class="home-episode" ng-hide="video.id"></div>
+                <div ng-show="video.id"><h4><a ng-href = '{{ viewVideoHref() }}'>{{ video.snippet.title }}</a></h4></div>
+                <div ng-show="video.id">
+                    <iframe width="250" height="187" class="home-episode pull-left" ng-src="{{ videoEmbedSrc() }}" frameborder="0" allowfullscreen></iframe>
+                    <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
+                    <p class="home-episode-description" ng-bind-html-unsafe="video.snippet.description | linkify"></p>
+                </div>
+            </div>
+        </div>
         <!--<div class="row-fluid">
             <div class="span6">
                 <ul>
@@ -36,12 +48,7 @@
             <!--</div>-->
         <!--</slide>-->
     <!--</carousel>-->
-        <div class="span6 home-latest-episode-container">
-            <div>Latest Episode</div>
-            <div><a href="#">Blah blah blah</a></div>
-            <div><iframe width="250" height="187" ng-src="{{ videoEmbedSrc() }}" frameborder="0" allowfullscreen></iframe></div>
-        </div>
-        <table class="hero-unit">
+<!--        <table class="hero-unit">
             <tbody>
                 <tr ng-show="video.id" class="media home-episode">
                     <td class="home-episode-headers">
@@ -53,7 +60,7 @@
                     </tr>
                 <tr ng-show="video.id" class="media home-episode">
                     <td class="home-episode-image">
-                        <!--<img class = "img-polaroid media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}" />-->
+                        &lt;!&ndash;<img class = "img-polaroid media-object" ng-src = "{{ video.snippet.thumbnails.medium.url }}" />&ndash;&gt;
                        <iframe width="250" height="187" ng-src="{{ videoEmbedSrc() }}" frameborder="0" allowfullscreen></iframe>
                     </td>
                     <td class="media-body home-episode-details">
@@ -62,7 +69,7 @@
                     </td>
                 </tr>
             </tbody>
-        </table>
+        </table>-->
 
         <ul class = "unstyled">
             <li class = "home-article media" ng-repeat = "post in posts">

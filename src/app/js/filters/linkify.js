@@ -7,8 +7,12 @@ angular.module('myApp.filters')
             if (!blurb) {
                 return blurb;
             }
-            
-            var matches = blurb.match(new RegExp('(https?://.\\S+)|(www\\.\\S+\\.\\S+)','ig'));
+
+            var regex = '(https?://.\\S+)';
+
+            if (link) { regex = regex + '|(www\\.\\S+\\.\\S+)'; }
+
+            var matches = blurb.match(new RegExp(regex,'ig'));
 
             var linkedText = '';
 
