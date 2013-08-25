@@ -165,7 +165,10 @@ function comments_removeComment(request, response){
                 response.send({'message':'Failed to delete comment'}, 401);
             }
             else {
-                articles_removeComment(request.body.articleId);
+                if(request.body.articleId){
+                    articles_removeComment(request.body.articleId);
+                }
+
                 response.send(200);
             }
         });

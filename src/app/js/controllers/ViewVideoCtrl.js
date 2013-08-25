@@ -26,12 +26,12 @@ angular.module("myApp.controllers").controller('ViewVideoCtrl', ['$scope', '$rou
 
             page.setPage('Episode &mdash; ' + $scope.video.snippet.title);
 
-            $http.get('/api/comments/count?id=yt-' + $routeParams.id).
+    /*        $http.get('/api/comments/count?id=yt-' + $routeParams.id).
                 success(function(response) {
                     $scope.video.commentCount = response.count;
                 }).error(function(response) {
                     $scope.video.commentCount = 0;
-                });
+                });*/
         }, function(error) {
             console.error(error);
         });
@@ -71,7 +71,6 @@ angular.module("myApp.controllers").controller('ViewVideoCtrl', ['$scope', '$rou
                     commentingDisabled = true;
                     $timeout(enableCommenting, 15000);
                     $scope.content = '';
-                    $scope.commentCount++;
                 }).
                 error(function(err){
                     console.error(err);
@@ -98,31 +97,31 @@ angular.module("myApp.controllers").controller('ViewVideoCtrl', ['$scope', '$rou
             });
     };
     $scope.getComments();
-//
-//    $scope.reportComment = function(_id) {
-//        $http.post('/api/comments/flagComment', {"_id":_id, "flagged": true}).
-//            success(function(data){
-//                console.log("flagged");
-//                $scope.$emit("MessagePopup", '', 'Comment reported.');
-//            }).
-//            error(function(err){
-//                console.error(err);
-//                $scope.$emit("MessagePopup", err, '');
-//            });
-//    };
-//
-//    $scope.deleteComment = function(_id){
-//        $http.post('/api/comments/removeComment', {"_id":_id, "articleId":$routeParams.id}).
-//            success(function(data){
-//                console.log("deleted");
-//                $scope.$emit('MessagePopup', '', "Comment Deleted.");
-//                $scope.getComments();
-//            }).
-//            error(function(err){
-//                console.error(err);
-//                $scope.$emit('MessagePopup', 'Failure: ' + err, "");
-//            });
-//    };
+
+    $scope.reportComment = function(_id) {
+        $http.post('/api/comments/flagComment', {"_id":_id, "flagged": true}).
+            success(function(data){
+                console.log("flagged");
+                $scope.$emit("MessagePopup", '', 'Comment reported.');
+            }).
+            error(function(err){
+                console.error(err);
+                $scope.$emit("MessagePopup", err, '');
+            });
+    };
+
+    $scope.deleteComment = function(_id){
+        $http.post('/api/comments/removeComment', {"_id":_id}).
+            success(function(data){
+                console.log("deleted");
+                $scope.$emit('MessagePopup', '', "Comment Deleted.");
+                $scope.getComments();
+            }).
+            error(function(err){
+                console.error(err);
+                $scope.$emit('MessagePopup', 'Failure: ' + err, "");
+            });
+    };
 //
 //    $scope.publish = function() {
 //        $http.post('/api/articles/publish', {"_id": $scope.post._id}).
