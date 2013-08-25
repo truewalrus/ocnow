@@ -39,7 +39,7 @@
                                     <div class="media-body">
                                         <h4 class="media-heading"><a ng-href = "/article/{{ post._id }}">{{post.title}}</a></h4>
                                         <span class="article-byline">Posted at {{ extractDate(post.date) }} (<a ng-href = "/article/{{ post._id }}">{{post.commentCount }} comments</a>)</span>
-                                        <p class="article-summary" ng-bind-html-unsafe="post.article"></p>
+                                        <p class="article-summary" ng-bind="post.article | blurbFilter"></p>
                                     </div>
                                 </td>
                             </tr>

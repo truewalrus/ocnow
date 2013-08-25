@@ -4,6 +4,7 @@ angular.module("myApp.controllers").controller('ViewVideoCtrl', ['$scope', '$rou
     page.setPage('Episode');
 
     var commentingDisabled = false;
+    $scope.commentCount = 0;
 
     $scope.video = {
         snippet: {
@@ -70,6 +71,7 @@ angular.module("myApp.controllers").controller('ViewVideoCtrl', ['$scope', '$rou
                     commentingDisabled = true;
                     $timeout(enableCommenting, 15000);
                     $scope.content = '';
+                    $scope.commentCount++;
                 }).
                 error(function(err){
                     console.error(err);
@@ -88,7 +90,8 @@ angular.module("myApp.controllers").controller('ViewVideoCtrl', ['$scope', '$rou
         $http.get('/api/comments/get/yt-' + $routeParams.id).
             success(function(data){
                 $scope.comments = data;
-                console.log(data);
+                $scope.commentCount = data.length;
+              //  console.log(data);
             }).
             error(function(err){
                 console.error(err);

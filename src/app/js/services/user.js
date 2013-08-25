@@ -42,9 +42,9 @@ angular.module("myApp.services")
 
             var userInfo = {'fName': fName, 'lName': lName};
 
-            console.log("(user.js) Updating user...", userInfo);
+ //           console.log("(user.js) Updating user...", userInfo);
 
-            console.log("img: ", img);
+//            console.log("img: ", img);
 
             upload.upload('/api/user/update/' + _id, userInfo, img, function(response) {
                 if ($rootScope.user._id == _id) { updateUserInfo(response); }
@@ -58,7 +58,7 @@ angular.module("myApp.services")
             $http.post('/api/user/login', {'username': username, 'password': password}).
                 success(function(data) {
                     $rootScope.$broadcast('userLoggedIn');
-                    console.log(data);
+  //                  console.log(data);
                     success(data);
                 }).
                 error(function(data) {

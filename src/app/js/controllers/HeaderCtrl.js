@@ -17,7 +17,6 @@ angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', 
     $scope.query='';
 
     $scope.viewProfile = function(){
-        console.log($location.url());
         $location.url('/profile');
     };
 
