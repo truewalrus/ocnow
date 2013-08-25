@@ -27,16 +27,20 @@
                 <!--<p class="home-episode-description">{{ video.snippet.description }}</p>-->
             <!--</div>-->
         <!--</div>-->
-    <carousel interval="5000">
-
-        <slide ng-repeat="post in posts">
-            <img class = "carousel-media media-object centerer" ng-src = "{{ articlePic(post.img) }}"/>
-            <div class="carousel-caption">
-                <a ng-href = '/article/{{ post._id }}'>{{post.title}}</a>
-                <p>by {{ post.name }}</p>
-            </div>
-        </slide>
-    </carousel>
+    <!--<carousel class="home-carousel" interval="5000">-->
+        <!--<slide ng-repeat="post in posts">-->
+            <!--<img class = "carousel-media media-object centerer home-carousel-image" ng-src = "{{ articlePic(post.img) }}"/>-->
+            <!--<div class="carousel-caption">-->
+                <!--<a ng-href = '/article/{{ post._id }}'>{{post.title}}</a>-->
+                <!--<p>by {{ post.name }}</p>-->
+            <!--</div>-->
+        <!--</slide>-->
+    <!--</carousel>-->
+        <div class="span6 home-latest-episode-container">
+            <div>Latest Episode</div>
+            <div><a href="#">Blah blah blah</a></div>
+            <div><iframe width="250" height="187" ng-src="{{ videoEmbedSrc() }}" frameborder="0" allowfullscreen></iframe></div>
+        </div>
         <table class="hero-unit">
             <tbody>
                 <tr ng-show="video.id" class="media home-episode">
@@ -54,7 +58,7 @@
                     </td>
                     <td class="media-body home-episode-details">
                         <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
-                        <p class="home-episode-description" ng-bind-html-unsafe="video.snippet.description | blurbFilter"></p>
+                        <p class="home-episode-description" ng-bind-html-unsafe="video.snippet.description | linkify"></p>
                     </td>
                 </tr>
             </tbody>
