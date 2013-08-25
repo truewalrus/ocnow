@@ -29,8 +29,8 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'dev/app/css/base.css': [
-						'src/app/less/base/*.less',
-						'src/app/less/thirdparty/*.less'
+						'src/app/less/thirdparty/*.less',
+						'src/app/less/base/*.less'
 					]
 				}
 			},
@@ -40,8 +40,9 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'dist/app/css/base.css': [
-						'src/app/less/base/*.less',
-						'src/app/less/thirdparty/*.less'
+						'src/app/less/thirdparty/*.less',
+						'src/app/less/base/*.less'
+						
 					]
 				}
 			}

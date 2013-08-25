@@ -26,7 +26,7 @@
                 <div class = "span6">
                     <div class = "area">
                         <form class = "form-horizontal" ng-submit = "login(username, password)">
-                            <div class = "centerer heading">
+                            <div class = "heading">
                                 <h4 class = "form-heading">Sign In</h4>
                             </div>
 
@@ -62,19 +62,19 @@
                                 <h4 class = "form-heading">Sign Up</h4>
                             </div>
                             <div class = "control-group">
-                                <label class = "control-label" for = "inputnUsername">* Username:</label>
+                                <label class = "control-label" for = "inputnUsername"><span class = "signin-required">*</span> Username:</label>
                                 <div class = "controls">
                                     <input type = "text" id = "inputnUsername" ng-model = "newUser.username" required>
                                 </div>
                             </div>
                             <div class = "control-group">
-                                <label class = "control-label" for = "inputnPassword">* Password: </label>
+                                <label class = "control-label" for = "inputnPassword"><span class = "signin-required">*</span> Password: </label>
                                 <div class = "controls">
                                     <input type = "password" id = "inputnPassword" ng-model = "newUser.password" required>
                                 </div>
                             </div>
                             <div class = "control-group">
-                                <label class = "control-label" for = "inputcPassword">* Confirm Password: </label>
+                                <label class = "control-label" for = "inputcPassword"><span class = "signin-required">*</span> Confirm Password: </label>
                                 <div class = "controls">
                                     <input type = "password" id = "inputcPassword" ng-model = "newUser.confirm" required>
                                 </div>
@@ -93,7 +93,7 @@
                             </div>
 
                             <div class = "control-group">
-                                <label  class = "control-label" for = "emptySpacer">*Prove you are human: </label>
+                                <label  class = "control-label" for = "emptySpacer"><span class = "signin-required">*</span> Prove you are human: </label>
                                 <div class = "controls">
                                     <span id = "emptySpacer"></span>
                                 </div>
@@ -106,7 +106,7 @@
                                 <div class = "signin-captcha">
                                     <div id = "recaptcha"></div>
                                 </div>
-                                <span class = "help-block">* denotes a required field.</span>
+                                <span class = "help-block signin-required">* denotes a required field.</span>
                                 </br>
                             </div>
 

@@ -5,7 +5,7 @@
                 <div><h4>Latest Episode</h4></div>
                 <div ng-hide="video.id">Loading episode...</div>
                 <div class="home-episode" ng-hide="video.id"></div>
-                <div ng-show="video.id"><h4><a ng-href = '{{ viewVideoHref() }}'>{{ video.snippet.title }}</a></h4></div>
+                <div ng-show="video.id"><h4><a class = "home-article-title" ng-href = '{{ viewVideoHref() }}'>{{ video.snippet.title }}</a></h4></div>
                 <div ng-show="video.id">
                     <iframe width="250" height="187" class="home-episode pull-left" ng-src="{{ videoEmbedSrc() }}" frameborder="0" allowfullscreen></iframe>
                     <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="media-body" ng-class = "{'span10': post.img, 'span12': !post.img, 'no-left-margin': !post.pic}">
-                        <h3 class="media-heading"><a ng-href = '/article/{{ post._id }}'>{{post.title}}</a></h3>
+                        <h3 class="media-heading"><a class = "home-article-title" ng-href = '/article/{{ post._id }}'>{{post.title}}</a></h3>
                         <p class="home-article-byline">Posted by <a ng-href = '/user/{{ post.uid }}'>{{ post.name }}</a> {{ post.date | date:"'at' h:mm:ss a 'on' MMMM d, y" }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="post.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
                         <p class="home-article-desc" ng-bind="post.article | blurbFilter"></p>
                     </div>

@@ -11,6 +11,10 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
 
     if ($routeParams.id)
     {
+
+        if ($routeParams.id.substring(0,2) === 'yt'){
+            return($location.url('/episode/' + $routeParams.id.substring(3)).replace());
+        }
         $http.get('/api/articles/get/' + $routeParams.id).
             success(function(data) {
                 $scope.post = data;

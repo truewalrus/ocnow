@@ -50,7 +50,7 @@
                     <div class = "span2 comment-center"> <img ng-show = "comment.img" class = "img-polaroid comment-img" ng-src = "{{ profilePic(comment.img) }}"> </div>
                     <div class = "span10">
                         <div class = "comment-username" class = "span12">
-                            <a ng-href = '/user/{{ comment.uId }}'>{{ comment.name }}</a> <span class = "pull-right comment-date"> {{ extractDate(comment.date)}}</span>
+                            <a ng-href = '/user/{{ comment.uId }}'>{{ comment.name }}</a> <span class = "pull-right comment-date"> {{comment.date | date:"h:mm:ss a 'on' MMMM d, y"}}</span>
                         </div>
                         <div class = "comment-content">{{ comment.content | commentFilter }}</div> <div class = "comment-warn-icon"><i ng-show = "user.rank > 2" ng-click = "reportComment(comment._id)" title = "Report this comment" class = "icon-warning-sign"></i><i ng-show = "user.rank <= 2" ng-click = "deleteComment(comment._id)" title = "Delete this comment" class = "icon-trash"></i></div>
                     </div>
