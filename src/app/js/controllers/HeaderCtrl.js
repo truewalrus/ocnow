@@ -3,6 +3,7 @@
 angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', '$location','$rootScope', '$timeout', 'messageService', '$window', function ($scope, user, $location, $rootScope, $timeout, ms, $window){
     $scope.$on('userLoggedIn', function() {
         user.checkSession();
+        console.log($scope.user);
     });
 
     $scope.pageUrl = "http://www.google.com";

@@ -25,7 +25,7 @@
         <div class = "row-fluid">
             <ul class = "unstyled">
                 <li class = "row-fluid comment-list" ng-repeat = "comment in comments">
-                    <div class = "span2 comment-center"> <img ng-show = "comment.img" class = "img-polaroid comment-img" ng-src = "{{ profilePic(comment.img) }}"> </div>
+                    <div class = "span2 comment-center comment-img"> <img ng-show = "comment.img" class = "img-polaroid comment-img" ng-src = "{{ profilePic(comment.img) }}"> </div>
                     <div class = "span10">
                         <div class = "comment-username" class = "span12">
                             <a ng-href = '/user/{{ comment.uId }}'>{{ comment.name }}</a> <span class = "pull-right comment-date"> {{comment.date | date:"h:mm:ss a 'on' MMMM d, y"}}</span>

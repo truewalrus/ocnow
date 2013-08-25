@@ -3,7 +3,8 @@
 angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user', '$http', '$rootScope', '$location', 'uploadService', function($scope, user, $http, $rootScope, $location, uploadService){
 
     var RANK_COMMENTER = 4;
-
+    console.log("newpost");
+    console.log($scope.checkingSession);
     if (!$scope.checkingSession && !$scope.loggedIn) { return $location.path('/sign-in').replace(); }
     else{
         if ($scope.user.rank === RANK_COMMENTER){
@@ -13,6 +14,12 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
     $scope.$on('user:loggedOut', function(event) {
         return $location.path('/sign-in').replace();
     });
+    $scope.$on('userUpdated', function(event){
+        if($scope.user.rank === RANK_COMMENTER){
+            return $location.path('/home').replace();
+        }
+    });
+
 
 
     var createArticle = function(imgPath) {

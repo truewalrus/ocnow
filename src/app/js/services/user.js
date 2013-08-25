@@ -58,7 +58,7 @@ angular.module("myApp.services")
             $http.post('/api/user/login', {'username': username, 'password': password}).
                 success(function(data) {
                     $rootScope.$broadcast('userLoggedIn');
-  //                  console.log(data);
+                    console.log(data);
                     success(data);
                 }).
                 error(function(data) {
@@ -71,6 +71,7 @@ angular.module("myApp.services")
         //Needs to be called in the header to get data every time
         this.checkSession = function(){
             $rootScope.checkingSession = true;
+            console.log($rootScope.checkingSession);
 
             $http.get('/api/user/checkSession').
                 success(function(data) {
