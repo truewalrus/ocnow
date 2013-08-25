@@ -1,9 +1,13 @@
 'use strict';
 angular.module('myApp.filters')
     .filter('linkify', [ function() {
-        return function(text) {
+        return function(text, link) {
             var blurb = text;
 
+            if (!blurb) {
+                return blurb;
+            }
+            
             var matches = blurb.match(new RegExp('(https?://.\\S+)|(www\\.\\S+\\.\\S+)','ig'));
 
             var linkedText = '';
