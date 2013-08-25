@@ -68,12 +68,12 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
     };
 
     $scope.addTagToArticle = function(tag){
-        if (!contains(tag, $scope.articleTags)){
+  //      if (!contains(tag, $scope.articleTags)){
             $scope.articleTags.push(tag);
-        }
-        else{
+  //      }
+  /*      else{
             $scope.$emit('MessagePopup', '', 'Already added.');
-        }
+        }*/
     };
 
     var contains = function (a, array){
@@ -87,6 +87,14 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
 
     $scope.removeTagFromArticle = function(tag){
         $scope.articleTags.splice($scope.articleTags.indexOf(tag), 1);
+    };
+
+    $scope.filterDuplicates = function(item){
+        if (!contains(item.tag, $scope.articleTags)){
+            return item;
+        }
+        return '';
+
     };
 
   /*  var checkSession = function(){
@@ -142,7 +150,7 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
     };
 
     $scope.findPosts = function(){
-        console.log($scope.files[0]);
+    //    console.log($scope.files[0]);
 
         $http.post('api/articles/getAll', {'_uid': $scope.username}).
             success(function(data) {
@@ -176,7 +184,7 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
     $scope.publishArticle = false;
     $scope.isAdmin = ($scope.user.rank <= 2);
 
-    console.log($scope.user.rank);
+ //   console.log($scope.user.rank);
 
     $scope.submitDisabled = false;
 

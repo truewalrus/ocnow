@@ -72,12 +72,12 @@ angular.module("myApp.controllers").controller('EditPostCtrl', ['$scope', '$rout
     };
 
     $scope.addTagToArticle = function(tag){
-        if (!contains(tag, $scope.post.tags)){
+      //  if (!contains(tag, $scope.post.tags)){
             $scope.post.tags.push(tag);
-        }
+    /*    }
         else{
             $scope.$emit('MessagePopup', '', 'Already added.');
-        }
+        }*/
     };
 
     $scope.removeTagFromArticle = function(tag){
@@ -106,4 +106,12 @@ angular.module("myApp.controllers").controller('EditPostCtrl', ['$scope', '$rout
     $scope.isAdmin = ($scope.user.rank <= 2);
 
     $scope.submitDisabled = false;
+
+    $scope.filterDuplicates = function(item){
+        if (!contains(item.tag, $scope.post.tags)){
+            return item;
+        }
+        return '';
+
+    };
 }]);
