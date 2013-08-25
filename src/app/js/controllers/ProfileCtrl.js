@@ -53,7 +53,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
                 $scope.posts = data;
             }).
             error(function(data){
-                console.log(data);
+   //             console.log(data);
             });
     };
     userSettings();
@@ -135,7 +135,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
            $scope.newUser.rank = RANK_ADMIN;
        }
        user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName, '', '',  function(data) {
-                console.log('added %s', data.username);
+   //             console.log('added %s', data.username);
                 clearUser();
                 adminUpdateUserList();
                $scope.$emit('MessagePopup', '', 'User created.');
@@ -153,7 +153,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     * @param id  -  user _id
     */
     $scope.adminUserDelete = function(id){
-        console.log(id);
+   //     console.log(id);
         if($scope.admin >=1){
             user.deleteUser(id,
                 function(data) {
@@ -161,7 +161,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
                     adminUpdateUserList();
                 },
                 function(data) {
-                    console.log(data);
+    //                console.log(data);
                     $scope.$emit('MessagePopup', 'Failure: ' + data, "");
                 });
         }
@@ -171,7 +171,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     //modal for admin user delete confirmation
     $scope.deleteModal = false;
     $scope.deleteDialog = function(id){
-        console.log(id);
+   //     console.log(id);
         $scope.deleteModal = id;
     };
     $scope.closeDialog = function(){
@@ -194,11 +194,11 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         if($scope.admin >=1){
             $http.post('/api/articles/publish', {"_id": id}).
                 success(function(data){
-                    console.log("published");
+  //                  console.log("published");
                     $scope.$emit('MessagePopup', '', "Article Published.");
                 }).
                 error(function(data){
-                    console.log(data);
+   //                 console.log(data);
                     $scope.$emit('MessagePopup', 'Failure: ' + data, "");
                 });
         }
@@ -263,12 +263,12 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
                 // console.log($scope.AACpassword);
                 user.changePassword($scope.AACid, '', $scope.AACpassword,
                     function(data){
-                        console.log(data);
+  //                      console.log(data);
                         $scope.AACpassword = '';
                     },
                     function(data){
-                        console.log("failure");
-                        console.log(data);
+   //                     console.log("failure");
+   //                     console.log(data);
                         $scope.AACpassword = '';
                     });
             }
@@ -307,7 +307,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.deleteComment = function (_id, articleId){
         $http.post('/api/comments/removeComment', {"_id":_id, "articleId":articleId}).
             success(function(data){
-                console.log("deleted");
+   //             console.log("deleted");
                 $scope.$emit('MessagePopup', '', "Comment Deleted.");
             }).
             error(function(err){
@@ -426,12 +426,12 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         if($scope.confirmNew === $scope.newPW){
             user.changePassword($scope.user._id, $scope.oldPW, $scope.newPW,
                 function(data){
-                    console.log(data);
+    //                console.log(data);
                     $scope.$emit('MessagePopup', '', 'Password changed.');
                 },
                 function(data){
-                    console.log("failure");
-                    console.log(data);
+  //                  console.log("failure");
+ //                   console.log(data);
                     $scope.$emit('MessagePopup', 'Failure: ' + data, '');
                 });
         }
@@ -487,7 +487,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
                 return $location.path('/sign-in').replace();
             },
             function(data){
-                console.log(data);
+ //               console.log(data);
             }
         );
     };

@@ -41,7 +41,7 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
     var episodes = GoogleAPI.youtube.playlist.items('PLB974F6E8F4766DB9', {maxResults: 1});
 
     episodes.then(function(videos) {
-        console.log("Retrieved video playlist: ", videos);
+  //      console.log("Retrieved video playlist: ", videos);
         $scope.video = videos[0];
 
         $http.get('/api/comments/count?id=yt-' + $scope.video.snippet.resourceId.videoId).
@@ -59,7 +59,6 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
     };
 
     $scope.retrievePosts = function() {
-        console.log($scope.page);
         $http.get('api/articles/front?page='+$scope.page+'&count=10').
             success(function(data) {
                 $scope.posts = data;

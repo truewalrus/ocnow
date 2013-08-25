@@ -33,11 +33,7 @@
     <div class = "view-post-article"><p ng-bind-html-unsafe="post.article"></p></div>
 
     <div class = "row-fluid">
-
-
-            <p>({{ post.commentCount }} comments)</p>
-
-
+        <p>(<span ng-pluralize count="post.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span>)</p>
     </div>
     <div class = "well well-small">
 
