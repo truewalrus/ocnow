@@ -11,7 +11,7 @@
                         <img ng-src = "{{profilePic(userInfo.img)}}" alt = "Profile" />
                     </div>
                     <ul class = "nav nav-tabs nav-stacked">
-                        <li><a href = "#" ng-click = "viewPosts()">Posts</a></li>
+                        <li ng-show = "userInfo.rank < 4"><a href = "#" ng-click = "viewPosts()">Posts</a></li>
                         <li><a href = "#" ng-click = "viewComments()">Comments</a></li>
                     </ul>
                 </div>

@@ -49,6 +49,9 @@ angular.module("myApp.controllers")
         $http.get('/api/user/id/' + $params.id).
             success(function(response) {
                 $scope.userInfo = response.user;
+                if ($scope.userInfo.rank > 3){
+                    $scope.currentView = view.comments;
+                }
 
                 // Replaces the current page's default title with a user-specific one.
                 page.setPage(user.parseName(response.user) + '\'s Profile');

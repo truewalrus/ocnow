@@ -8,7 +8,7 @@
                 <div ng-show="video.id"><h4><a class = "home-article-title" ng-href = '{{ viewVideoHref() }}'>{{ video.snippet.title }}</a></h4></div>
                 <div ng-show="video.id">
                     <iframe width="250" height="187" class="home-episode pull-left" ng-src="{{ videoEmbedSrc() }}" frameborder="0" allowfullscreen></iframe>
-                    <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
+                    <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-href = "{{viewVideoHref() }}"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
                     <p class="home-episode-description" ng-bind-html-unsafe="video.snippet.description | linkify"></p>
                 </div>
             </div>

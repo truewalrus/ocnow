@@ -57,7 +57,7 @@ function users_findByUsername(username, password, fn) {
     console.log("Finding by Username");
 
     db_connector.collection('users', function(err, collection) {
-        collection.find({'username': username}).toArray(function(err, items) {
+        collection.find({'id': username.toUpperCase()}).toArray(function(err, items) {
             if (err) { return fn(err); }
 
             if (items.length > 0) {

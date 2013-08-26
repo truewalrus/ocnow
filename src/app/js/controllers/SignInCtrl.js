@@ -36,19 +36,39 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
         var challenge = Recaptcha.get_challenge();
         var response = Recaptcha.get_response();
         if(response){
-            if ($scope.newUser.password === $scope.newUser.confirm){
-                 user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName, challenge, response,  function(data) {
-                     console.log('added %s', data.username);
-                     $scope.login($scope.newUser.username, $scope.newUser.password);
-                 },
-                 function(data) {
-                     clearUser();
-                     $scope.$emit('MessagePopup', data, '');
-                 });
-                 }
-             else{
-                 $scope.$emit('MessagePopup', "Passwords don't match.", '');
-             }
+            if($scope.newUser.password.length < 7)
+            {
+                $scope.$emit('MessagePopup', 'Password too short, must be at least 7 characters.', '');
+                $scope.newUser.password = '';
+                $scope.newUser.confirm = '';
+            }
+            else if ($scope.newUser.username.length < 4){
+                $scope.$emit('MessagePopup', 'Username too short, must be at least 4 characters.', '');
+                $scope.newUser.username = '';
+                $scope.newUser.password = '';
+                $scope.newUser.confirm = '';
+            }
+            else if ($scope.newUser.username.length > 15){
+                $scope.$emit('MessagePopup', 'Username too long, must be under 16 characters.', '');
+                $scope.newUser.username = '';
+                $scope.newUser.password = '';
+                $scope.newUser.confirm = '';
+            }
+            else{
+                if ($scope.newUser.password === $scope.newUser.confirm){
+                    user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName, challenge, response,  function(data) {
+                            console.log('added %s', data.username);
+                            $scope.login($scope.newUser.username, $scope.newUser.password);
+                        },
+                        function(data) {
+                            clearUser();
+                            $scope.$emit('MessagePopup', data, '');
+                        });
+                }
+                else{
+                    $scope.$emit('MessagePopup', "Passwords don't match.", '');
+                }
+            }
         }
         else{
             $scope.$emit('MessagePopup', 'Please prove you are a human by filling out the captcha', '');
