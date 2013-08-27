@@ -71,8 +71,8 @@
                             <div class = "tabbable">
                                 <ul class = "nav nav-tabs">
                                     <li ng-click = "adminUsers()" ng-class = "{active: adminView == 0}"><a href = '#'>Users</a></li>
-                                    <li ng-click = "adminPosts()" ng-class = "{active: adminView == 1}"><a href = '#'>Posts</a></li>
-                                    <li ng-click = "adminComments()" ng-class = "{active: adminView ==2}"><a href = '#'>Comments</a></li>
+                                    <li ng-click = "adminPosts()" ng-class = "{active: adminView == 1}"><a href = '#'>Posts <span ng-show = "unpublishedPosts.length > 0">({{unpublishedPosts.length}})</span></a></li>
+                                    <li ng-click = "adminComments()" ng-class = "{active: adminView ==2}"><a href = '#'>Comments <span ng-show = "flaggedComments.length>0">({{flaggedComments.length}})</span></a></li>
                                 </ul>
                             </div>
                             <span ng-show = "adminView == 0">Edit Users</span>

@@ -68,6 +68,13 @@
                                 </div>
                             </div>
                             <div class = "control-group">
+                                <label class = "control-label" for = "inputEmail"><span class = "signin-required">*</span> Email:</label>
+                                <div class = "controls">
+                                    <input type = "text" id = "inputEmail" ng-model = "newUser.email" required>
+                                    <span class = "help-block">Email is used only for password recovery and site-wide notices. Not in-use yet</span>
+                                </div>
+                            </div>
+                            <div class = "control-group">
                                 <label class = "control-label" for = "inputnPassword"><span class = "signin-required">*</span> Password: </label>
                                 <div class = "controls">
                                     <input type = "password" id = "inputnPassword" ng-model = "newUser.password" required>

@@ -15,6 +15,7 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
 
      $scope.newUser = {
         username: "",
+        email: "",
         password:"",
         confirm:"",
         fName: "",
