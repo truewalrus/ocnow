@@ -1,15 +1,15 @@
 <div ng-controller = "ViewPostCtrl" class = "container-fluid">
 
-    <div ng-show="user.rank <= 3" class="ng-cloak">
+    <div ng-show="(user.rank <= 2 || post.uid == user._id)" class="ng-cloak">
         <div class="alert" ng-class="{'alert-info': post.published}">
             <div ng-show="!post.published"><strong>Unpublished!</strong> This article is not yet published; it is viewable only by the author and site admins.<span></span></div>
             <div ng-show="post.published"><strong>Published!</strong> This article is published; it is viewable by everyone</div>
         </div>
         <div class="well well-small">
             <button class="btn btn-small btn-primary" ng-show="!post.published && user.rank <= 2" ng-click="publish()"><i class="icon-eye-open icon-white"></i> Publish</button>
-            <button class="btn btn-small btn-warning" ng-show="post.published && user.rank <= 2" ng-click="unpublish()"><i class="icon-eye-close icon-white"></i> Unpublish</button>
+            <button class="btn btn-small btn-warning" ng-show="post.published && (user.rank <= 2 || post.uid == user._id)" ng-click="unpublish()"><i class="icon-eye-close icon-white"></i> Unpublish</button>
             <button class="btn btn-small" ng-click="edit()"><i class="icon-edit"></i> Edit</button>
-            <button class="btn btn-small btn-danger" ng-click="deleteDialog()"><i class="icon-trash icon-white"></i> Delete</button>
+            <button class="btn btn-small btn-danger" ng-show="post.published && user.rank <= 2" ng-click="deleteDialog()"><i class="icon-trash icon-white"></i> Delete</button>
             <div modal="deleteModal" close="closeDialog()" options="opts">
                 <div class="modal-header">
                     <h3>Are you sure you want to delete this article?</h3>

@@ -99,7 +99,7 @@ routing.push(function(app) {
             if (!canUpdateArticle(request.user.rank)) {
                 db_connector.collection('articles', function(error, articles) {
                     articles.findOne({ "_id": ObjectID(request.params._id ) }, function(error, article) {
-                        if (article.uid != request.user._id) { return response.send(401, { error: "User does not have permission to update this user." }); }
+                        if (article.uid != request.user._id) { return response.send(401, { error: "User does not have permission to update this article." }); }
                     });
                 });
             }
