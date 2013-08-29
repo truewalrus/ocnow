@@ -176,7 +176,7 @@ function users_createUser(request, response){
     }
 
     db_connector.collection('users', function(err, collection){
-        collection.insert({'username': request.body.username, 'password': password, 'id': request.body.username.toUpperCase(), 'rank': rank, 'fName': request.body.fName, 'lName':request.body.lName}, {safe: true}, function(err, data){
+        collection.insert({'username': request.body.username, 'password': password, 'id': request.body.username.toUpperCase(), 'rank': rank, 'fName': request.body.fName, 'lName':request.body.lName, 'email': request.body.email}, {safe: true}, function(err, data){
             if (err) {
                 response.send("Username already exists.", 401);
             }
@@ -287,6 +287,7 @@ function users_cleanUserObject(user){
     cleanUser.img = user.img;
     cleanUser.displayName = user.displayName;
     cleanUser.rank = user.rank;
+    cleanUser.email = user.email;
 
     return cleanUser;
 }
@@ -404,6 +405,28 @@ function users_update(request, response) {
     });
 }
 
+function users_saveEmail(request, response){
+
+    if(request.body._id != request.user._id){
+        if (!canUpdateUser(request.user.rank)){
+            return response.send("User does not have permission to update this user.", 401);
+        }
+    }
+
+    db_connector.collection('users', function(error, users) {
+        users.findAndModify( { _id: ObjectID(request.body._id) }, [], { $set:{"email": request.body.email} }, {new:true}, function(error, data) {
+            if (error) { return response.send(401, error) }
+            else{
+                var userInfo = users_cleanUserObject(request.user);
+                console.log(request.body.email);
+                userInfo.email = request.body.email;
+                console.log(userInfo);
+                response.send(200, userInfo);
+            }
+        });
+    });
+}
+
 /* ALL DIS STUFF BE COOL */
 routing.push(function(app) {
 	app.get('/api/user', ensureAuthentication, users_userInfo);
@@ -445,4 +468,6 @@ routing.push(function(app) {
     app.post('/api/user/delete', ensureAuthentication, users_userDelete);
 
     app.post('/api/user/changePassword', ensureAuthentication, users_changePassword);
+
+    app.post('/api/user/saveEmail', ensureAuthentication, users_saveEmail);
 });

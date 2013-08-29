@@ -62,9 +62,9 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
                             $scope.login($scope.newUser.username, $scope.newUser.password);
                         },
                         function(data) {
-                            clearUser();
+                            //clearUser();
                             $scope.$emit('MessagePopup', data, '');
-                        });
+                        }, $scope.newUser.email);
                 }
                 else{
                     $scope.$emit('MessagePopup', "Passwords don't match.", '');

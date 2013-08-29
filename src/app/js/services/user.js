@@ -20,8 +20,8 @@ angular.module("myApp.services")
       //  this.isLoggedIn = function() { return loggedIn; };
 
         //signup
-        this.signUp = function(username, password, rank, fName, lName, challenge, response, success, error){
-            $http.post('/api/user/create', {'username': username, 'password': password, 'fName': fName, 'lName': lName, 'rank': rank, 'recaptcha_challenge_field':challenge, 'recaptcha_response_field':response}).
+        this.signUp = function(username, password, rank, fName, lName, challenge, response, success, error, email){
+            $http.post('/api/user/create', {'username': username, 'password': password, 'fName': fName, 'lName': lName, 'rank': rank, 'recaptcha_challenge_field':challenge, 'recaptcha_response_field':response, 'email': email}).
                 success(function(data) {
                     success(data);
                 }).
@@ -51,6 +51,18 @@ angular.module("myApp.services")
 
                 success(response);
             }, error);
+        };
+
+        this.saveEmail = function(_id, email){
+            console.log(email);
+            $http.post('/api/user/saveEmail', {_id: _id, email: email}).
+                success(function(data){
+                    console.log(data);
+                }).
+                error(function(data){
+                    console.log("err");
+                    console.log(data);
+                });
         };
 
         //login -- email/display name, password,
