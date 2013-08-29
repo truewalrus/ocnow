@@ -31,6 +31,16 @@ angular.module("myApp.controllers").controller('EditPostCtrl', ['$scope', '$rout
             function(response) {
                 $location.path('/article/' + $routeParams._id);
                 $scope.$emit('MessagePopup', '', 'Article updated.');
+
+                $http.post('/api/articles/unpublish', {"_id": $scope.post._id, "uid": $scope.post.uid}).
+                    success(function(response) {
+                        console.log("Article unpublished!");
+
+                        $scope.post = response.article;
+                    }).
+                    error(function(response) {
+                        console.error("Article was not unpublished.", response);
+                    });
             });
     };
 
