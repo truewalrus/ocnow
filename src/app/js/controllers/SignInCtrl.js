@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '$location', function($scope, user, $location){
+angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '$location', '$http', function($scope, user, $location, $http){
     var RANK_COMMENTER = 4;
 
     if (!$scope.checkingSession && $scope.loggedIn) { return $location.path('/profile').replace(); }
@@ -93,6 +93,11 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
                 $scope.username = '';
                 $scope.password = '';
             });
+    };
+
+    $scope.forgotPassword = function(){
+        console.log("in");
+        $http.post('/api/email/sendEmail');
     };
 
 
