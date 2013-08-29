@@ -59,9 +59,9 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
     };
 
     $scope.retrievePosts = function() {
-        $http.get('api/articles/front?page='+$scope.page+'&count=10').
+        $http.get('api/articles/front?page='+$scope.page+'&count=3').
             success(function(data) {
-                $scope.posts = data;
+                $scope.posts = data.articles;
                 if ($scope.posts.length < 10){
                     $scope.showNext = false;
                 }

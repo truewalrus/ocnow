@@ -102,6 +102,7 @@ function articles_getAll(request, response) {
 function articles_getInOrder(request, response) {
     var count = parseInt(request.query.count);
     var page = parseInt(request.query.page);
+    var query = {};
 
     console.log("Sending %d articles from page %d", count, page);
 
@@ -118,13 +119,26 @@ function articles_getInOrder(request, response) {
         page = 1;
     }
 
+    query.published = true;
+    if (request.query.tag) { query.tags = new RegExp('.*' + request.query.tag + '.*', 'i'); }
+
     db_connector.collection('articles', function(err, collection) {
-        collection.find({"published": true}).limit(count).sort({'date': -1}).skip((page - 1) * count).toArray(function(err, data){
+        var info = {};
+
+        collection.find(query).limit(count).sort({'date': -1}).skip((page - 1) * count, function(err, cursor){
             if (err) {
                 response.send("Server database error.", 500);
             }
             else {
-                response.send(data);
+                cursor.count(function(err, total) {
+                    info.pages = Math.ceil(total / count);
+
+                    cursor.toArray(function(err, data) {
+                        info.articles = data;
+
+                        response.send(200, info);
+                    });
+                })
             }
         });
     });

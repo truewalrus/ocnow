@@ -1,0 +1,31 @@
+<div class = "container-fluid" ng-controller = "NewsCtrl">
+    <ul class="nav nav-tabs">
+        <li ng-class="{active: tab.current == tab.all}"><a href="#" ng-click="changeTab(tab.all)">All News</a></li>
+        <li ng-class="{active: tab.current == tab.saddleback}"><a href="#" ng-click="changeTab(tab.saddleback)">Saddleback College</a></li>
+        <li ng-class="{active: tab.current == tab.local}"><a href="#" ng-click="changeTab(tab.local)">Orange County</a></li>
+        <li ng-class="{active: tab.current == tab.national}"><a href="#" ng-click="changeTab(tab.national)">National</a></li>
+    </ul>
+    <div class="pagination-centered" pagination num-pages="pageCount" current-page="page" next-text="&raquo;" previous-text="&laquo;" max-size="5" rotate="false" on-select-page="retrievePosts(page)">
+
+    </div>
+    <div>
+        <ul class = "unstyled">
+            <li class = "home-article media" ng-repeat = "post in posts">
+                <div class = "row-fluid">
+                    <div ng-show = "post.img" class = "span2">
+                        <img class = "img-polaroid home-img media-object" ng-src = "{{ articlePic(post.img) }}"/>
+                    </div>
+
+                    <div class="media-body" ng-class = "{'span10': post.img, 'span12': !post.img, 'no-left-margin': !post.pic}">
+                        <h3 class="media-heading"><a class = "home-article-title" ng-href = '/article/{{ post._id }}'>{{post.title}}</a></h3>
+                        <p class="home-article-byline">Posted by <a ng-href = '/user/{{ post.uid }}'>{{ post.name }}</a> {{ post.date | date:"'at' h:mm:ss a 'on' MMMM d, y" }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="post.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
+                        <p class="home-article-desc" ng-bind="post.article | blurbFilter"></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="pagination-centered" pagination num-pages="pageCount" current-page="page" next-text="&raquo;" previous-text="&laquo;" max-size="5" rotate="false" on-select-page="retrievePosts(page)">
+
+        </div>
+    </div>
+</div>

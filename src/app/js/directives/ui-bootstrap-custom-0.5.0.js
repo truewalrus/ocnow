@@ -773,6 +773,7 @@ angular.module('ui.bootstrap.pagination', [])
 
   var self = this;
   $scope.selectPage = function(page) {
+      console.log($scope.onSelectPage);
     if ( ! self.isActive(page) && page > 0 && page <= $scope.numPages) {
       $scope.currentPage = page;
       $scope.onSelectPage({ page: page });
