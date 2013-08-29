@@ -418,9 +418,7 @@ function users_saveEmail(request, response){
             if (error) { return response.send(401, error) }
             else{
                 var userInfo = users_cleanUserObject(request.user);
-                console.log(request.body.email);
                 userInfo.email = request.body.email;
-                console.log(userInfo);
                 response.send(200, userInfo);
             }
         });

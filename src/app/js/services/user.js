@@ -53,15 +53,13 @@ angular.module("myApp.services")
             }, error);
         };
 
-        this.saveEmail = function(_id, email){
-            console.log(email);
+        this.saveEmail = function(_id, email, success, error){
             $http.post('/api/user/saveEmail', {_id: _id, email: email}).
                 success(function(data){
-                    console.log(data);
+                    success(data);
                 }).
                 error(function(data){
-                    console.log("err");
-                    console.log(data);
+                    error(data);
                 });
         };
 

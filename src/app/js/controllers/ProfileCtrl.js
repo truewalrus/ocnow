@@ -409,7 +409,12 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.changeEmail = function(){
         console.log("in?");
         console.log($scope.email);
-        user.saveEmail($scope.user._id, $scope.email);
+        user.saveEmail($scope.user._id, $scope.email, function(data){
+            $scope.$emit('MessagePopup', '', 'Email saved.');
+        },
+        function (data){
+            $scope.$emit('MessagePopup', data, '');
+        });
     };
     
     /**
