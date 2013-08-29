@@ -1,6 +1,7 @@
 function canCreateArticle(userRank) { return users_hasPermission(userRank, RANK_POSTER) };
 function canUpdateArticle(userRank) { return users_hasPermission(userRank, RANK_ADMIN) };
 function canPublishArticle(userRank) { return users_hasPermission(userRank, RANK_ADMIN) };
+function isOwnerOf(aUid, uid) {return uid == aUid};
 
 collections.push(function(err, db) {
     if (!err) {
@@ -188,7 +189,7 @@ function articles_publish(request, response){
 }
 
 function articles_unpublish(request, response){
-    if (canPublishArticle(request.user.rank)) {
+    if (canPublishArticle(request.user.rank) || isOwnerOf(request.body.uid, request.user._id)) {
         db_connector.collection('articles', function(err, collection) {
             collection.findAndModify({ "_id": ObjectID(request.body._id) }, [], { $set: { "published": false } }, { new: true }, function(err, data){
                 if (err) {
@@ -201,7 +202,7 @@ function articles_unpublish(request, response){
         });
     }
     else{
-        response.send(401, "User does not have permission to unpublish articles.");
+        response.send(401, "User does not have permission to unpublish article.");
     }
 }
 

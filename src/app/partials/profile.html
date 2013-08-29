@@ -309,36 +309,43 @@
                                 <!--Account Settings-->
                                 <div ng-hide = "!settings" class = "row-fluid">
                                     <!--Change Password -->
-                                    <button ng-show = "!showChangePassword" ng-click = "showChangePass()">Change Password</button>
-                                    <div ng-show = "showChangePassword">
-                                        <h5 class = "profile-h5">Change Password <button ng-click = "showChangePass()">Cancel</button></h5>
-                                        <form class = "form-horizontal"  ng-submit = "changePassword()">
-                                            <div class = "control-group">
-                                                <label class = "control-label" for = "origPW">Current Password: </label>
-                                                <div class = "controls">
-                                                    <input type = "password" id = "origPW" ng-model = "oldPW">
-                                                    <span class = "help-block"><a href = "#">Forgot your password?</a></span>
-                                                </div>
+                                    <h5 class = "profile-h5">Change Password <button ng-click = "showChangePass()">Cancel</button></h5>
+                                    <form class = "form-horizontal"  ng-submit = "changePassword()">
+                                        <div class = "control-group">
+                                            <label class = "control-label" for = "origPW">Current Password: </label>
+                                            <div class = "controls">
+                                                <input type = "password" id = "origPW" ng-model = "oldPW">
+                                                <span class = "help-block"><a href = "#">Forgot your password?</a></span>
                                             </div>
-                                            <div class = "control-group">
-                                                <label class = "control-label" for = "newPW">New Password: </label>
-                                                <div class = "controls">
-                                                    <input type = "password" id = "NewPW" ng-model = "newPW">
-                                                </div>
+                                        </div>
+                                        <div class = "control-group">
+                                            <label class = "control-label" for = "newPW">New Password: </label>
+                                            <div class = "controls">
+                                                <input type = "password" id = "NewPW" ng-model = "newPW">
                                             </div>
-                                            <div class = "control-group">
-                                                <label class = "control-label" for = "confirmPW">Confirm New Password: </label>
-                                                <div class = "controls">
-                                                    <input type = "password" id = "confirmPW" ng-model = "confirmNew">
-                                                </div>
+                                        </div>
+                                        <div class = "control-group">
+                                            <label class = "control-label" for = "confirmPW">Confirm New Password: </label>
+                                            <div class = "controls">
+                                                <input type = "password" id = "confirmPW" ng-model = "confirmNew">
                                             </div>
-                                            <div class = "control-group">
-                                                <div class = "controls">
-                                                    <button type="submit" class="btn btn-default">Change Password</button>
-                                                </div>
+                                        </div>
+                                        <div class = "control-group">
+                                            <div class = "controls">
+                                                <button type="submit" class="btn btn-default">Change Password</button>
                                             </div>
-                                        </form>
-                                    </div>
+                                        </div>
+                                    </form>
+
+
+                                    <h5 class = "profile-h5">Email</h5>
+                                    <form class = "form-horizontal" ng-submit = "changeEmail()">
+                                        <div>
+                                            <input type = "email" ng-model = "email" required> <button type = "submit" class = "btn btn-default">Save</button>
+                                            <span class = "help-block">Email is optional and is used only for password recovery.</span>
+                                        </div>
+                                    </form>
+
                                     <!--End Change Password -->
                                 </div>
                                 <!-- End User Settings -->

@@ -113,7 +113,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
     };
 
     $scope.unpublish = function() {
-        $http.post('/api/articles/unpublish', {"_id": $scope.post._id}).
+        $http.post('/api/articles/unpublish', {"_id": $scope.post._id, "uid": $scope.post.uid}).
             success(function(response) {
                 console.log("Article unpublished!");
 

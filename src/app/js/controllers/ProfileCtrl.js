@@ -40,6 +40,7 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.lName = $scope.user.lName;
         $scope.img = $scope.user.img;
         $scope.username = $scope.user.username;
+        $scope.email = $scope.user.email;
         $scope.admin = ($scope.user.rank < RANK_POSTER); //Check to see if the user is an admin
 
         if($scope.user.rank === RANK_COMMENTER){
@@ -391,11 +392,29 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
         $scope.settings = 1;
     };
     $scope.showChangePass = function(){
-        $scope.showChangePassword = !$scope.showChangePassword;
+        $scope.oldPW = '';
+        $scope.newPW = '';
+        $scope.confirmNew = '';
     };
     $scope.showChangePP = function(){
         $scope.showChangeProfilePic = !$scope.showChangeProfilePic;
         $scope.files = [];
+    };
+
+    /**
+     * Method to update user email
+     *
+     * @method changeEmail
+     */
+    $scope.changeEmail = function(){
+        console.log("in?");
+        console.log($scope.email);
+        user.saveEmail($scope.user._id, $scope.email, function(data){
+            $scope.$emit('MessagePopup', '', 'Email saved.');
+        },
+        function (data){
+            $scope.$emit('MessagePopup', data, '');
+        });
     };
     
     /**
@@ -423,21 +442,28 @@ angular.module("myApp.controllers").controller('ProfileCtrl', ['$scope', 'user',
     $scope.newPW = '';
     $scope.confirmNew = '';
     $scope.changePassword = function(){
-        if($scope.confirmNew === $scope.newPW){
-            user.changePassword($scope.user._id, $scope.oldPW, $scope.newPW,
-                function(data){
-    //                console.log(data);
-                    $scope.$emit('MessagePopup', '', 'Password changed.');
-                },
-                function(data){
-  //                  console.log("failure");
- //                   console.log(data);
-                    $scope.$emit('MessagePopup', 'Failure: ' + data, '');
-                });
+        if($scope.newPW.length < 7)
+        {
+            $scope.$emit('MessagePopup', 'Password must be at least 7 characters', '');
         }
-        else {
-            console.log("passwords do not match");
+        else{
+            if($scope.confirmNew === $scope.newPW){
+                user.changePassword($scope.user._id, $scope.oldPW, $scope.newPW,
+                    function(data){
+                        //                console.log(data);
+                        $scope.$emit('MessagePopup', '', 'Password changed.');
+                    },
+                    function(data){
+                        //                  console.log("failure");
+                        //                   console.log(data);
+                        $scope.$emit('MessagePopup', 'Failure: ' + data, '');
+                    });
+            }
+            else {
+                console.log("passwords do not match");
+            }
         }
+
 
         $scope.oldPW = '';
         $scope.newPW = '';
