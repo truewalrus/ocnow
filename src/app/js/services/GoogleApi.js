@@ -114,7 +114,7 @@ angular.module('myApp.services').provider('GoogleApi', function () {
                                     results.reject(response.error);
                                 }
                                 else {
-                                    results.resolve(response.items);
+                                    results.resolve({items: response.items, pageTokens: {next: response.nextPageToken, prev: response.prevPageToken}});
                                 }
                             });
                         };

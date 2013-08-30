@@ -42,7 +42,7 @@ angular.module("myApp.controllers").controller('HomeCtrl', ['$scope', '$http', '
 
     episodes.then(function(videos) {
   //      console.log("Retrieved video playlist: ", videos);
-        $scope.video = videos[0];
+        $scope.video = videos.items[0];
 
         $http.get('/api/comments/count?id=yt-' + $scope.video.snippet.resourceId.videoId).
             success(function(response) {

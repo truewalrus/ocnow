@@ -18,6 +18,7 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.s
     $routeProvider.when('/episode/:id', {templateUrl:"/partials/view-video.html"});
     $routeProvider.when('/search', {templateUrl: "/partials/search.html"});
     $routeProvider.when('/news', {templateUrl: "/partials/news.html"});
+     $routeProvider.when('/episodes', {templateUrl: "/partials/episodes.html"});
     $routeProvider.otherwise({redirectTo: '/home'});
 	
 	// fix to remove '#' from url strings in browser

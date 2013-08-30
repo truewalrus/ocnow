@@ -1,0 +1,25 @@
+<div class = "container-fluid" ng-controller = "EpisodesCtrl">
+    <div>
+        <div pager num-pages="pageCount" current-page="page" on-select-page="retrieveEpisodes(page)">
+
+        </div>
+        <ul class = "unstyled">
+            <li class = "home-article media" ng-repeat = "video in videos">
+                <div class = "row-fluid">
+                    <div class = "span2 pull-left">
+                        <img class = "media-object" ng-src = "{{ video.snippet.thumbnails.default.url }}"/>
+                    </div>
+
+                    <div class="media-body span10">
+                        <h3 class="media-heading"><a class = "home-article-title" ng-href = '/article/{{ post._id }}'>{{ video.snippet.title }}</a></h3>
+                        <p class="home-episode-byline">Published on {{ video.snippet.publishedAt | date:'longDate' }} (<a ng-href = "{{viewVideoHref() }}"><span ng-pluralize count="video.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
+                        <p class="home-article-desc" ng-bind="video.snippet.description | blurbFilter"></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div pager num-pages="pageCount" current-page="page" on-select-page="retrieveEpisodes(page)">
+
+        </div>
+    </div>
+</div>
