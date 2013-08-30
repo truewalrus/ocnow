@@ -20,6 +20,35 @@
 			<button type="submit">Sign up</button>
 		</form>
 	</div>-->
+
+
+    <div modal="forgotPasswordModal" close="closeDialog()" options="opts">
+        <div class="modal-header">
+            <h3>Forgot your password?</h3>
+        </div>
+        <div class="modal-body">
+            After inputting your username below, an email will be sent to you with instructions on how to reset your password.
+            </br>
+            </br>
+            <form class = "form-horizontal">
+                <div class = "control-group">
+                    <label class = "control-label" for = "inputfpUsername">Username: </label>
+                    <div class = "controls">
+                        <input type = "text" id = "inputfpUsername" ng-model = "fpUsername" required>
+                    </div>
+                    </br>
+                    </br>
+                    <small class = "help-block">Note: This will only work if you have an email registered to your username.</small>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <button class = "btn btn-primary" ng-click = "sendEmail(fpUsername); closeDialog();">Send</button>
+            <button class="btn btn-warning cancel" ng-click="closeDialog()">Cancel</button>
+        </div>
+    </div>
+
     <div class = "container-fluid">
         <div class = "row-fluid">
             <div class = "span12">

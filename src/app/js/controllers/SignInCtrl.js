@@ -10,6 +10,8 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
     });
 
 
+
+
     $scope.username = '';
     $scope.password = '';
 
@@ -95,11 +97,26 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
             });
     };
 
+    $scope.forgotPasswordModal = false;
     $scope.forgotPassword = function(){
-        console.log("in");
-        $http.post('/api/email/sendEmail');
+        /*console.log("in");
+        $http.post('/api/email/sendEmail');*/
+        $scope.forgotPasswordModal = true;
     };
 
+    $scope.closeDialog = function(){
+        $scope.forgotPasswordModal = false;
+    };
+
+    $scope.opts = {
+        backdropFade: true,
+        dialogFade:true
+    };
+
+    $scope.sendEmail = function(username){
+        console.log(username);
+        $http.post('/api/email/sendEmail', {"username":username});
+    };
 
 /*	$scope.signingIn = true;
 	$scope.userName = '';
