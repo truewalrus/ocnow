@@ -36,7 +36,7 @@ angular.module("myApp.controllers").controller('EditPostCtrl', ['$scope', '$rout
                     success(function(response) {
                         console.log("Article unpublished!");
 
-                        $scope.post = response.article;
+                       // $scope.post = response.article;
                     }).
                     error(function(response) {
                         console.error("Article was not unpublished.", response);

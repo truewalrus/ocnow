@@ -225,26 +225,23 @@
 
                         <!--admin post settings-->
                         <div ng-show = "adminView == 1">
-                            <ul class = "unstyled">
-                                <li ng-repeat = "post in unpublishedPosts">
-                                    <div class = "row-fluid">
-                                        <div class = "span2">
-                                            <img ng-src = "{{ articlePic(post.img)}}" alt = "not important"/>
-                                        </div>
+                            <table class="table">
+                                <tr ng-repeat="post in unpublishedPosts">
+                                    <td class="media">
+                                        <a class="pull-left post-entry" ng-href="/article/{{ post._id }}">
+                                            <img class="media-object article-thumbnail" ng-class="{ hidden: !post.img }" ng-src = "{{ articlePic(post.img) }}" alt = "not important"/>
+                                        </a>
 
-                                        <div class = "span9">
-                                            <h2><a ng-href = '/article/{{ post._id }}'>{{post.title}}</a></h2>
-                                            <p>Posted by <a ng-href = '/user/{{ post.uid }}'>{{ post.name}}</a> at {{ extractDate(post.date) }} (<a ng-href = "/article/{{ post._id }}">{{post.commentCount }} comments</a>)</p>
-                                            <p ng-bind-html-unsafe="post.article"></p>
+                                        <div class="media-body">
+                                            <h4 class="media-heading"><a ng-href = "/article/{{ post._id }}">{{post.title}}</a></h4>
+                                            <span class="article-byline">Posted at {{ extractDate(post.date) }} (<a ng-href = "/article/{{ post._id }}">{{post.commentCount }} comments</a>)</span>
+                                            <p class="article-summary" ng-bind="post.article | blurbFilter"></p>
                                         </div>
+                                        <button class="btn btn-small btn-primary" ng-click="publish(post._id)"><i class="icon-eye-open icon-white"></i> Publish</button>
+                                    </td>
+                                </tr>
+                            </table>
 
-                                        <div class = "span1">
-                                            <button ng-click = "publish(post._id)">Publish</button>
-                                        </div>
-
-                                    </div>
-                                </li>
-                            </ul>
                         </div>
                         <!--end admin post settings-->
 
