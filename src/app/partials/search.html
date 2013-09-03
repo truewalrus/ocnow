@@ -1,17 +1,18 @@
 <div class = "container-fluid" ng-controller = "SearchCtrl">
-    <ul class = "unstyled">
-        <li ng-repeat = "post in posts">
+    <ul ng-show = "posts.length > 0" class = "unstyled">
+        <li class = "home-article media" ng-repeat = "post in posts">
             <div class = "row-fluid">
-                <div class = "span2">
-                    <img ng-src = "{{articlePic(post.img)}}" alt = "not important"/>
+                <div ng-show = "post.img" class = "span2">
+                    <img class = "img-polaroid home-img media-object" ng-src = "{{ articlePic(post.img) }}"/>
                 </div>
 
-                <div class = "span10">
-                    <h2><a href = '#' ng-click = "viewPost(post._id)">{{post.title}}</a></h2>
-                    <p>Posted by <a href = '#'>{{ post.name}}</a> at {{ extractDate(post.date) }} (<a href = "#">{{post.commentCount }} comments</a>)</p>
-                    <p ng-bind-html-unsafe="post.article"></p>
+                <div class="media-body" ng-class = "{'span10': post.img, 'span12': !post.img, 'no-left-margin': !post.pic}">
+                    <h3 class="media-heading"><a class = "home-article-title" ng-href = '/article/{{ post._id }}'>{{post.title}}</a></h3>
+                    <p class="home-article-byline">Posted by <a ng-href = '/user/{{ post.uid }}'>{{ post.name }}</a> {{ post.date | date:"'at' h:mm:ss a 'on' MMMM d, y" }} (<a ng-href = "/article/{{ post._id }}"><span ng-pluralize count="post.commentCount" when="{'0': '0 Comments','1':'1 Comment','other':'{} Comments'}"></span></a>)</p>
+                    <p class="home-article-desc" ng-bind="post.article | blurbFilter"></p>
                 </div>
             </div>
         </li>
     </ul>
+    <div class = "search-padding" ng-show = "posts.length == 0">No matching articles found...</div>
 </div>
