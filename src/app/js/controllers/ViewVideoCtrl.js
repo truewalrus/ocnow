@@ -22,7 +22,7 @@ angular.module("myApp.controllers").controller('ViewVideoCtrl', ['$scope', '$rou
         var episode = GoogleAPI.youtube.playlist.items('PL401099F3429AC0B2', {maxResults: 1, videoId: $routeParams.id});
 
         episode.then(function(videos) {
-            $scope.video = videos[0];
+            $scope.video = videos.items[0];
 
             page.setPage('Episode &mdash; ' + $scope.video.snippet.title);
 
