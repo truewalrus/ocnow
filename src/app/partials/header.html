@@ -10,10 +10,10 @@
             <div class = "navbar-inner">
 
                 <ul class="nav">
-                    <li><a href = "/home">Home</a></li>
-                    <li><a href = "/episodes">Episodes</a></li>
-                    <li><a href = "/news">News</a></li>
-                    <li><a href = "/contact-us">Contact Us</a></li>
+                    <li ui-route = "/home" ng-class = "{'active':$uiRoute}"><a href = "/home">Home</a></li>
+                    <li ui-route = "/episodes" ng-class = "{'active':$uiRoute}"><a href = "/episodes">Episodes</a></li>
+                    <li ui-route = "/news" ng-class = "{'active':$uiRoute}"><a href = "/news">News</a></li>
+                    <li ui-route = "/contact-us" ng-class = "{'active':$uiRoute}"><a href = "/contact-us">Contact Us</a></li>
                 </ul>
                 <ul class = "nav pull-right">
                     <li>
@@ -22,8 +22,8 @@
                             <div ng-click = "search()" class = "icon-search"></div>
                         </form>
                     </li>
-                    <li ng-hide = "loggedIn" class = "header-right"><a href="/sign-in">Sign Up/Sign In</a></li>
-                    <li ng-hide = "!loggedIn" class = "header-right"><a href = "#" ng-click = "viewProfile()">{{ user.username }}</a></li>
+                    <li ui-route = "/sign-in" ng-class = "{'active':$uiRoute}" ng-hide = "loggedIn" class = "header-right"><a href="/sign-in">Sign Up/Sign In</a></li>
+                    <li ui-route = "/profile" ng-class = "{'active':$uiRoute}" ng-hide = "!loggedIn" class = "header-right"><a href = "#" ng-click = "viewProfile()">{{ user.username }}</a></li>
                 </ul>
             </div>
         </div>

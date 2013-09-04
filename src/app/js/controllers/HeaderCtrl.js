@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', '$location','$rootScope', '$timeout', 'messageService', '$window', function ($scope, user, $location, $rootScope, $timeout, ms, $window){
+angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', '$location', 'messageService', function ($scope, user, $location, ms){
     $scope.$on('userLoggedIn', function() {
         user.checkSession();
         console.log($scope.user);

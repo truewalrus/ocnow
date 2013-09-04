@@ -115,7 +115,11 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
 
     $scope.sendEmail = function(username){
         console.log(username);
-        $http.post('/api/email/sendEmail', {"username":username});
+        $http.post('/api/email/sendEmail', {"username":username}).success(function(data){
+            $scope.$emit('MessagePopup', '', 'Email sent.');
+        }).error(function(data){
+                $scope.$emit('MessagePopup', data);
+            });
     };
 
 /*	$scope.signingIn = true;

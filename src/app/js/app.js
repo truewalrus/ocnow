@@ -2,7 +2,7 @@
 
 // Declare app level module which depends on filters, and services
 
-var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.services', 'myApp.controllers', 'ngCookies', 'ui.bootstrap', 'ui.scrollfix']);
+var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.services', 'myApp.controllers', 'ngCookies', 'ui.bootstrap', 'ui.scrollfix', 'ui.route']);
  app.config(['$routeProvider', '$locationProvider', 'pageProvider', 'GoogleApiProvider', function($routeProvider, $locationProvider, pageProvider, GoogleApiProvider) {
 
 	// angular front end routes
@@ -18,7 +18,8 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.directives', 'myApp.s
     $routeProvider.when('/episode/:id', {templateUrl:"/partials/view-video.html"});
     $routeProvider.when('/search', {templateUrl: "/partials/search.html"});
     $routeProvider.when('/news', {templateUrl: "/partials/news.html"});
-     $routeProvider.when('/episodes', {templateUrl: "/partials/episodes.html"});
+    $routeProvider.when('/episodes', {templateUrl: "/partials/episodes.html"});
+    $routeProvider.when('/pwreset/:resetCode', {templateUrl: "/partials/pwreset.html"});
     $routeProvider.otherwise({redirectTo: '/home'});
 	
 	// fix to remove '#' from url strings in browser
