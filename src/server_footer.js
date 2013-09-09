@@ -11,5 +11,7 @@ app.get('*', function(request, response) {
     response.sendfile('app/index.html');
 });
 
-app.listen(port);
-console.log('Listening on port %d.', port);
+var finalPort = process.env.PORT || port;
+
+app.listen(finalPort);
+console.log('Listening on port %d.', finalPort);
