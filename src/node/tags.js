@@ -18,19 +18,23 @@ collections.push(function(err, db) {
 });
 
 function tags_addTag(request, response){
-    db_connector.collection('tags', function(err, tags) {
-        tags.insert({ "tag": request.body.tag, "id" : request.body.tag.toUpperCase() }, {safe: true}, function(error, data) {
-            if (error) {
-                return response.send(401, "Tag already exists.");
-            }
-            else{
-                console.log("tag added");
-                return response.send(200, data[0]);
-            }
+    if (request.body.tag){
+        db_connector.collection('tags', function(err, tags) {
+            tags.insert({ "tag": request.body.tag, "id" : request.body.tag.toUpperCase() }, {safe: true}, function(error, data) {
+                if (error) {
+                    return response.send(401, "Tag already exists.");
+                }
+                else{
+                    console.log("tag added");
+                    return response.send(200, data[0]);
+                }
 
 
+            });
         });
-    });
+    }
+
+    return response.send(200);
 }
 
 function tags_deleteTag(request, response){

@@ -65,7 +65,9 @@ function users_findByUsername(username, password, fn) {
                     var salt = bcrypt.genSaltSync();
                     items[0].password = bcrypt.hashSync(password, salt);
 
-                    collection.update({'username': username}, {$set: {'password': items[0].password}});
+                    collection.update({'username': username}, {$set: {'password': items[0].password}}, function(err) {
+                        console.log(err);
+                    });
                 }
 
                 return fn(null, items[0]);
@@ -226,8 +228,8 @@ function users_updateUser(request,response){
 
     db_connector.collection('users', function (err, collection){
         var updateFields = {};
-        updateFields["fName"] = request.body.fName;
-        updateFields["lName"] = request.body.lName;
+        updateFields["fName"] = request.body.fName || '';
+        updateFields["lName"] = request.body.lName || '';
         if (request.body.displayName != '')
         {
             updateFields["displayName"] = request.body.displayName;
@@ -248,7 +250,9 @@ function users_updateUser(request,response){
                     db_connector.collection('articles', function(err, articles) {
                         if (err) { return console.error("(users.js) Error updating name fields of articles."); }
 
-                        articles.update({'uid': request.body._id}, {$set: {'name': users_parseName(user[0])}}, { multi: true });
+                        articles.update({'uid': request.body._id}, {$set: {'name': users_parseName(user[0])}}, { multi: true }, function(err, count) {
+                            console.log(err);
+                        });
                     });
                 });
 
@@ -389,7 +393,9 @@ function users_update(request, response) {
                     db_connector.collection('articles', function(err, articles) {
                         if (err) { return console.error("(users.js) Error updating name fields of articles."); }
 
-                        articles.update({'uid': request.params._id}, {$set: {'name': users_parseName(user)}}, { multi: true });
+                        articles.update({'uid': request.params._id}, {$set: {'name': users_parseName(user)}}, { multi: true }, function(err, count) {
+                            console.log(err);
+                        });
                     });
                 });
 

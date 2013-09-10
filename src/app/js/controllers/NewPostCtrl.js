@@ -52,15 +52,18 @@ angular.module("myApp.controllers").controller('NewPostCtrl', ['$scope', 'user',
     getTags();
 
     $scope.addTag = function(tagToAdd){
-        $http.post('/api/tags/addTag', {'tag':tagToAdd}).
-            success(function(data){
-                getTags();
-                $scope.tagToAdd = '';
-            }).
-            error(function(data){
-                console.warn("Failure: " +data);
-                $scope.$emit('MessagePopup', 'Failure: ' + data, '');
-            });
+        if (tagToAdd){
+            $http.post('/api/tags/addTag', {'tag':tagToAdd}).
+                success(function(data){
+                    getTags();
+                    $scope.tagToAdd = '';
+                }).
+                error(function(data){
+                    console.warn("Failure: " +data);
+                    $scope.$emit('MessagePopup', 'Failure: ' + data, '');
+                });
+        }
+
     };
 
     $scope.deleteTag = function(tag){

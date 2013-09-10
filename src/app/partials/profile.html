@@ -32,7 +32,7 @@
                             <tr ng-repeat="post in posts">
                                 <td class="media">
                                     <a class="pull-left post-entry" ng-href="/article/{{ post._id }}">
-                                        <img class="media-object article-thumbnail" ng-class="{ hidden: !post.img }" ng-src = "{{ articlePic(post.img) }}" alt = "not important"/>
+                                        <img class="media-object article-thumbnail" ng-class="{ hidden: !post.img }" ng-src = "{{ articlePic(post.img) }}"/>
                                         <div ng-show="post.published" class="label label-info"><i class="icon-eye-open icon-white"></i> Published</div>
                                         <div ng-show="!post.published" class="label label-warning"><i class="icon-eye-close icon-white"></i> Unpublished</div>
                                     </a>
@@ -229,7 +229,7 @@
                                 <tr ng-repeat="post in unpublishedPosts">
                                     <td class="media">
                                         <a class="pull-left post-entry" ng-href="/article/{{ post._id }}">
-                                            <img class="media-object article-thumbnail" ng-class="{ hidden: !post.img }" ng-src = "{{ articlePic(post.img) }}" alt = "not important"/>
+                                            <img class="media-object article-thumbnail" ng-class="{ hidden: !post.img }" ng-src = "{{ articlePic(post.img) }}"/>
                                         </a>
 
                                         <div class="media-body">

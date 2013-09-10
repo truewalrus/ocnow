@@ -55,12 +55,16 @@ function articles_create(request, response) {
 
 function articles_addComment(articleId){
     db_connector.collection('articles', function(err, collection) {
-        collection.update({'_id': ObjectID(articleId)}, {$inc:{"commentCount":1}});
+        collection.update({'_id': ObjectID(articleId)}, {$inc:{"commentCount":1}}, function(err,count){
+            console.log(err);
+        });
     });
 }
 function articles_removeComment(articleId){
     db_connector.collection('articles', function(err, collection) {
-        collection.update({'_id': ObjectID(articleId)}, {$inc:{"commentCount":-1}});
+        collection.update({'_id': ObjectID(articleId)}, {$inc:{"commentCount":-1}}, function(err,count){
+            console.log(err);
+        });
     });
 }
 
@@ -222,7 +226,7 @@ function articles_unpublish(request, response){
 
 function articles_search(request, response) {
     db_connector.collection('articles', function(err, collection) {
-        collection.find({$or: [{"title": {$regex: request.params.query, $options: "i"}}, {"tags": {$regex: request.params.query, $options: "i"}}]}).sort({'date': -1}).toArray(function(err, data){
+        collection.find({$or: [{"title": {$regex: request.params.query, $options: "i"}}, {"tags": {$regex: request.params.query, $options: "i"}}], published: true}).sort({'date': -1}).toArray(function(err, data){
             if (err) {
                 response.send("No articles found", 401);
             }
