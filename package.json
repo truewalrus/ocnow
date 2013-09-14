@@ -7,7 +7,8 @@
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
     "bcrypt-nodejs": "0.0.3",
-    "aws-sdk": "~1.5.2"
+    "aws-sdk": "~1.5.2",
+    "sendgrid": "~0.3.0-rc.1.7"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

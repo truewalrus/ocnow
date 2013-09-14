@@ -28,5 +28,9 @@ angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', 
 
     };
 
+    $scope.redirectHome = function(){
+        $location.path('/home');
+    };
+
 
 }]);

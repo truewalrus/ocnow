@@ -1,6 +1,12 @@
 var nodemailer = require("nodemailer");
 var bcrypt = require('bcrypt-nodejs');
 
+var sendgridActive = false;
+if (process.env.SENDGRID_USERNAME){
+    var sendgrid = require('sendgrid')(process.env.SENDGRID_USERNAME, process.env.SENDGRID_PASSWORD);
+    sendgridActive = true;
+}
+
 
 var smtp_options = {
     service: "gmail",
@@ -23,28 +29,51 @@ function email_sendEmail(request, response){
 
         if (user && user.email){
             var mailOptions = {
-                from: "me@tr.ee",
+                from: "MyOcNow@MyOcNow.com",
                 to: user.email,
                 subject: "My OC Now Password Recovery",
                 html: request.body.username + ', <br><br> A request has been made to reset the password for your account on My OC Now. If you made this request, ' +
-                    'click the link below or copy and paste it into your browser and follow the directions <br><br>' +'<a href ="http://'+resetURL+'">http://'+resetURL+'</a>'+ '<br><br> If you did not make a request to reset ' +
+                    'click the link below or copy and paste it into your browser and follow the directions: <br><br>' +'<a href ="http://'+resetURL+'">http://'+resetURL+'</a>'+ '<br><br> If you did not make a request to reset ' +
                     'your password, this email can safely be ignored. <br><br> -My OC Now Team. <br><br> This is an automated email, do not respond to this message.'
             }
 
-            transport.sendMail(mailOptions, function (error, resp){
-                if (error){
-                    console.log(error);
-                    return response.send(500, error);
-                }else{
-                    console.log(resp.message);
-                    db_connector.collection('users', function(err, collection) {
-                        collection.update({'_id': user._id}, {$set:{'pwrskey': nonce, 'pwrsexpire': d.getTime()+2*60*60*1000} }, function(err, item) {
-                            if (err) { return fn(err); }
+
+            if(sendgridActive){
+                sendgrid.send(mailOptions, function (err, resp){
+                    if (err) {
+                        console.error(err);
+                        return response.send(500,err);
+                    }
+                    else{
+                        console.log(resp.message);
+                        db_connector.collection('users', function(err, collection) {
+                            collection.update({'_id': user._id}, {$set:{'pwrskey': nonce, 'pwrsexpire': d.getTime()+2*60*60*1000} }, function(err, item) {
+                                if (err) { return fn(err); }
+                            });
                         });
-                    });
-                    return response.send(200);
-                }
-            });
+                        return response.send(200);
+                    }
+                });
+            }
+            else{
+                transport.sendMail(mailOptions, function (error, resp){
+                    if (error){
+                        console.log(error);
+                        return response.send(500, error);
+                    }else{
+                        console.log(resp.message);
+                        db_connector.collection('users', function(err, collection) {
+                            collection.update({'_id': user._id}, {$set:{'pwrskey': nonce, 'pwrsexpire': d.getTime()+2*60*60*1000} }, function(err, item) {
+                                if (err) { return fn(err); }
+                            });
+                        });
+                        return response.send(200);
+                    }
+                });
+            }
+
+
+
         }
         else{
             return response.send(200);
@@ -124,21 +153,36 @@ function email_notifications(){
                             numFlagged = data;
 
                             var mailOptions = {
-                                from: "me@tr.ee",
+                                from: "MyOcNow@MyOcNow.com",
                                 to: 'unbreakablescorpions@gmail.com',
                                 subject: "My OC Now Admin Notifications",
                                 html: 'Good morning! <br><br> You have ' +numUnpublished+ ' unpublished article(s) that need your approval and ' +numFlagged+ ' comment(s) that have been flagged as inappropriate by users.'
                             }
 
-                            transport.sendMail(mailOptions, function (error, resp){
-                                if (error){
-                                    console.log(error);
-                                    return;
-                                }else{
-                                    console.log(resp.message);
-                                    return;
-                                }
-                            });
+                            if (sendgridActive){
+                                sendgrid.send(mailOptions, function (err, resp){
+                                    if (err) {
+                                        console.error(err);
+                                        return;
+                                    }
+                                    else{
+                                        console.log(resp.message);
+                                        return ;
+                                    }
+                                });
+                            }
+                            else{
+                                transport.sendMail(mailOptions, function (error, resp){
+                                    if (error){
+                                        console.log(error);
+                                        return;
+                                    }else{
+                                        console.log(resp.message);
+                                        return;
+                                    }
+                                });
+                            }
+
                         }
                     });
                 });
