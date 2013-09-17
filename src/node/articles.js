@@ -253,7 +253,8 @@ function articles_update_setup(request, response, next) {
             articles.findOne({ '_id': ObjectID(request.params._id) }, function(error, article) {
                 if (article.img) {
                     console.log("Deleting article image");
-                    fs.unlink('app/img/' + article.img);
+
+                    s3.deleteObject({Bucket: s3bucket, Key: article.img});
                 }
 
                 return next();

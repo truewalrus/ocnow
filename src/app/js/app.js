@@ -54,11 +54,13 @@ app.run(['$rootScope', function($rootScope) {
     };
 
     $rootScope.profilePic = function(image) {
-        return image ? '/img/' + image : '';
+        //return image ? '/img/' + image : '';
+        return image ? "https://s3-us-west-1.amazonaws.com/trurektestbucket/" + image : '';
     };
 
     $rootScope.articlePic = function(image) {
-        return image ? '/img/' + image : '';
+        //return image ? '/img/' + image : '';
+        return image ? "https://s3-us-west-1.amazonaws.com/trurektestbucket/" + image : '';
     };
 }]);
 

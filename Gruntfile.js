@@ -119,14 +119,16 @@ module.exports = function(grunt) {
 				files: [
 					{expand: true, flatten: true, src: ['src/app/partials/*'], dest: 'dev/app/partials', filter: 'isFile'},
 					{expand: true, flatten: true, src: ['src/app/img/*'], dest: 'dev/app/img', filter: 'isFile'},
-					{expand: true, cwd: 'src/app/static', src: ['**/*'], dest: 'dev/app'}
+					{expand: true, cwd: 'src/app/static', src: ['**/*'], dest: 'dev/app'},
+					{expand: true, cwd: 'src/static', src: ['**/*'], dest: 'dev'}
 				]
 			},
 			release: {
 				files: [
 					{expand: true, flatten: true, src: ['src/app/partials/*'], dest: 'dist/app/partials', filter: 'isFile'},
 					{expand: true, flatten: true, src: ['src/app/img/*'], dest: 'dist/app/img', filter: 'isFile'},
-					{expand: true, cwd: 'src/app/static', src: ['**/*'], dest: 'dist/app'}
+					{expand: true, cwd: 'src/app/static', src: ['**/*'], dest: 'dist/app'},
+					{expand: true, cwd: 'src/static', src: ['**/*'], dest: 'dist'}
 				]
 			}
 		}

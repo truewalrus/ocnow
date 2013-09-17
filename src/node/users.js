@@ -366,7 +366,8 @@ function users_update_setup(request, response, next) {
             users.findOne({ '_id': ObjectID(request.params._id) }, function(error, user) {
                 if (user.img) {
                     console.log("Deleting image");
-                    fs.unlink('app/img/' + user.img);
+
+                    s3.deleteObject({Bucket: s3bucket, Key: article.img});
                 }
 
                 return next();

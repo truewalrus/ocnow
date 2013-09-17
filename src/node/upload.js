@@ -1,4 +1,5 @@
 var formidable = require('formidable');
+var fs = require('fs');
 
 function upload_parseForm(request, uploadPath, callback) {
     var form = new formidable.IncomingForm();
@@ -45,10 +46,33 @@ function upload_parseUpload (request, response, next){
         }
 
         if (files.file) {
-            request.body.img = files.file.path.substring(files.file.path.lastIndexOf('\\') + 1);
-        }
+            fs.readFile(files.file.path, function(err, data) {
+                if (err) {
+                    console.log("Error reading file.");
 
-        return next();
+                    return next();
+                }
+                else {
+                    var filePath = files.file.path.substring(files.file.path.lastIndexOf('\\') + 1);
+                    var params = {Bucket: s3bucket, Key: filePath, Body: data, ContentType: files.file.type, ACL: 'public-read'};
+
+                    s3.putObject(params, function(err, data) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            console.log("Apparently it uploaded");
+
+                            request.body.img = filePath;
+                        }
+
+                        fs.unlink(files.file.path);
+
+                        return next();
+                    });
+                }
+            });
+        }
     });
 }
 
