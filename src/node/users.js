@@ -367,7 +367,7 @@ function users_update_setup(request, response, next) {
                 if (user.img) {
                     console.log("Deleting image");
 
-                    s3.deleteObject({Bucket: s3bucket, Key: article.img});
+                    s3.deleteObject({Bucket: s3bucket, Key: user.img});
                 }
 
                 return next();
