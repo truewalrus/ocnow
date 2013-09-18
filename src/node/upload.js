@@ -73,6 +73,9 @@ function upload_parseUpload (request, response, next){
                 }
             });
         }
+        else {
+            return next();
+        }
     });
 }
 
