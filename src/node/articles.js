@@ -254,7 +254,11 @@ function articles_update_setup(request, response, next) {
                 if (article.img) {
                     console.log("Deleting article image");
 
-                    s3.deleteObject({Bucket: s3bucket, Key: article.img});
+                    s3.deleteObject({Bucket: s3bucket, Key: article.img}, function(err, data) {
+                        if (err) {
+                            console.log("Error deleting old article image (articles_update_setup).");
+                        }
+                    });
                 }
 
                 return next();

@@ -152,18 +152,37 @@ function users_userDelete(request, response) {
     if (request.body._id != request.user._id && !canUpdateUser(request.user.rank)) { return response.send("User does not have permission to update this user.", 401); }
 
     db_connector.collection('users', function(err, collection) {
-        collection.remove({'_id':  ObjectID(request.body._id)}, function(err) {
-            if (err) {
-                console.log('error here: ' + err);
-                response.send({'message':'Failed to delete user'}, 401);
-            }
-            else {
-                if (request.body._id == request.user._id) { request.logout(); }
+//        collection.remove({'_id':  ObjectID(request.body._id)}, function(err) {
+//            if (err) {
+//                console.log('error here: ' + err);
+//                response.send({'message':'Failed to delete user'}, 401);
+//            }
+//            else {
+//                if (request.body._id == request.user._id) { request.logout(); }
+//
+//                response.send(200);
+//            }
+//        });
 
-                response.send(200);
-            }
+            collection.findAndModify({'_id': ObjectID(request.body._id)}, [], {}, {remove: true}, function(err, user) {
+                if (err) {
+                    return response.send(500);
+                }
+                else {
+                    if (request.body._id == request.user._id) { request.logout(); }
+
+                    if (user.img) {
+                        s3.deleteObject({Bucket: s3bucket, Key: user.img}, function(err, data) {
+                            if (err) {
+                                console.log("Error deleting old profile image (users_userDelete).");
+                            }
+                        });
+                    }
+
+                    return response.send(200);
+                }
+            });
         });
-    });
 }
 
 function users_createUser(request, response){
@@ -365,9 +384,13 @@ function users_update_setup(request, response, next) {
         db_connector.collection('users', function (err, users){
             users.findOne({ '_id': ObjectID(request.params._id) }, function(error, user) {
                 if (user.img) {
-                    console.log("Deleting image");
+                    console.log("Deleting image", user.img);
 
-                    s3.deleteObject({Bucket: s3bucket, Key: user.img});
+                    s3.deleteObject({Bucket: s3bucket, Key: user.img}, function(err, data) {
+                        if (err) {
+                            console.log("Error deleting old profile image (users_update_setup).");
+                        }
+                    });
                 }
 
                 return next();
@@ -445,7 +468,7 @@ routing.push(function(app) {
 
     app.get('/api/user/allUsers', ensureAuthentication, users_allUsers);
 
-    app.get('/api/user/clear', clearDatabase);
+//    app.get('/api/user/clear', clearDatabase);
 
 
 	app.post('/api/user/login', function(request, response, next) {
