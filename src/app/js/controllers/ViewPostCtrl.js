@@ -1,6 +1,6 @@
 
 'use strict';
-angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', 'page', '$timeout', '$anchorScroll', function($scope, $routeParams, $location, $http, user, page, $timeout, $anchorScroll){
+angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$routeParams', '$location', '$http', 'user', 'page', '$timeout', '$anchorScroll', '$rootScope', function($scope, $routeParams, $location, $http, user, page, $timeout, $anchorScroll, $rootScope){
     page.setPage('Article');
 
     $scope.post = '';
@@ -43,6 +43,7 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
             $scope.$emit('MessagePopup' , 'Please wait 15 seconds in between posting comments', '');
         }
         else{
+            $rootScope.loading = true;
             $http.post('/api/comments/add/' +$routeParams.id, {"uId":$scope.user._id, "content": $scope.content}).
                 success(function(data){
                     $scope.getComments();
@@ -50,9 +51,11 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
                     $timeout(enableCommenting, 15000);
                     $scope.content = '';
                     $scope.post.commentCount++;
+                    $rootScope.loading = false;
                 }).
                 error(function(err){
                     console.error(err);
+                    $rootScope.loading = false;
                 });
         }
 
@@ -101,26 +104,32 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
     };
 
     $scope.publish = function() {
+        $rootScope.loading = true;
         $http.post('/api/articles/publish', {"_id": $scope.post._id}).
             success(function(response) {
                 console.log("Article published!");
 
                 $scope.post = response.article;
+                $rootScope.loading = false;
             }).
             error(function(response) {
                 console.error("Article was not published.", response);
+                $rootScope.loading = false;
             });
     };
 
     $scope.unpublish = function() {
+        $rootScope.loading = true;
         $http.post('/api/articles/unpublish', {"_id": $scope.post._id, "uid": $scope.post.uid}).
             success(function(response) {
                 console.log("Article unpublished!");
 
                 $scope.post = response.article;
+                $rootScope.loading = false;
             }).
             error(function(response) {
                 console.error("Article was not unpublished.", response);
+                $rootScope.loading = false;
             });
     };
 
@@ -144,14 +153,17 @@ angular.module("myApp.controllers").controller('ViewPostCtrl', ['$scope', '$rout
 
 
     $scope.deleteArticle = function(){
+        $rootScope.loading = true;
         $http.post('/api/articles/delete/' + $routeParams.id).
             success(function(response) {
                 console.log("Article deleted!");
                 $scope.$emit('MessagePopup', '', 'Article deleted.');
                 $location.url('/home');
+                $rootScope.loading = false;
             }).
             error(function(response) {
                 console.error("Article was not deleted.", response);
+                $rootScope.loading = false;
             });
     };
 

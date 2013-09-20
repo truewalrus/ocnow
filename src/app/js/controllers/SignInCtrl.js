@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '$location', '$http', function($scope, user, $location, $http){
+angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '$location', '$http', '$rootScope', function($scope, user, $location, $http, $rootScope){
     var RANK_COMMENTER = 4;
 
     if (!$scope.checkingSession && $scope.loggedIn) { return $location.path('/profile').replace(); }
@@ -59,6 +59,7 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
             }
             else{
                 if ($scope.newUser.password === $scope.newUser.confirm){
+                    $rootScope.loading = true;
                     user.signUp($scope.newUser.username, $scope.newUser.password, $scope.newUser.rank, $scope.newUser.fName, $scope.newUser.lName, challenge, response,  function(data) {
                             console.log('added %s', data.username);
                             $scope.login($scope.newUser.username, $scope.newUser.password);
@@ -82,6 +83,7 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
     };
 
     $scope.login = function(username, password){
+        $rootScope.loading = true;
         user.login(username, password,
             function(data){
                 var emitun = $scope.newUser.username || $scope.username;
@@ -89,11 +91,13 @@ angular.module("myApp.controllers").controller('SignInCtrl', ['$scope','user', '
                 clearUser();
                 $scope.username = '';
                 $scope.password = '';
+                $rootScope.loading = false;
             },
             function(data){
                 $scope.$emit('MessagePopup', 'Error: ' + data, '');
                 $scope.username = '';
                 $scope.password = '';
+                $rootScope.loading = false;
             });
     };
 

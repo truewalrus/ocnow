@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', '$location', 'messageService', function ($scope, user, $location, ms){
+angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', '$location', 'messageService', '$rootScope', function ($scope, user, $location, ms, $rootScope){
     $scope.$on('userLoggedIn', function() {
         user.checkSession();
         console.log($scope.user);
@@ -22,6 +22,7 @@ angular.module("myApp.controllers").controller('HeaderCtrl', ['$scope', 'user', 
     };
 
     $scope.search = function(){
+        $rootScope.loading = true;
         if ($scope.query){
             $location.path('/search').search({'query': $scope.query});
         }

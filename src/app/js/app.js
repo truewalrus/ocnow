@@ -53,6 +53,8 @@ app.run(['$rootScope', function($rootScope) {
         }
     };
 
+    $rootScope.loading = false;
+
     $rootScope.profilePic = function(image) {
         //return image ? '/img/' + image : '';
         return image ? "https://s3-us-west-1.amazonaws.com/trurektestbucket/" + image : '';
