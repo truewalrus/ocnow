@@ -5,10 +5,13 @@
         <li ng-class="{active: tab.current == tab.local}"><a href="#" ng-click="changeTab(tab.local)">Orange County</a></li>
         <li ng-class="{active: tab.current == tab.national}"><a href="#" ng-click="changeTab(tab.national)">National</a></li>
     </ul>
-    <div class="pagination-centered" pagination num-pages="pageCount" current-page="page" next-text="&raquo;" previous-text="&laquo;" max-size="5" rotate="false" on-select-page="retrievePosts(page)">
-
+    <div class="pagination" ng-hide="posts">
+        No articles available.
     </div>
-    <div>
+    <div ng-show="posts">
+        <div class="pagination-centered" pagination num-pages="pageCount" current-page="page" next-text="&raquo;" previous-text="&laquo;" max-size="5" rotate="false" on-select-page="retrievePosts(page)">
+
+        </div>
         <ul class = "unstyled">
             <li class = "home-article media" ng-repeat = "post in posts">
                 <div class = "row-fluid">
