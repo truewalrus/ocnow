@@ -11,8 +11,7 @@ if (process.env.SENDGRID_USERNAME){
 var smtp_options = {
     service: "gmail",
     auth: {
-        user: 'unbreakablescorpions@gmail.com',
-        pass: 'Fgmichael'
+
     }
 }
 
